@@ -16,7 +16,7 @@
 * Chu Văn Cường - 21521776
 * Lê Võ Duy Khiêm - 21522215
 * Phạm Tuấn Kiệt - 21522262
-* Lê Thị Bích Loan - 21521083
+* Lê Thị Bích Loan - 21521083 Bắt đền đi, trả lại tâm trí đâyyyyy
 
 ## Chạy thử project
 
