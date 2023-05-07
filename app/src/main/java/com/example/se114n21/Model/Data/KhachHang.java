@@ -1,33 +1,31 @@
-package com.example.se114n21.Model;
+package com.example.se114n21.Model.Data;
 
-public class ChuCuaHang {
-    private String LinkAvt;
+public class KhachHang {
+    private String MaKH;
     private String Ten;
-    private String NgaySinh;
-    private String GioiTinh;
     private String DiaChi;
     private String DienThoai;
     private String Email;
+    private String LoaiKH;
 
-    public ChuCuaHang() {
+    public KhachHang() {
     }
 
-    public ChuCuaHang(String linkAvt, String ten, String ngaySinh, String gioiTinh, String diaChi, String dienThoai, String email) {
-        LinkAvt = linkAvt;
+    public KhachHang(String maKH, String ten, String diaChi, String dienThoai, String email, String loaiKH) {
+        MaKH = maKH;
         Ten = ten;
-        NgaySinh = ngaySinh;
-        GioiTinh = gioiTinh;
         DiaChi = diaChi;
         DienThoai = dienThoai;
         Email = email;
+        LoaiKH = loaiKH;
     }
 
-    public String getLinkAvt() {
-        return LinkAvt;
+    public String getMaKH() {
+        return MaKH;
     }
 
-    public void setLinkAvt(String linkAvt) {
-        LinkAvt = linkAvt;
+    public void setMaKH(String maKH) {
+        MaKH = maKH;
     }
 
     public String getTen() {
@@ -36,22 +34,6 @@ public class ChuCuaHang {
 
     public void setTen(String ten) {
         Ten = ten;
-    }
-
-    public String getNgaySinh() {
-        return NgaySinh;
-    }
-
-    public void setNgaySinh(String ngaySinh) {
-        NgaySinh = ngaySinh;
-    }
-
-    public String getGioiTinh() {
-        return GioiTinh;
-    }
-
-    public void setGioiTinh(String gioiTinh) {
-        GioiTinh = gioiTinh;
     }
 
     public String getDiaChi() {
@@ -78,16 +60,23 @@ public class ChuCuaHang {
         Email = email;
     }
 
+    public String getLoaiKH() {
+        return LoaiKH;
+    }
+
+    public void setLoaiKH(String loaiKH) {
+        LoaiKH = loaiKH;
+    }
+
     @Override
     public String toString() {
-        return "ChuCuaHang{" +
-                "LinkAvt='" + LinkAvt + '\'' +
+        return "KhachHang{" +
+                "MaKH='" + MaKH + '\'' +
                 ", Ten='" + Ten + '\'' +
-                ", NgaySinh='" + NgaySinh + '\'' +
-                ", GioiTinh='" + GioiTinh + '\'' +
                 ", DiaChi='" + DiaChi + '\'' +
                 ", DienThoai='" + DienThoai + '\'' +
                 ", Email='" + Email + '\'' +
+                ", LoaiKH='" + LoaiKH + '\'' +
                 '}';
     }
 }
