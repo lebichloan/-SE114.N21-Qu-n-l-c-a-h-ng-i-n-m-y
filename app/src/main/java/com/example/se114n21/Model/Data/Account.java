@@ -1,4 +1,4 @@
-package com.example.se114n21.Model;
+package com.example.se114n21.Model.Data;
 
 public class Account {
     private String DienThoai;
