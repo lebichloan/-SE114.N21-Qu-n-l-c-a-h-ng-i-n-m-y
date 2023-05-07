@@ -1,4 +1,4 @@
-package com.example.se114n21.Model;
+package com.example.se114n21.Model.Data;
 
 import java.util.List;
 public class NhanVien {

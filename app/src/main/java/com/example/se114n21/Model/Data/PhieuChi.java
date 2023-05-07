@@ -1,8 +1,8 @@
-package com.example.se114n21.Model;
+package com.example.se114n21.Model.Data;
 
-public class PhieuThu {
-    private String MaPT;
-    private String NgayThu;
+public class PhieuChi {
+    private String MaPC;
+    private String NgayChi;
     private String NhomDoiTuong;
 //    KhachHang, NhanVien, NhaCungCap, DoiTuongKhac
     private KhachHang KH;
@@ -11,39 +11,39 @@ public class PhieuThu {
     private String DoiTuongKhac;
 //
     private String NoiDung;
-    private Double SoTienThu;
-    private String PhuongThucThu;
+    private Double SoTienChi;
+    private String PhuongThucChi;
 
-    public PhieuThu() {
+    public PhieuChi() {
     }
 
-    public PhieuThu(String maPT, String ngayThu, String nhomDoiTuong, KhachHang KH, NhanVien NV, NhaCungCap maNhaCC, String doiTuongKhac, String noiDung, Double soTienThu, String phuongThucThu) {
-        MaPT = maPT;
-        NgayThu = ngayThu;
+    public PhieuChi(String maPC, String ngayChi, String nhomDoiTuong, KhachHang KH, NhanVien NV, NhaCungCap maNhaCC, String doiTuongKhac, String noiDung, Double soTienChi, String phuongThucChi) {
+        MaPC = maPC;
+        NgayChi = ngayChi;
         NhomDoiTuong = nhomDoiTuong;
         this.KH = KH;
         this.NV = NV;
         MaNhaCC = maNhaCC;
         DoiTuongKhac = doiTuongKhac;
         NoiDung = noiDung;
-        SoTienThu = soTienThu;
-        PhuongThucThu = phuongThucThu;
+        SoTienChi = soTienChi;
+        PhuongThucChi = phuongThucChi;
     }
 
-    public String getMaPT() {
-        return MaPT;
+    public String getMaPC() {
+        return MaPC;
     }
 
-    public void setMaPT(String maPT) {
-        MaPT = maPT;
+    public void setMaPC(String maPC) {
+        MaPC = maPC;
     }
 
-    public String getNgayThu() {
-        return NgayThu;
+    public String getNgayChi() {
+        return NgayChi;
     }
 
-    public void setNgayThu(String ngayThu) {
-        NgayThu = ngayThu;
+    public void setNgayChi(String ngayChi) {
+        NgayChi = ngayChi;
     }
 
     public String getNhomDoiTuong() {
@@ -94,35 +94,35 @@ public class PhieuThu {
         NoiDung = noiDung;
     }
 
-    public Double getSoTienThu() {
-        return SoTienThu;
+    public Double getSoTienChi() {
+        return SoTienChi;
     }
 
-    public void setSoTienThu(Double soTienThu) {
-        SoTienThu = soTienThu;
+    public void setSoTienChi(Double soTienChi) {
+        SoTienChi = soTienChi;
     }
 
-    public String getPhuongThucThu() {
-        return PhuongThucThu;
+    public String getPhuongThucChi() {
+        return PhuongThucChi;
     }
 
-    public void setPhuongThucThu(String phuongThucThu) {
-        PhuongThucThu = phuongThucThu;
+    public void setPhuongThucChi(String phuongThucChi) {
+        PhuongThucChi = phuongThucChi;
     }
 
     @Override
     public String toString() {
-        return "PhieuThu{" +
-                "MaPT='" + MaPT + '\'' +
-                ", NgayThu='" + NgayThu + '\'' +
+        return "PhieuChi{" +
+                "MaPC='" + MaPC + '\'' +
+                ", NgayChi='" + NgayChi + '\'' +
                 ", NhomDoiTuong='" + NhomDoiTuong + '\'' +
                 ", KH=" + KH +
                 ", NV=" + NV +
                 ", MaNhaCC=" + MaNhaCC +
                 ", DoiTuongKhac='" + DoiTuongKhac + '\'' +
                 ", NoiDung='" + NoiDung + '\'' +
-                ", SoTienThu=" + SoTienThu +
-                ", PhuongThucThu='" + PhuongThucThu + '\'' +
+                ", SoTienChi=" + SoTienChi +
+                ", PhuongThucChi='" + PhuongThucChi + '\'' +
                 '}';
     }
 }
