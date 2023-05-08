@@ -1,4 +1,4 @@
-package com.example.se114n21.Model.Data;
+package com.example.se114n21.Models;
 
 import java.util.concurrent.atomic.AtomicInteger;
 

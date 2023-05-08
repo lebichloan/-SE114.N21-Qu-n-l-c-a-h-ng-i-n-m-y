@@ -1,4 +1,4 @@
-package com.example.se114n21.Model.Data;
+package com.example.se114n21.Models;
 
 public class ChiTietHoaDon {
     private String MaSP;
