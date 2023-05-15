@@ -4,6 +4,7 @@ import java.util.List;
 
 public class SanPham {
     private String MaSP;
+    private String MaLSP;
     private List<String> LinkAnhSP;
     private String TenSP;
     private Double GiaNhap;
@@ -17,8 +18,9 @@ public class SanPham {
     public SanPham() {
     }
 
-    public SanPham(String maSP, List<String> linkAnhSP, String tenSP, Double giaNhap, Double giaBan, String thuongHieu, String namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong) {
+    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Double giaNhap, Double giaBan, String thuongHieu, String namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong) {
         MaSP = maSP;
+        MaLSP = maLSP;
         LinkAnhSP = linkAnhSP;
         TenSP = tenSP;
         GiaNhap = giaNhap;
@@ -36,6 +38,14 @@ public class SanPham {
 
     public void setMaSP(String maSP) {
         MaSP = maSP;
+    }
+
+    public String getMaLSP() {
+        return MaLSP;
+    }
+
+    public void setMaLSP(String maLSP) {
+        MaLSP = maLSP;
     }
 
     public List<String> getLinkAnhSP() {
@@ -114,6 +124,7 @@ public class SanPham {
     public String toString() {
         return "SanPham{" +
                 "MaSP='" + MaSP + '\'' +
+                ", MaLSP='" + MaLSP + '\'' +
                 ", LinkAnhSP=" + LinkAnhSP +
                 ", TenSP='" + TenSP + '\'' +
                 ", GiaNhap=" + GiaNhap +
