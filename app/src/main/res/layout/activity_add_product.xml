@@ -6,95 +6,124 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ViewModels.AddProductActivity">
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/btn_addImage"
-            android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="+ Thêm ảnh sản phẩm">
+            android:orientation="vertical">
 
-        </Button>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                app:cardCornerRadius="10dp"
+                >
+                <ImageView
+                    android:id="@+id/img_product"
+                    android:layout_width="200dp"
+                    android:layout_height="200dp"
+                    android:background="#D9D9D9"
+                    android:scaleType="centerCrop"
+                    >
+                </ImageView>
+            </androidx.cardview.widget.CardView>
 
-        <EditText
-            android:id="@+id/edit_nameProduct"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Ten san pham">
 
-        </EditText>
+            <Button
+                android:id="@+id/btn_addImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="#5446B7"
+                android:text="Thêm ảnh sản phẩm"
+                android:textColor="@color/white"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                >
+            </Button>
 
-        <Button
-            android:id="@+id/btn_productType"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Loai san pham"></Button>
+            <EditText
+                android:id="@+id/edit_nameProduct"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Ten san pham">
 
-        <EditText
-            android:id="@+id/edit_brand"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Thuong hieu">
+            </EditText>
 
-        </EditText>
+            <Button
+                android:id="@+id/btn_productType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Loai san pham">
 
-        <EditText
-            android:id="@+id/edit_MGF"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Nam san xuat">
+            </Button>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_brand"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Thuong hieu">
 
-        <EditText
-            android:id="@+id/edit_desc"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Mo ta san pham">
+            </EditText>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_MGF"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Nam san xuat">
 
-        <EditText
-            android:id="@+id/edit_retailPrice"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Gia ban le"
-            android:inputType="number">
+            </EditText>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_desc"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Mo ta san pham">
 
-        <EditText
-            android:id="@+id/edit_costPrice"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Gia nhap"
-            android:inputType="number">
+            </EditText>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_retailPrice"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Gia ban le"
+                android:inputType="number">
 
-        <EditText
-            android:id="@+id/edit_stock"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Ton kho"
-            android:inputType="number">
+            </EditText>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_costPrice"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Gia nhap"
+                android:inputType="number">
 
-        <EditText
-            android:id="@+id/edit_commission"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:hint="Hoa hong"
-            android:inputType="number">
+            </EditText>
 
-        </EditText>
+            <EditText
+                android:id="@+id/edit_stock"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Ton kho"
+                android:inputType="number">
 
-    </LinearLayout>
+            </EditText>
+
+            <EditText
+                android:id="@+id/edit_commission"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:hint="Hoa hong"
+                android:inputType="number">
+
+            </EditText>
+
+        </LinearLayout>
+    </ScrollView>
     <Button
         android:id="@+id/btn_saveProduct"
         android:layout_width="match_parent"
