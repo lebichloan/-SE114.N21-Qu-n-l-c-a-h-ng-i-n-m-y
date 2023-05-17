@@ -80,9 +80,6 @@ public class VerifyPhoneNumber extends AppCompatActivity {
         PhoneAuthProvider.verifyPhoneNumber(options);
     }
 
-    private void goToEnterOTP(String strPhoneNumber, String verificationID) {
-    }
-
     private void signInWithPhoneAuthCredential(PhoneAuthCredential credential) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -110,7 +107,16 @@ public class VerifyPhoneNumber extends AppCompatActivity {
     private void goToMainActivity(String phoneNumber) {
         Intent intent = new Intent(this, MainActivity.class);
         intent.putExtra("phone_number", phoneNumber);
+        startActivity(intent);
     }
+
+    private void goToEnterOTP(String strPhoneNumber, String verificationID) {
+        Intent intent = new Intent(this, EnterOTP.class);
+        intent.putExtra("phone_number", strPhoneNumber);
+        intent.putExtra("verification_id", verificationID);
+        startActivity(intent);
+    }
+
 
     private void setTitleToolbar() {
         if (getSupportActionBar() != null) {
