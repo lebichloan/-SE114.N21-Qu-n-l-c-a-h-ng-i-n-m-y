@@ -18,7 +18,7 @@
             android:name=".ViewModels.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.AddProductActivity"
+            android:name=".ViewModels.VerifyPhoneNumber"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,7 +27,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".ViewModels.VerifyPhoneNumber"
+            android:name=".ViewModels.AddProductActivity"
             android:exported="false" />
         <activity
             android:name=".ViewModels.Login"
