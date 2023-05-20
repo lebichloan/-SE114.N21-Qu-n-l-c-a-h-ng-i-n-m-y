@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".reports.sale_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvStock"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo tồn kho"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:drawableLeft="@mipmap/stock_foreground"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"/>
+
+    <TextView
+        android:id="@+id/tvInventory"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo nhập xuất"
+        android:textSize="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:drawableLeft="@mipmap/inventory_foreground"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textColor="@color/purple_500"/>
+
+
+</LinearLayout>
