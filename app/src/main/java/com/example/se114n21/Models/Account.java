@@ -1,7 +1,7 @@
 package com.example.se114n21.Models;
 
 public class Account {
-    private String DienThoai;
+    private String Email;
     private String Password;
     private String PhanQuyen;
     private String MaNV;
@@ -9,19 +9,19 @@ public class Account {
     public Account() {
     }
 
-    public Account(String dienThoai, String password, String phanQuyen, String maNV) {
-        DienThoai = dienThoai;
+    public Account(String email, String password, String phanQuyen, String maNV) {
+        Email = email;
         Password = password;
         PhanQuyen = phanQuyen;
         MaNV = maNV;
     }
 
-    public String getDienThoai() {
-        return DienThoai;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setDienThoai(String dienThoai) {
-        DienThoai = dienThoai;
+    public void setEmail(String email) {
+        Email = email;
     }
 
     public String getPassword() {
@@ -51,7 +51,7 @@ public class Account {
     @Override
     public String toString() {
         return "Account{" +
-                "DienThoai='" + DienThoai + '\'' +
+                "Email='" + Email + '\'' +
                 ", Password='" + Password + '\'' +
                 ", PhanQuyen='" + PhanQuyen + '\'' +
                 ", MaNV='" + MaNV + '\'' +
