@@ -12,6 +12,18 @@
         android:theme="@style/Theme.SE114N21"
         tools:targetApi="31">
         <activity
+            android:name=".ViewModels.AdminProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Profile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Login"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Account"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.CorfirmNewPassword"
             android:exported="false" />
         <activity
@@ -24,7 +36,7 @@
             android:name=".ViewModels.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.Login"
+            android:name=".ViewModels.NVProfile"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

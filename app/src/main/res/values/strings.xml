@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">SE114.N21</string>
-    <string name="clearButton">Clear</string>
+    <string name="clearButton">Làm trống</string>
+    <string name="changePassword">Thay đổi mật khẩu</string>
 </resources>
