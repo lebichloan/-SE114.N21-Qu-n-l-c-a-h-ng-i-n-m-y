@@ -31,6 +31,7 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/avata"
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:padding="2dp"
@@ -39,11 +40,12 @@
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
                 <ImageButton
+                    android:id="@+id/butCamera"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_gravity="right|bottom"
-                    android:elevation="6dp"
                     android:background="@drawable/background_image"
+                    android:elevation="6dp"
                     android:scaleType="centerInside"
                     android:src="@drawable/camera" />
 
@@ -57,9 +59,8 @@
         android:layout_height="20dp" />
 
     <LinearLayout
-        android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-        android:layout_height="100dp"
         android:layout_width="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/border_edit_text"
         style="@android:style/Widget.Button"
@@ -95,11 +96,12 @@
                     android:background="@color/white"/>
 
                 <TextView
-                    android:text="@{viewModel.name}"
+                    android:id="@+id/txtProfile"
+                    android:text=""
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="textStart"
                     android:layout_width="300dp"
                     android:layout_marginLeft="10dp" />
 
@@ -115,6 +117,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background_image"
                 android:layout_marginEnd="2.25dp"
+                android:contentDescription="@string/view_profile"
                 android:src="@drawable/ic_next" />
 
         </LinearLayout>
@@ -126,9 +129,8 @@
         android:background="@color/white"/>
 
     <LinearLayout
-        android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-        android:layout_height="100dp"
         android:layout_width="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/border_edit_text"
         style="@android:style/Widget.Button"
@@ -164,11 +166,12 @@
                     android:background="@color/white"/>
 
                 <TextView
-                    android:text="@{viewModel.name}"
+                    android:id="@+id/txtEmail"
+                    android:text=""
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="textStart"
                     android:layout_width="300dp"
                     android:layout_marginLeft="10dp" />
 
@@ -184,6 +187,7 @@
                 android:layout_height="match_parent"
                 android:background="@drawable/background_image"
                 android:layout_marginEnd="2.25dp"
+                android:contentDescription="@string/change_email"
                 android:src="@drawable/ic_next" />
 
         </LinearLayout>
@@ -195,9 +199,8 @@
         android:background="@color/white"/>
 
     <LinearLayout
-        android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-        android:layout_height="100dp"
         android:layout_width="wrap_content"
+        android:layout_height="100dp"
         android:orientation="horizontal"
         android:background="@drawable/border_edit_text"
         style="@android:style/Widget.Button"
@@ -233,11 +236,12 @@
                     android:background="@color/white"/>
 
                 <TextView
-                    android:text="@{viewModel.name}"
+                    android:id="@+id/txtPassword"
+                    android:text=""
                     android:textSize="20dp"
                     android:textColor="@color/black"
                     android:layout_height="wrap_content"
-                    android:textAlignment="textEnd"
+                    android:textAlignment="textStart"
                     android:layout_width="300dp"
                     android:layout_marginLeft="10dp" />
 
@@ -253,7 +257,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginEnd="2.25dp"
                 android:background="@drawable/background_image"
-                android:contentDescription="@string/changePassword"
+                android:contentDescription="@string/change_password"
                 android:src="@drawable/ic_next" />
 
         </LinearLayout>
@@ -264,6 +268,7 @@
         android:layout_height="wrap_content">
 
         <Button
+            android:id="@+id/butLogout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_marginTop="20dp"

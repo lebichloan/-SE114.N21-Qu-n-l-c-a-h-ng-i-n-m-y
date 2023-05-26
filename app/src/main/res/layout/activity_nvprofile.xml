@@ -15,7 +15,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="15dp"
+        android:paddingBottom="10dp"
         android:text="Thông tin cá nhân"
         android:gravity="center"
         android:textSize="35sp"
@@ -36,10 +36,8 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/btnAccountInfoDetailName"
-                android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-                android:layout_height="100dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/border_edit_text"
                 style="@android:style/Widget.Button"
@@ -48,20 +46,14 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="Thông tin cá nhân"
+                            android:text="Mã nhân viên"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -75,30 +67,16 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/tvAccountInfoName"
-                            android:text="@{viewModel.name}"
+                            android:id="@+id/txtMaNV"
+                            android:text=""
                             android:textSize="20dp"
                             android:textColor="@color/black"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textEnd"
-                            android:layout_width="300dp"
+                            android:textAlignment="textStart"
                             android:layout_marginLeft="10dp" />
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"/>
-
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/background_image"
-                        android:layout_marginEnd="2.25dp"
-                        android:src="@drawable/ic_next" />
-
-                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -107,10 +85,8 @@
                 android:background="@color/white"/>
 
             <LinearLayout
-                android:id="@+id/btnEmail"
-                android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-                android:layout_height="100dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/border_edit_text"
                 style="@android:style/Widget.Button"
@@ -119,20 +95,14 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="Email"
+                            android:text="Họ tên"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -146,30 +116,17 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/tvEmail"
-                            android:text="@{viewModel.name}"
+                            android:id="@+id/txtHoTen"
+                            android:text=""
                             android:textSize="20dp"
                             android:textColor="@color/black"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textEnd"
-                            android:layout_width="300dp"
+                            android:textAlignment="textStart"
                             android:layout_marginLeft="10dp" />
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent"
-                        android:background="@color/white"/>
-
-                    <ImageButton
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@drawable/background_image"
-                        android:layout_marginEnd="2.25dp"
-                        android:src="@drawable/ic_next" />
-
-                </LinearLayout>
             </LinearLayout>
 
             <View
@@ -178,10 +135,8 @@
                 android:background="@color/white"/>
 
             <LinearLayout
-                android:id="@+id/btnPassword"
-                android:onClick="@{()-> viewModel.openChangeNameDialog()}"
-                android:layout_height="100dp"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:background="@drawable/border_edit_text"
                 style="@android:style/Widget.Button"
@@ -190,20 +145,14 @@
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp">
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentEnd="true"
-                    android:orientation="horizontal">
-
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
                         android:orientation="vertical">
 
                         <TextView
-                            android:text="Password"
+                            android:text="Ngày sinh"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="10dp"
@@ -217,31 +166,267 @@
                             android:background="@color/white"/>
 
                         <TextView
-                            android:id="@+id/tvPassword"
-                            android:text="@{viewModel.name}"
+                            android:id="@+id/txtNgaySinh"
+                            android:text=""
                             android:textSize="20dp"
                             android:textColor="@color/black"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textEnd"
-                            android:layout_width="300dp"
+                            android:textAlignment="textStart"
                             android:layout_marginLeft="10dp" />
 
                     </LinearLayout>
 
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_edit_text"
+                style="@android:style/Widget.Button"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Giới tính"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textColor="@color/black" />
+
                     <View
-                        android:layout_width="10dp"
-                        android:layout_height="match_parent"
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
                         android:background="@color/white"/>
 
-                    <ImageButton
+                    <TextView
+                        android:id="@+id/txtGioiTinh"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="2.25dp"
-                        android:background="@drawable/background_image"
-                        android:contentDescription="@string/changePassword"
-                        android:src="@drawable/ic_next" />
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_marginLeft="10dp" />
 
                 </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_edit_text"
+                style="@android:style/Widget.Button"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Địa chỉ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/txtDiaChi"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_edit_text"
+                style="@android:style/Widget.Button"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="SĐT"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/txtSDT"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_edit_text"
+                style="@android:style/Widget.Button"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Ngày vào làm"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/txtNgayVaoLam"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@drawable/border_edit_text"
+                style="@android:style/Widget.Button"
+                android:paddingTop="15dp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentEnd="true"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:text="Lương theo giờ"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_alignParentLeft="true"
+                        android:textSize="20dp"
+                        android:textColor="@color/black" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="5dp"
+                        android:background="@color/white"/>
+
+                    <TextView
+                        android:id="@+id/txtLuongTheoGio"
+                        android:text=""
+                        android:textSize="20dp"
+                        android:textColor="@color/black"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="textStart"
+                        android:layout_marginLeft="10dp" />
+
+                </LinearLayout>
+
             </LinearLayout>
 
 

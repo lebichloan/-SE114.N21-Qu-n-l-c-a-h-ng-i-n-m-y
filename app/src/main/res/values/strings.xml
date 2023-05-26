@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">SE114.N21</string>
-    <string name="clearButton">Làm trống</string>
-    <string name="changePassword">Thay đổi mật khẩu</string>
+    <string name="clear_button">Làm trống</string>
+    <string name="view_profile">Xem thông tin</string>
+    <string name="change_email">Thay đổi email</string>
+    <string name="change_password">Thay đổi mật khẩu</string>
+
 </resources>
