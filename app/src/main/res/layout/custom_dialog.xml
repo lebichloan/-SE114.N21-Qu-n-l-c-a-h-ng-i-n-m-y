@@ -12,62 +12,59 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="12dp"
-        android:text="Send your feedback"
-        android:textColor="@color/black"
+        android:text="Thêm loại sản phẩm"
+        android:textColor="@color/white"
         android:textSize="16sp"
         android:gravity="center"
-        android:background="@drawable/bg_yellow_corner_16_top_left_top_right">
+        android:textStyle="bold"
+        android:background="@drawable/bg_purple_corner_radius_top_left_top_right"
+        >
     </TextView>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/tv_dialog_subtitle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Please send us your feedback"
-            android:textSize="14sp"
-            android:textColor="@color/black"
-            android:gravity="center">
-        </TextView>
+        android:orientation="vertical"
+        android:padding="16dp">
+
         <EditText
             android:id="@+id/edit_dialog_fill"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:layout_marginTop="16dp"
-            android:hint="Feedback"
             android:background="@drawable/bg_white_corner_10_border_gray"
+            android:padding="12dp"
             >
+
         </EditText>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:orientation="horizontal">
-            <Button
-                android:id="@+id/btn_cancel"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="14sp"
-                android:layout_marginEnd="10dp"
-                android:background="@drawable/bg_gray_corner_10"
-                android:alpha="0.7"
-                android:text="No, Thank you">
+            android:layout_marginTop="16dp">
 
-            </Button>
             <Button
-                android:id="@+id/btn_ok"
+                android:id="@+id/btn_dialog_cancel"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="38dp"
+                android:layout_marginEnd="10dp"
                 android:layout_weight="1"
+                android:background="@drawable/bg_white_border_black"
+                android:text="Hủy"
+                android:textAllCaps="false"
                 android:textSize="14sp"
-                android:background="@drawable/bg_yellow_corner_10"
-                android:text="Send">
-            </Button>
+                android:textColor="@color/textColor"
+                ></Button>
+
+            <Button
+                android:id="@+id/btn_dialog_ok"
+                android:layout_width="0dp"
+                android:layout_height="38dp"
+                android:layout_weight="1"
+                android:background="@drawable/bg_purple_corner_10"
+                android:text="Thêm"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="14sp"></Button>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

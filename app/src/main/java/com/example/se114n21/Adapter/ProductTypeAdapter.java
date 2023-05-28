@@ -3,6 +3,7 @@ package com.example.se114n21.Adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Locale;
 
 public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.ProductTypeViewHolder> implements Filterable {
-
     private List<LoaiSanPham> mListLoaiSanPham;
     private List<LoaiSanPham> mListLoaiSanPhamOLD;
 
@@ -49,15 +49,23 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
         }
 
         holder.tv_Name_Product_Type.setText(loaiSanPham.getTenLSP());
+        holder.btn_Edit_Product_Type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
     }
 
     public class ProductTypeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_Name_Product_Type;
+        private Button btn_Edit_Product_Type;
 
         public ProductTypeViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_Name_Product_Type = itemView.findViewById(R.id.tv_name_product_type);
+            btn_Edit_Product_Type =  itemView.findViewById(R.id.btn_edit_product_type);
         }
     }
 

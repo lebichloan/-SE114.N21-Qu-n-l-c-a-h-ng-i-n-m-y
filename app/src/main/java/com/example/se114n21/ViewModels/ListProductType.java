@@ -2,12 +2,14 @@ package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.ProductTypeAdapter;
+import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;
@@ -17,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.graphics.Color;
@@ -34,17 +37,18 @@ import android.widget.ListAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.Inet4Address;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ListProductType extends AppCompatActivity {
-
     private RecyclerView rcv_List_Product_Type;
     private ProductTypeAdapter mProductTypeAdapter;
     private List<LoaiSanPham> mListLoaiSanPham;
     private SearchView searchView;
-
-    private Button push;
+    private Integer maxId = 0;
+    private ProgressDialog progressDialog;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,39 +56,23 @@ public class ListProductType extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initUI();
+
         getListProductType();
-
-//        push.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                addAll();
-//            }
-//        });
     }
-
-    private void addAll() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("listLoaiSanPham");
-
-        List<LoaiSanPham> list = new ArrayList<>();
-        list.add(new LoaiSanPham("LSP0001","Laptop"));
-        list.add(new LoaiSanPham("LSP0002","Tu lanh"));
-        list.add(new LoaiSanPham("LSP0003","May giac"));
-
-        for (int i=0; i<3; i++) {
-            String pathObject = list.get(i).getMaLSP();
-            myRef.child(pathObject).setValue(list.get(i), new DatabaseReference.CompletionListener() {
-                @Override
-                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                    Toast.makeText(ListProductType.this, "thanh cong", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
-
 
     private void initUI() {
-//        push = findViewById(R.id.push);
+
+//      DIALOG PROGRESS BAR
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Vui long doi mot chut");
+
+//      ACTION BAR
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Danh mục sản phẩm");
+
+        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
+
+//      RCV
         rcv_List_Product_Type = findViewById(R.id.rcv_list_product_type);
         rcv_List_Product_Type.setHasFixedSize(true);
         rcv_List_Product_Type.setItemViewCacheSize(20);
@@ -101,7 +89,8 @@ public class ListProductType extends AppCompatActivity {
     }
 
     private void getListProductType() {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        progressDialog.show();
+
         DatabaseReference myRef = database.getReference("listLoaiSanPham");
 
         myRef.addValueEventListener(new ValueEventListener() {
@@ -109,13 +98,24 @@ public class ListProductType extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if (mListLoaiSanPham != null) {
                     mListLoaiSanPham.clear();
+                    maxId = 0;
                 }
 
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     LoaiSanPham loaiSanPham = dataSnapshot.getValue(LoaiSanPham.class);
+
+                    String id = loaiSanPham.getMaLSP();
+
+                    if (id != null) {
+                        maxId =  Integer.parseInt(id.substring(3));
+                    }
+
                     mListLoaiSanPham.add(loaiSanPham);
                 }
+
                 mProductTypeAdapter.notifyDataSetChanged();
+
+                progressDialog.dismiss();
             }
 
             @Override
@@ -157,7 +157,6 @@ public class ListProductType extends AppCompatActivity {
         {
             case R.id.action_add:
                 openAddDialog(Gravity.CENTER);
-
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -185,16 +184,13 @@ public class ListProductType extends AppCompatActivity {
 //        dialog.setCancelable(true);
 
         TextView tvDialogTitle = dialog.findViewById(R.id.tv_dialog_title);
-        TextView tvDialogSubtitle = dialog.findViewById(R.id.tv_dialog_subtitle);
         EditText editDialogFill = dialog.findViewById(R.id.edit_dialog_fill);
-        Button btnCancel = dialog.findViewById(R.id.btn_cancel);
-        Button btnOk = dialog.findViewById(R.id.btn_ok);
+        Button btnCancel = dialog.findViewById(R.id.btn_dialog_cancel);
+        Button btnOk = dialog.findViewById(R.id.btn_dialog_ok);
 
-        tvDialogTitle.setText("Them loai san pham");
-        tvDialogSubtitle.setText("Nhap ten loai san pham vao o ben duoi");
-        editDialogFill.setHint("Ten loai san pham");
-        btnCancel.setText("Huy");
-        btnOk.setText("Luu");
+        tvDialogTitle.setText("Thêm loại sản phẩm");
+        btnCancel.setText("Hủy");
+        btnOk.setText("Lưu");
 
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -206,11 +202,36 @@ public class ListProductType extends AppCompatActivity {
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ListProductType.this, "Send fb thanh cong", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+
+                progressDialog.show();
+
+                IdGenerator generator = new IdGenerator();
+                generator.init("LSP", "", maxId, "%04d");
+
+                String id = generator.generate();
+
+                LoaiSanPham loaiSanPham = new LoaiSanPham(id, editDialogFill.getText().toString().trim());
+
+
+                addProductType(loaiSanPham);
             }
         });
 
         dialog.show();
+    }
+
+
+    private void addProductType(LoaiSanPham loaiSanPham) {
+        DatabaseReference myRef = database.getReference("listLoaiSanPham");
+
+        myRef.child(loaiSanPham.getMaLSP()).setValue(loaiSanPham, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                progressDialog.dismiss();
+                Toast.makeText(ListProductType.this, "Them thanh cong", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
