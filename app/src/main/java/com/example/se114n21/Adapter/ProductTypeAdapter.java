@@ -8,6 +8,7 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.se114n21.Interface.ProductTypeInterface;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.R;
 import androidx.annotation.NonNull;
@@ -21,9 +22,12 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
     private List<LoaiSanPham> mListLoaiSanPham;
     private List<LoaiSanPham> mListLoaiSanPhamOLD;
 
-    public ProductTypeAdapter(List<LoaiSanPham> mListLoaiSanPham) {
+    private ProductTypeInterface productTypeInterface;
+
+    public ProductTypeAdapter(List<LoaiSanPham> mListLoaiSanPham, ProductTypeInterface listener) {
         this.mListLoaiSanPham = mListLoaiSanPham;
         this.mListLoaiSanPhamOLD = mListLoaiSanPham;
+        this.productTypeInterface = listener;
     }
 
     @NonNull
@@ -52,7 +56,14 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
         holder.btn_Edit_Product_Type.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                productTypeInterface.onClick(loaiSanPham, "edit");
+            }
+        });
 
+        holder.btn_Delete_Product_Type.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productTypeInterface.onClick(loaiSanPham, "delete");
             }
         });
     }
@@ -60,12 +71,13 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
     public class ProductTypeViewHolder extends RecyclerView.ViewHolder {
 
         private TextView tv_Name_Product_Type;
-        private Button btn_Edit_Product_Type;
+        private Button btn_Edit_Product_Type, btn_Delete_Product_Type;
 
         public ProductTypeViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_Name_Product_Type = itemView.findViewById(R.id.tv_name_product_type);
             btn_Edit_Product_Type =  itemView.findViewById(R.id.btn_edit_product_type);
+            btn_Delete_Product_Type = itemView.findViewById(R.id.btn_delete_product_type);
         }
     }
 

@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.ProductTypeAdapter;
+import com.example.se114n21.Interface.ProductTypeInterface;
 import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.R;
@@ -18,10 +19,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -39,7 +42,9 @@ import android.widget.Toast;
 
 import java.net.Inet4Address;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ListProductType extends AppCompatActivity {
     private RecyclerView rcv_List_Product_Type;
@@ -48,6 +53,7 @@ public class ListProductType extends AppCompatActivity {
     private SearchView searchView;
     private Integer maxId = 0;
     private ProgressDialog progressDialog;
+    private ProductTypeInterface mProductTypeInterface;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,11 +88,120 @@ public class ListProductType extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         rcv_List_Product_Type.setLayoutManager(linearLayoutManager);
 
+
         mListLoaiSanPham = new ArrayList<>();
-        mProductTypeAdapter = new ProductTypeAdapter(mListLoaiSanPham);
+        mProductTypeAdapter = new ProductTypeAdapter(mListLoaiSanPham, new ProductTypeInterface() {
+            @Override
+            public void onClick(LoaiSanPham loaiSanPham, String code) {
+
+                switch (code) {
+                    case "edit":
+                        openAddDialogUpdate(Gravity.CENTER, loaiSanPham);
+                        break;
+                    case "delete":
+                        deleteProductType(loaiSanPham);
+                        break;
+                }
+
+            }
+        });
 
         rcv_List_Product_Type.setAdapter(mProductTypeAdapter);
     }
+
+    private void deleteProductType(LoaiSanPham loaiSanPham) {
+        new AlertDialog.Builder(ListProductType.this)
+            .setTitle("Xoa loai san pham?")
+            .setMessage("Ban co chac chan muon xoa loai san pham nay hay khong?")
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    progressDialog.show();
+
+                    String path = "listLoaiSanPham/" + loaiSanPham.getMaLSP();
+
+                    DatabaseReference myRef = database.getReference(path);
+
+                    myRef.removeValue(new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                            progressDialog.dismiss();
+                            Toast.makeText(ListProductType.this, "delete thanh cong", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            })
+            .setNegativeButton("Cancel", null)
+            .show();
+    }
+
+    private void openAddDialogUpdate(int gravity, LoaiSanPham loaiSanPham) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.custom_dialog);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+//        nhan ra ngoai thi tat dialog
+//        dialog.setCancelable(true);
+
+        TextView tvDialogTitle = dialog.findViewById(R.id.tv_dialog_title);
+        EditText editDialogFill = dialog.findViewById(R.id.edit_dialog_fill);
+        Button btnCancel = dialog.findViewById(R.id.btn_dialog_cancel);
+        Button btnOk = dialog.findViewById(R.id.btn_dialog_ok);
+
+        tvDialogTitle.setText("Cập nhật loại sản phẩm");
+        editDialogFill.setText(loaiSanPham.getTenLSP());
+        btnCancel.setText("Hủy");
+        btnOk.setText("Cập nhật");
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+
+                progressDialog.show();
+
+//                UPDATE
+                String path = "listLoaiSanPham/" + loaiSanPham.getMaLSP();
+                DatabaseReference myRef = database.getReference(path);
+
+                Map<String, Object> map = new HashMap<>();
+                map.put("tenLSP",editDialogFill.getText().toString().trim());
+
+                myRef.updateChildren(map, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        progressDialog.dismiss();
+                        Toast.makeText(ListProductType.this, "update thanh cong", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+        });
+
+        dialog.show();
+    }
+
 
     private void getListProductType() {
         progressDialog.show();
@@ -156,13 +271,13 @@ public class ListProductType extends AppCompatActivity {
         switch (item.getItemId())
         {
             case R.id.action_add:
-                openAddDialog(Gravity.CENTER);
+                openAddDialogAdd(Gravity.CENTER);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openAddDialog(int gravity) {
+    private void openAddDialogAdd(int gravity) {
         final Dialog dialog = new Dialog(this);
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         dialog.setContentView(R.layout.custom_dialog);

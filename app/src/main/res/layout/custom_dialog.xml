@@ -33,6 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_corner_10_border_gray"
             android:padding="12dp"
+            android:maxLength="200"
             >
 
         </EditText>
