@@ -7,6 +7,7 @@
     android:gravity="fill_vertical"
     android:orientation="vertical"
     android:paddingHorizontal="17dp"
+    android:background="@color/white"
     tools:context=".ViewModels.Login">
 
     <View
