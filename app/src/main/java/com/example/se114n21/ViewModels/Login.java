@@ -6,11 +6,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -27,6 +31,7 @@ import com.google.firebase.auth.FirebaseAuth;
 public class Login extends AppCompatActivity {
 
     EditText txtEmail, txtPassword;
+    ImageButton eyeButton;
     Button butLogin;
     FirebaseAuth auth;
     ProgressBar processBar;
@@ -39,6 +44,7 @@ public class Login extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
+        eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
 
@@ -83,6 +89,39 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
+
+        txtPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (charSequence.length() > 0) {
+                    eyeButton.setVisibility(View.VISIBLE);
+                } else {
+                    eyeButton.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        eyeButton.setOnClickListener(view -> {
+            if (txtPassword.getInputType() == 129) {
+                txtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                eyeButton.setImageDrawable(getDrawable(R.drawable.eye_blind));
+            }
+            else
+            {
+                eyeButton.setImageDrawable(getDrawable(R.drawable.eye));
+            }
+        });
+
     }
 
 }

@@ -113,6 +113,7 @@
                 android:background="@color/white"/>
 
             <ImageButton
+                android:id="@+id/butProfileNext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_image"
@@ -183,6 +184,7 @@
                 android:background="@color/white"/>
 
             <ImageButton
+                android:id="@+id/butEmailNext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/background_image"
@@ -253,6 +255,7 @@
                 android:background="@color/white"/>
 
             <ImageButton
+                android:id="@+id/butPasswordNext"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginEnd="2.25dp"
