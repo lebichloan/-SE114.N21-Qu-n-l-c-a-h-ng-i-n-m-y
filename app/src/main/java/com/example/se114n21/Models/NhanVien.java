@@ -4,11 +4,11 @@ import java.util.List;
 public class NhanVien {
     private String LinkAvt;
     private String MaNV;
-    private String Ten;
+    private String HoTen;
     private String NgaySinh;
     private String GioiTinh;
     private String DiaChi;
-    private String DienThoai;
+    private String SDT;
     private String Email;
     private String NgayVaoLam;
     private Double LuongTheoGio;
@@ -17,14 +17,14 @@ public class NhanVien {
     public NhanVien() {
     }
 
-    public NhanVien(String linkAvt, String maNV, String ten, String ngaySinh, String gioiTinh, String diaChi, String dienThoai, String email, String ngayVaoLam, Double luongTheoGio, List<String> danhSachCaLam) {
+    public NhanVien(String linkAvt, String maNV, String hoten, String ngaySinh, String gioiTinh, String diaChi, String sdt, String email, String ngayVaoLam, Double luongTheoGio, List<String> danhSachCaLam) {
         LinkAvt = linkAvt;
         MaNV = maNV;
-        Ten = ten;
+        HoTen = hoten;
         NgaySinh = ngaySinh;
         GioiTinh = gioiTinh;
         DiaChi = diaChi;
-        DienThoai = dienThoai;
+        SDT = sdt;
         Email = email;
         NgayVaoLam = ngayVaoLam;
         LuongTheoGio = luongTheoGio;
@@ -47,12 +47,12 @@ public class NhanVien {
         MaNV = maNV;
     }
 
-    public String getTen() {
-        return Ten;
+    public String getHoTen() {
+        return HoTen;
     }
 
-    public void setTen(String ten) {
-        Ten = ten;
+    public void setHoTen(String hoten) {
+        HoTen = hoten;
     }
 
     public String getNgaySinh() {
@@ -79,12 +79,12 @@ public class NhanVien {
         DiaChi = diaChi;
     }
 
-    public String getDienThoai() {
-        return DienThoai;
+    public String getSDT() {
+        return SDT;
     }
 
-    public void setDienThoai(String dienThoai) {
-        DienThoai = dienThoai;
+    public void setSDT(String sdt) {
+        SDT = sdt;
     }
 
     public String getEmail() {
@@ -124,11 +124,11 @@ public class NhanVien {
         return "NhanVien{" +
                 "LinkAvt='" + LinkAvt + '\'' +
                 ", MaNV='" + MaNV + '\'' +
-                ", Ten='" + Ten + '\'' +
+                ", HoTen='" + HoTen + '\'' +
                 ", NgaySinh='" + NgaySinh + '\'' +
                 ", GioiTinh='" + GioiTinh + '\'' +
                 ", DiaChi='" + DiaChi + '\'' +
-                ", DienThoai='" + DienThoai + '\'' +
+                ", SDT='" + SDT + '\'' +
                 ", Email='" + Email + '\'' +
                 ", NgayVaoLam='" + NgayVaoLam + '\'' +
                 ", LuongTheoGio=" + LuongTheoGio +
