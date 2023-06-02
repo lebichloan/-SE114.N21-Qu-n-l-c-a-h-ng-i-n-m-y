@@ -2,23 +2,23 @@ package com.example.se114n21.Models;
 
 public class ChuCuaHang {
     private String LinkAvt;
-    private String Ten;
+    private String HoTen;
     private String NgaySinh;
     private String GioiTinh;
     private String DiaChi;
-    private String DienThoai;
+    private String SDT;
     private String Email;
 
     public ChuCuaHang() {
     }
 
-    public ChuCuaHang(String linkAvt, String ten, String ngaySinh, String gioiTinh, String diaChi, String dienThoai, String email) {
+    public ChuCuaHang(String linkAvt, String hoten, String ngaySinh, String gioiTinh, String diaChi, String sdt, String email) {
         LinkAvt = linkAvt;
-        Ten = ten;
+        HoTen = hoten;
         NgaySinh = ngaySinh;
         GioiTinh = gioiTinh;
         DiaChi = diaChi;
-        DienThoai = dienThoai;
+        SDT = sdt;
         Email = email;
     }
 
@@ -30,12 +30,12 @@ public class ChuCuaHang {
         LinkAvt = linkAvt;
     }
 
-    public String getTen() {
-        return Ten;
+    public String getHoTen() {
+        return HoTen;
     }
 
-    public void setTen(String ten) {
-        Ten = ten;
+    public void setHoTen(String hoten) {
+        HoTen = hoten;
     }
 
     public String getNgaySinh() {
@@ -62,12 +62,12 @@ public class ChuCuaHang {
         DiaChi = diaChi;
     }
 
-    public String getDienThoai() {
-        return DienThoai;
+    public String getSDT() {
+        return SDT;
     }
 
-    public void setDienThoai(String dienThoai) {
-        DienThoai = dienThoai;
+    public void setSDT(String sdt) {
+        SDT = sdt;
     }
 
     public String getEmail() {
@@ -82,11 +82,11 @@ public class ChuCuaHang {
     public String toString() {
         return "ChuCuaHang{" +
                 "LinkAvt='" + LinkAvt + '\'' +
-                ", Ten='" + Ten + '\'' +
+                ", HoTen='" + HoTen + '\'' +
                 ", NgaySinh='" + NgaySinh + '\'' +
                 ", GioiTinh='" + GioiTinh + '\'' +
                 ", DiaChi='" + DiaChi + '\'' +
-                ", DienThoai='" + DienThoai + '\'' +
+                ", SDT='" + SDT + '\'' +
                 ", Email='" + Email + '\'' +
                 '}';
     }

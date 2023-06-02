@@ -68,13 +68,19 @@
 
                         <TextView
                             android:id="@+id/txtMaNV"
-                            android:text=""
-                            android:textSize="20dp"
-                            android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textStart"
-                            android:layout_marginLeft="10dp" />
+                            android:background="@drawable/border_edit_text_white"
+                            android:ellipsize="end"
+                            android:hint=""
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="20dp"
+                            android:paddingVertical="7dp"
+                            android:layout_marginLeft="10dp"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                     </LinearLayout>
             </LinearLayout>
@@ -117,13 +123,19 @@
 
                         <TextView
                             android:id="@+id/txtHoTen"
-                            android:text=""
-                            android:textSize="20dp"
-                            android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textStart"
-                            android:layout_marginLeft="10dp" />
+                            android:background="@drawable/border_edit_text_white"
+                            android:ellipsize="end"
+                            android:hint=""
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="20dp"
+                            android:paddingVertical="7dp"
+                            android:layout_marginLeft="10dp"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                     </LinearLayout>
 
@@ -167,13 +179,19 @@
 
                         <TextView
                             android:id="@+id/txtNgaySinh"
-                            android:text=""
-                            android:textSize="20dp"
-                            android:textColor="@color/black"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:textAlignment="textStart"
-                            android:layout_marginLeft="10dp" />
+                            android:background="@drawable/border_edit_text_white"
+                            android:ellipsize="end"
+                            android:hint=""
+                            android:inputType="text"
+                            android:maxLines="1"
+                            android:textSize="20dp"
+                            android:paddingVertical="7dp"
+                            android:layout_marginLeft="10dp"
+                            android:singleLine="true"
+                            android:textColor="@android:color/black"
+                            tools:ignore="VisualLintTextFieldSize" />
 
                     </LinearLayout>
 
@@ -217,13 +235,19 @@
 
                     <TextView
                         android:id="@+id/txtGioiTinh"
-                        android:text=""
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:layout_marginLeft="10dp" />
+                        android:background="@drawable/border_edit_text_white"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="20dp"
+                        android:paddingVertical="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </LinearLayout>
 
@@ -267,13 +291,19 @@
 
                     <TextView
                         android:id="@+id/txtDiaChi"
-                        android:text=""
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:layout_marginLeft="10dp" />
+                        android:background="@drawable/border_edit_text_white"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="20dp"
+                        android:paddingVertical="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </LinearLayout>
 
@@ -317,13 +347,19 @@
 
                     <TextView
                         android:id="@+id/txtSDT"
-                        android:text=""
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:layout_marginLeft="10dp" />
+                        android:background="@drawable/border_edit_text_white"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="20dp"
+                        android:paddingVertical="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </LinearLayout>
 
@@ -367,13 +403,19 @@
 
                     <TextView
                         android:id="@+id/txtNgayVaoLam"
-                        android:text=""
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:layout_marginLeft="10dp" />
+                        android:background="@drawable/border_edit_text_white"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="20dp"
+                        android:paddingVertical="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </LinearLayout>
 
@@ -417,17 +459,43 @@
 
                     <TextView
                         android:id="@+id/txtLuongTheoGio"
-                        android:text=""
-                        android:textSize="20dp"
-                        android:textColor="@color/black"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textAlignment="textStart"
-                        android:layout_marginLeft="10dp" />
+                        android:background="@drawable/border_edit_text_white"
+                        android:ellipsize="end"
+                        android:hint=""
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="20dp"
+                        android:paddingVertical="7dp"
+                        android:layout_marginLeft="10dp"
+                        android:singleLine="true"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp"
+                android:background="@color/white"/>
+
+            <Button
+                android:id="@+id/butSave"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/background_button"
+                android:layout_marginBottom="4dp"
+                android:text="LƯU"
+                android:textColor="@color/white"
+                android:textSize="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
 
 
         </LinearLayout>
