@@ -22,7 +22,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ConfirmNewPassword extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtNewPassword, txtConfirmNewPassword;
     ImageButton eyeButton, eyeButton1;
     Button butSave;
@@ -34,12 +34,20 @@ public class ConfirmNewPassword extends AppCompatActivity {
         setContentView(R.layout.activity_confirm_new_password);
 
         auth = FirebaseAuth.getInstance();
+        butBack = findViewById(R.id.butBack);
         txtNewPassword = findViewById(R.id.txtNewPassword);
         txtConfirmNewPassword = findViewById(R.id.txtConfirmNewPassword);
         eyeButton = findViewById(R.id.eyeButton);
         eyeButton1 = findViewById(R.id.eyeButton1);
         butSave = findViewById(R.id.butSave);
         FirebaseUser firebaseUser = auth.getCurrentUser();
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         butSave.setOnClickListener(new View.OnClickListener() {
             @Override

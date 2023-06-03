@@ -27,9 +27,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class Login extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtEmail, txtPassword;
     ImageButton eyeButton;
     Button butLogin;
@@ -42,11 +43,25 @@ public class Login extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
+        butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
+
+        // Ki?m tra user ?? ??ng nh?p hay ch?a
+        // ??nh d?u ch? c?a h?ng v?i nh?n vi?n b?ng vi?c verified email
+//        FirebaseUser user = auth.getCurrentUser();
+//        if (user != null) {
+//            startActivity(new Intent(Login.this, MainActivity.class));
+//        }
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         butLogin.setOnClickListener(new View.OnClickListener() {
             @Override
