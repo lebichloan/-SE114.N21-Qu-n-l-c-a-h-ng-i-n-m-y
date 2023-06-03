@@ -41,7 +41,7 @@ public class ChangePassword extends AppCompatActivity {
         eyeButton = findViewById(R.id.eyeButton);
         butNext = findViewById(R.id.butNext);
 
-        butNext.setEnabled(false);
+//        butNext.setEnabled(false);
 
         FirebaseUser firebaseUser = auth.getCurrentUser();
 
@@ -106,15 +106,15 @@ public class ChangePassword extends AppCompatActivity {
                            public void onComplete(@NonNull Task<Void> task) {
                                if (task.isSuccessful()) {
                                    // show process bar
+//                                   butNext.setEnabled(true);
+                                   Toast.makeText(ChangePassword.this, "You can change password now", Toast.LENGTH_SHORT).show();
                                    startActivity(new Intent(ChangePassword.this, ConfirmNewPassword.class));
                                    finish();
 //                                   txtOldPassword.setEnabled(false);
 //                                   txtNewPassword.setEnabled(true);
 //                                   txtConfirmNewPassword.setEnabled(true);
-                                   butNext.setEnabled(true);
 //                                   butSave.setEnabled(true);
-                                   Toast.makeText(ChangePassword.this, "You can change password now", Toast.LENGTH_SHORT).show();
-                                   
+
 //                                   butSave.setOnClickListener(new View.OnClickListener() {
 //                                       @Override
 //                                       public void onClick(View v) {
