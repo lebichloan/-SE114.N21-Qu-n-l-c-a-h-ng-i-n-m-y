@@ -24,7 +24,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ChangePassword extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtOldPassword;
     ImageButton eyeButton;
     Button butNext;
@@ -40,6 +40,7 @@ public class ChangePassword extends AppCompatActivity {
         txtOldPassword = findViewById(R.id.txtOldPassword);
         eyeButton = findViewById(R.id.eyeButton);
         butNext = findViewById(R.id.butNext);
+        butBack = findViewById(R.id.butBack);
 
 //        butNext.setEnabled(false);
 
@@ -53,6 +54,13 @@ public class ChangePassword extends AppCompatActivity {
         } else {
             reAuthenticateUser(firebaseUser);
         }
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         txtOldPassword.addTextChangedListener(new TextWatcher() {
             @Override

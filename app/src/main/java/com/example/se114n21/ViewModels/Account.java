@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import com.example.se114n21.R;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,6 +28,7 @@ public class Account extends AppCompatActivity {
     ImageButton butCamera;
     TextView txtProfile, txtEmail, txtPassword;
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
+    ImageButton butBack;
     Button butLogout;
     FirebaseAuth auth;
 
@@ -36,9 +39,16 @@ public class Account extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         initUI();
-        showUserData();
-        passUserData();
+//        showUserData();
+//        passUserData();
+        getUserProfile();
 
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
         butCamera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,7 +58,7 @@ public class Account extends AppCompatActivity {
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                passUserData();
+//                passUserData();
                 startActivity(new Intent(Account.this, AdminProfile.class));
             }
         });
@@ -73,6 +83,25 @@ public class Account extends AppCompatActivity {
         });
     }
 
+    private void getUserProfile() {
+        FirebaseUser firebaseUser = auth.getCurrentUser();
+        if (firebaseUser != null ) {
+            String name = firebaseUser.getDisplayName();
+            String email = firebaseUser.getEmail();
+            Uri photoUrl = firebaseUser.getPhotoUrl();
+            String uid = firebaseUser.getUid();
+            boolean emailVerified = firebaseUser.isEmailVerified();
+
+            txtProfile.setText(uid);
+            txtEmail.setText(email);
+        }
+    }
+
+    private void getAccountData() {
+        DatabaseReference mDatabase;
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+    }
     private void showUserData() {
         Intent intent = getIntent();
 
@@ -117,6 +146,7 @@ public class Account extends AppCompatActivity {
     }
 
     private void initUI() {
+        butBack = findViewById(R.id.butBack);
         avata = findViewById(R.id.avata);
         butCamera = findViewById(R.id.butCamera);
         txtProfile = findViewById(R.id.txtProfile);

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,7 +16,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 public class AdminProfile extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtHoTen, txtNgaySinh, txtGioiTinh, txtDiaChi, txtSDT;
     String hoTen, ngaySinh, gioiTinh, diaChi, sdt, email;
     Button butSave;
@@ -29,6 +30,13 @@ public class AdminProfile extends AppCompatActivity {
         initUI();
         reference = FirebaseDatabase.getInstance().getReference("ChuCuaHang");
         showData();
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         butSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,6 +117,7 @@ public class AdminProfile extends AppCompatActivity {
     }
 
     private void initUI() {
+        butBack = findViewById(R.id.butBack);
         txtHoTen = findViewById(R.id.txtHoTen);
         txtNgaySinh = findViewById(R.id.txtNgaySinh);
         txtGioiTinh = findViewById(R.id.txtGioiTinh);

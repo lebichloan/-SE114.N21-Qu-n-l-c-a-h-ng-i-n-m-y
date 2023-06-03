@@ -19,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 public class ChangeEmail extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtEmail;
     Button butSave;
     FirebaseAuth auth;
@@ -41,6 +41,13 @@ public class ChangeEmail extends AppCompatActivity {
         } else {
             reAuthenticateUser(firebaseUser);
         }
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
     }
 
@@ -70,6 +77,7 @@ public class ChangeEmail extends AppCompatActivity {
     }
 
     private void initUI() {
+        butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
         butSave = findViewById(R.id.butSave);
     }

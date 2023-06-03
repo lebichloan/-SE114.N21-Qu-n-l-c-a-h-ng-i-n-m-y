@@ -11,6 +11,7 @@ import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
@@ -20,7 +21,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class ForgotPassword extends AppCompatActivity {
-
+    ImageButton butBack;
     EditText txtForgotPasswordEmail;
     Button butNext;
     FirebaseAuth auth;
@@ -32,8 +33,16 @@ public class ForgotPassword extends AppCompatActivity {
         setContentView(R.layout.activity_forgot_password);
 
         auth = FirebaseAuth.getInstance();
+        butBack = findViewById(R.id.butBack);
         txtForgotPasswordEmail = findViewById(R.id.txtForgotPasswordEmail);
         butNext = findViewById(R.id.butNext);
+
+        butBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         butNext.setOnClickListener(new View.OnClickListener() {
             @Override
