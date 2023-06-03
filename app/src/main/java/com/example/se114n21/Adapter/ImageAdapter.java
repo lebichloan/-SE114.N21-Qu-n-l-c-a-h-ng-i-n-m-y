@@ -8,10 +8,14 @@ import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.se114n21.R;
+import com.example.se114n21.ViewModels.AddProductActivity;
 
 import java.io.IOException;
 import java.util.List;
@@ -38,6 +42,14 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
         }
 
         holder.Img.setImageURI(uri);
+
+        holder.btnDeleteImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mListImage.remove(holder.getAbsoluteAdapterPosition());
+                notifyItemRemoved(holder.getAbsoluteAdapterPosition());
+            }
+        });
     }
 
 
@@ -51,10 +63,11 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ImageViewHol
 
     public class ImageViewHolder extends RecyclerView.ViewHolder {
         private ImageView Img;
-
+        private Button btnDeleteImg;
         public ImageViewHolder(@NonNull View itemView) {
             super(itemView);
             Img = itemView.findViewById(R.id.img);
+            btnDeleteImg = itemView.findViewById(R.id.btn_delete_img);
         }
     }
 
