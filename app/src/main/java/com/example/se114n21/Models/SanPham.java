@@ -1,5 +1,6 @@
 package com.example.se114n21.Models;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SanPham {
@@ -10,15 +11,16 @@ public class SanPham {
     private Double GiaNhap;
     private Double GiaBan;
     private String ThuongHieu;
-    private String NamSX;
+    private Integer NamSX;
     private List<ThuocTinh> DSThuocTinh;
     private String Mota;
     private Double HoaHong;
 
     public SanPham() {
+        LinkAnhSP = new ArrayList<>();
     }
 
-    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Double giaNhap, Double giaBan, String thuongHieu, String namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong) {
+    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Double giaNhap, Double giaBan, String thuongHieu, Integer namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong) {
         MaSP = maSP;
         MaLSP = maLSP;
         LinkAnhSP = linkAnhSP;
@@ -53,7 +55,7 @@ public class SanPham {
     }
 
     public void setLinkAnhSP(List<String> linkAnhSP) {
-        LinkAnhSP = linkAnhSP;
+        LinkAnhSP.addAll(linkAnhSP);
     }
 
     public String getTenSP() {
@@ -88,11 +90,11 @@ public class SanPham {
         ThuongHieu = thuongHieu;
     }
 
-    public String getNamSX() {
+    public Integer getNamSX() {
         return NamSX;
     }
 
-    public void setNamSX(String namSX) {
+    public void setNamSX(Integer namSX) {
         NamSX = namSX;
     }
 

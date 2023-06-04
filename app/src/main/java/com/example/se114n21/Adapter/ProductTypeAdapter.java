@@ -66,6 +66,14 @@ public class ProductTypeAdapter extends RecyclerView.Adapter<ProductTypeAdapter.
                 productTypeInterface.onClick(loaiSanPham, "delete");
             }
         });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                productTypeInterface.onClick(loaiSanPham, "pick");
+            }
+        });
+
     }
 
     public class ProductTypeViewHolder extends RecyclerView.ViewHolder {

@@ -25,9 +25,11 @@ import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,15 +57,25 @@ public class ListProductType extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private ProductTypeInterface mProductTypeInterface;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
+//  passing code
+    String code = "";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_list_product_type);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         initUI();
 
+        getCode();
+
         getListProductType();
+    }
+
+    private void getCode() {
+        Intent i = getIntent();
+        code = i.getStringExtra("code");
     }
 
     private void initUI() {
@@ -100,6 +112,15 @@ public class ListProductType extends AppCompatActivity {
                         break;
                     case "delete":
                         deleteProductType(loaiSanPham);
+                        break;
+                    case "pick":
+                        if (code != "") {
+                            Intent intent = new Intent(ListProductType.this, AddProductActivity.class);
+                            intent.putExtra("LSP_ID",loaiSanPham.getMaLSP());
+                            intent.putExtra("LSP_NAME",loaiSanPham.getTenLSP());
+                            setResult(RESULT_OK, intent);
+                            finish();
+                        }
                         break;
                 }
 

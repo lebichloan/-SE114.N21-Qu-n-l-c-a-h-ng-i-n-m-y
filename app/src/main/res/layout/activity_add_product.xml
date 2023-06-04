@@ -98,6 +98,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_nameProduct"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -115,6 +116,7 @@
 
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_MGF"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -135,6 +137,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_brand"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -178,13 +181,26 @@
 
                     </TextView>
 
-                    <Button
-                        android:id="@+id/btn_productType"
-                        android:layout_width="wrap_content"
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_productType"
+                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Loai san pham">
+                        android:layout_marginTop="10dp"
+                        android:hint="Loai san pham"
+                        android:theme="@style/CustomOutlinedBox"
+                        app:endIconMode="clear_text"
+                        app:endIconTint="@color/blue">
 
-                    </Button>
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/edit_productType"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:focusable="false"
+                            >
+
+                        </com.google.android.material.textfield.TextInputEditText>
+                    </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -213,6 +229,7 @@
                     </TextView>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_desc"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -256,6 +273,7 @@
                     </TextView>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_retailPrice"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -263,7 +281,10 @@
                         android:hint="Giá bán lẻ"
                         android:theme="@style/CustomOutlinedBox"
                         app:endIconMode="clear_text"
-                        app:endIconTint="@color/blue">
+                        app:endIconTint="@color/blue"
+                        app:helperText="Đơn vị: VNĐ"
+                        app:helperTextTextColor="@color/orange"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_retailPrice"
@@ -276,6 +297,7 @@
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_costPrice"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -283,7 +305,10 @@
                         android:hint="Giá nhập"
                         android:theme="@style/CustomOutlinedBox"
                         app:endIconMode="clear_text"
-                        app:endIconTint="@color/blue">
+                        app:endIconTint="@color/blue"
+                        app:helperText="Đơn vị: VNĐ"
+                        app:helperTextTextColor="@color/orange"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_costPrice"
@@ -324,6 +349,7 @@
                     </TextView>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_stock"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -371,6 +397,7 @@
                     </TextView>
 
                     <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/layout_commission"
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -378,7 +405,10 @@
                         android:hint="Hoa hồng"
                         android:theme="@style/CustomOutlinedBox"
                         app:endIconMode="clear_text"
-                        app:endIconTint="@color/blue">
+                        app:endIconTint="@color/blue"
+                        app:helperText="Đơn vị: %"
+                        app:helperTextTextColor="@color/orange"
+                        >
 
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/edit_commission"
