@@ -39,10 +39,7 @@ public class Account extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         initUI();
-//        showUserData();
-//        passUserData();
         getUserProfile();
-//        getAccountData();
 
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,8 +56,16 @@ public class Account extends AppCompatActivity {
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                passUserData();
-                startActivity(new Intent(Account.this, AdminProfile.class));
+                FirebaseUser firebaseUser = auth.getCurrentUser();
+                boolean emailVerified = false;
+                if (firebaseUser != null ) {
+                    emailVerified = firebaseUser.isEmailVerified();
+                }
+                if (emailVerified) {
+                    startActivity(new Intent(Account.this, AdminProfile.class));
+                }  else {
+                    startActivity(new Intent(Account.this, NVProfile.class));
+                }
             }
         });
         butEmailNext.setOnClickListener(new View.OnClickListener() {
@@ -98,71 +103,71 @@ public class Account extends AppCompatActivity {
         }
     }
 
-    private void getAccountData() {
-        String userId = auth.getUid();
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
-        Query checkUserDatabase = reference.orderByChild("userId").equalTo(userId);
-
-        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String hoTen = snapshot.child(userId).child("hoTen").getValue(String.class);
-                    String email = snapshot.child(userId).child("email").getValue(String.class);
-                    txtProfile.setText(hoTen);
-                    txtEmail.setText(email);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-    private void showUserData() {
-        Intent intent = getIntent();
-
-        String hoTen = intent.getStringExtra("hoTen");
-        String email = intent.getStringExtra("email");
-//        String password = intent.getStringExtra("Password");
-
-        txtProfile.setText(hoTen);
-        txtEmail.setText(email);
-//        txtPassword.setText(password);
-    }
-
-    public void passUserData() {
-        String email = txtEmail.getText().toString().trim();
-
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
-        Query checkUserDatabase = reference.orderByChild("Email").equalTo(email);
-
-        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String hotenFromDB = snapshot.child(email).child("HoTen").getValue(String.class);
-                    String emailFromDB = snapshot.child(email).child("Email").getValue(String.class);
-                    String passwordFromDB = snapshot.child(email).child("Password").getValue(String.class);
-
-                    Intent intent = new Intent(Account.this, AdminProfile.class);
-
-                    intent.putExtra("HoTen", hotenFromDB);
-                    intent.putExtra("Email", emailFromDB);
-                    intent.putExtra("Password", passwordFromDB);
-
-                    startActivity(intent);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
+//    private void getAccountData() {
+//        String userId = auth.getUid();
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
+//        Query checkUserDatabase = reference.orderByChild("userId").equalTo(userId);
+//
+//        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    String hoTen = snapshot.child(userId).child("hoTen").getValue(String.class);
+//                    String email = snapshot.child(userId).child("email").getValue(String.class);
+//                    txtProfile.setText(hoTen);
+//                    txtEmail.setText(email);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+//    private void showUserData() {
+//        Intent intent = getIntent();
+//
+//        String hoTen = intent.getStringExtra("hoTen");
+//        String email = intent.getStringExtra("email");
+////        String password = intent.getStringExtra("Password");
+//
+//        txtProfile.setText(hoTen);
+//        txtEmail.setText(email);
+////        txtPassword.setText(password);
+//    }
+//
+//    public void passUserData() {
+//        String email = txtEmail.getText().toString().trim();
+//
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
+//        Query checkUserDatabase = reference.orderByChild("Email").equalTo(email);
+//
+//        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()) {
+//                    String hotenFromDB = snapshot.child(email).child("HoTen").getValue(String.class);
+//                    String emailFromDB = snapshot.child(email).child("Email").getValue(String.class);
+//                    String passwordFromDB = snapshot.child(email).child("Password").getValue(String.class);
+//
+//                    Intent intent = new Intent(Account.this, AdminProfile.class);
+//
+//                    intent.putExtra("HoTen", hotenFromDB);
+//                    intent.putExtra("Email", emailFromDB);
+//                    intent.putExtra("Password", passwordFromDB);
+//
+//                    startActivity(intent);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//    }
+//
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         avata = findViewById(R.id.avata);
@@ -174,6 +179,5 @@ public class Account extends AppCompatActivity {
         butEmailNext = findViewById(R.id.butEmailNext);
         butPasswordNext = findViewById(R.id.butPasswordNext);
         butLogout = findViewById(R.id.butLogout);
-
     }
 }
