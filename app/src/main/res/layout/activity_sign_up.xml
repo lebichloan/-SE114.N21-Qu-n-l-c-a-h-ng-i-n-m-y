@@ -173,16 +173,38 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
 
-    <TextView
-        android:id="@+id/textViewLogin"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Bạn đã có tài khoản? Đăng nhập"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"
-        android:layout_gravity="end"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"/>
+        android:orientation="horizontal"
+        android:layout_gravity="right"
+        android:paddingTop="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bạn đã có tài khoản? "
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+
+        <TextView
+            android:id="@+id/textViewLogin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:text="Đăng nhập"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_marginVertical="10dp"
+            android:layout_gravity="end"
+            android:clickable="true"
+            android:foreground="?android:attr/selectableItemBackground"/>
+
+    </LinearLayout>
 
 </LinearLayout>

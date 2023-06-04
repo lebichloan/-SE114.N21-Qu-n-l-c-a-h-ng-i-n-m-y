@@ -103,6 +103,8 @@ public class SignUp extends AppCompatActivity {
                                 // Update profile
                                 UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(hoTen)
+                                        // Update avata
+                                        //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
                                         .build();
 
                                 user.updateProfile(profileUpdate)
@@ -114,10 +116,11 @@ public class SignUp extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                database = FirebaseDatabase.getInstance();
-                                reference = database.getReference("Account");
-                                Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
-                                reference.child(userId).setValue(account);
+//                                ??y data l?n firebase realtime
+//                                database = FirebaseDatabase.getInstance();
+//                                reference = database.getReference("Account");
+//                                Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
+//                                reference.child(userId).setValue(account);
 
                             } else {
                                 Toast.makeText(SignUp.this, "Sign up failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
