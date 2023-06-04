@@ -1,6 +1,8 @@
 package com.example.se114n21.ViewModels;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
@@ -22,6 +24,8 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -37,6 +41,7 @@ public class SignUp extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseDatabase database;
     DatabaseReference reference;
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,9 @@ public class SignUp extends AppCompatActivity {
 
         initUI();
         auth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
 
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,41 +64,67 @@ public class SignUp extends AppCompatActivity {
         butSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                database = FirebaseDatabase.getInstance();
-                reference = database.getReference("Account");
 
-                String userId = "";
-                String linkAvata = "";
-                String hoTen = txtHoTen.getText().toString().trim();
                 String email = txtEmail.getText().toString().trim();
-                String phanQuyen = "admin";
-                String passwword = txtPassword.getText().toString().trim();
-
-                Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
-                reference.child(userId).setValue("Account");
+                String password = txtPassword.getText().toString().trim();
 
                 if (email.isEmpty()) {
+                    Toast.makeText(SignUp.this, "Vui l?ng nh?p v?o ??a ch? email", Toast.LENGTH_SHORT).show();
                     txtEmail.setError("Email can not be empty");
+                    txtEmail.requestFocus();
                 }
-                if (passwword.isEmpty()) {
+                if (password.isEmpty()) {
+                    Toast.makeText(SignUp.this, "Vui l?ng nh?p v?o m?t kh?u", Toast.LENGTH_SHORT).show();
                     txtPassword.setError("Password can not be empty");
+                    txtEmail.requestFocus();
                 } else {
-                    auth.createUserWithEmailAndPassword(email, passwword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                Toast.makeText(SignUp.this, "You are sign up succesfully", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(SignUp.this, Login.class));
+                                String userId = auth.getUid();
+//                                Update avata
+//                                Uri linkAvata =
+                                String hoTen = txtHoTen.getText().toString().trim();
+//                                S? d?ng bi?n x?c nh?n email ?? ph?n quy?n
+//                                String phanQuyen = "admin";
+
+                                FirebaseUser user = auth.getCurrentUser();
+                                // G?i email x?c th?c
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    startActivity(new Intent(SignUp.this, SignUpSucess.class));
+                                                }
+                                            }
+                                        });
+                                // Update profile
+                                UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(hoTen)
+                                        .build();
+
+                                user.updateProfile(profileUpdate)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Update success
+                                                }
+                                            }
+                                        });
+                                database = FirebaseDatabase.getInstance();
+                                reference = database.getReference("Account");
+                                Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
+                                reference.child(userId).setValue(account);
+
                             } else {
                                 Toast.makeText(SignUp.this, "Sign up failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
                 }
-
-//                Toast.makeText(SignUp.this, "You have signup successfully", Toast.LENGTH_SHORT).show();
-//                Intent intent = new Intent(SignUp.this, Login.class);
-//                startActivity(intent);
             }
         });
 
