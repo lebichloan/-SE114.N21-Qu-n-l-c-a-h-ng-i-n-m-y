@@ -42,6 +42,7 @@ public class Account extends AppCompatActivity {
 //        showUserData();
 //        passUserData();
         getUserProfile();
+//        getAccountData();
 
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -92,26 +93,43 @@ public class Account extends AppCompatActivity {
             String uid = firebaseUser.getUid();
             boolean emailVerified = firebaseUser.isEmailVerified();
 
-            txtProfile.setText(uid);
+            txtProfile.setText(name);
             txtEmail.setText(email);
         }
     }
 
     private void getAccountData() {
-        DatabaseReference mDatabase;
-        mDatabase = FirebaseDatabase.getInstance().getReference();
+        String userId = auth.getUid();
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
+        Query checkUserDatabase = reference.orderByChild("userId").equalTo(userId);
 
+        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String hoTen = snapshot.child(userId).child("hoTen").getValue(String.class);
+                    String email = snapshot.child(userId).child("email").getValue(String.class);
+                    txtProfile.setText(hoTen);
+                    txtEmail.setText(email);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
     private void showUserData() {
         Intent intent = getIntent();
 
-        String hoTen = intent.getStringExtra("HoTen");
-        String email = intent.getStringExtra("Email");
-        String password = intent.getStringExtra("Password");
+        String hoTen = intent.getStringExtra("hoTen");
+        String email = intent.getStringExtra("email");
+//        String password = intent.getStringExtra("Password");
 
         txtProfile.setText(hoTen);
         txtEmail.setText(email);
-        txtPassword.setText(password);
+//        txtPassword.setText(password);
     }
 
     public void passUserData() {
