@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.se114n21.R;
@@ -24,7 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Account extends AppCompatActivity {
 
-    ShapeableImageView avata;
+    ImageView avata;
     ImageButton butCamera;
     TextView txtProfile, txtEmail, txtPassword;
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
