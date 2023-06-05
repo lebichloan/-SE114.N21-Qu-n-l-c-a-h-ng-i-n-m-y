@@ -46,16 +46,6 @@
                     android:background="@drawable/background_image"
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
-                <ImageButton
-                    android:id="@+id/butCamera"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_gravity="right|bottom"
-                    android:background="@drawable/background_image"
-                    android:elevation="6dp"
-                    android:scaleType="centerInside"
-                    android:src="@drawable/camera" />
-
             </FrameLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
 

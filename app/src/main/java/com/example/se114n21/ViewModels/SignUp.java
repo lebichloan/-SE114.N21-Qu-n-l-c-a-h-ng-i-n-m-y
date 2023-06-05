@@ -45,7 +45,6 @@ public class SignUp extends AppCompatActivity {
 
     ImageButton butBack;
     ImageView avata;
-    ImageButton butCamera;
     String linkAvata;
     Uri uri;
     EditText txtHoTen, txtEmail, txtPassword;
@@ -124,6 +123,7 @@ public class SignUp extends AppCompatActivity {
                                 String userId = auth.getUid();
 //                                Update avata
 //                                Uri linkAvata =
+                                Uri urlImage = null;
                                 String hoTen = txtHoTen.getText().toString().trim();
 //                                S? d?ng bi?n x?c nh?n email ?? ph?n quy?n
                                 String phanQuyen = "admin";
@@ -136,22 +136,6 @@ public class SignUp extends AppCompatActivity {
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
                                                     startActivity(new Intent(SignUp.this, SignUpSucess.class));
-                                                }
-                                            }
-                                        });
-                                // Update profile
-                                UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(hoTen)
-                                        // Update avata
-                                        //.setPhotoUri(Uri.parse("https://example.com/jane-q-user/profile.jpg"))
-                                        .build();
-
-                                user.updateProfile(profileUpdate)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    // Update success
                                                 }
                                             }
                                         });
@@ -203,6 +187,23 @@ public class SignUp extends AppCompatActivity {
 //                                reference = database.getReference("Account");
 //                                Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
 //                                reference.child(userId).setValue(account);
+                                
+                                // Update profile
+                                UserProfileChangeRequest profileUpdate = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(hoTen)
+                                        // Update avata
+                                        .setPhotoUri(urlImage)
+                                        .build();
+
+                                user.updateProfile(profileUpdate)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    // Update success
+                                                }
+                                            }
+                                        });
 
                             } else {
                                 Toast.makeText(SignUp.this, "Sign up failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
@@ -255,44 +256,9 @@ public class SignUp extends AppCompatActivity {
 
     }
 
-    public void saveData() {
-        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Account")
-                .child(uri.getLastPathSegment());
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
-        builder.setCancelable(false);
-        builder.setView(R.layout.dialog_loading);
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-                while (!uriTask.isComplete());
-                Uri urlImage = uriTask.getResult();
-                linkAvata = urlImage.toString();
-                uploadData();
-                dialog.dismiss();
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                dialog.dismiss();
-            }
-        });
-    }
-
-    public void uploadData() {
-        String hoten = txtHoTen.getText().toString();
-        String email = txtEmail.getText().toString();
-        String phanQuyen = "admin";
-    }
-
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         avata = findViewById(R.id.avata);
-        butCamera = findViewById(R.id.butCamera);
         txtHoTen = findViewById(R.id.txtHoTen);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);

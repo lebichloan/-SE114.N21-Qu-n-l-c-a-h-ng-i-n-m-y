@@ -1,8 +1,13 @@
 package com.example.se114n21.ViewModels;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,6 +16,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.se114n21.R;
 import com.google.android.material.imageview.ShapeableImageView;
@@ -26,7 +32,7 @@ import com.google.firebase.database.ValueEventListener;
 public class Account extends AppCompatActivity {
 
     ImageView avata;
-    ImageButton butCamera;
+    Uri uri;
     TextView txtProfile, txtEmail, txtPassword;
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
     ImageButton butBack;
@@ -48,12 +54,32 @@ public class Account extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        butCamera.setOnClickListener(new View.OnClickListener() {
+
+        ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            uri = data.getData();
+                            avata.setImageURI(uri);
+                        } else {
+                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                }
+        );
+
+        avata.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Intent photoPicker = new Intent(Intent.ACTION_PICK);
+                photoPicker.setType("image/*");
+                activityResultLauncher.launch(photoPicker);
             }
         });
+
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -172,7 +198,6 @@ public class Account extends AppCompatActivity {
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         avata = findViewById(R.id.avata);
-        butCamera = findViewById(R.id.butCamera);
         txtProfile = findViewById(R.id.txtProfile);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
