@@ -54,6 +54,8 @@
         android:padding="20dp"
         android:singleLine="true"
         android:textColor="@android:color/black"
+        android:drawableStart="@drawable/ic_email"
+        android:drawablePadding="10dp"
         tools:ignore="VisualLintTextFieldSize" />
 
     <View
@@ -78,6 +80,8 @@
             android:singleLine="true"
             android:textColor="@android:color/black"
             app:layout_constraintTop_toTopOf="parent"
+            android:drawableStart="@drawable/ic_lock"
+            android:drawablePadding="10dp"
             tools:ignore="VisualLintTextFieldSize" />
 
         <ImageButton
