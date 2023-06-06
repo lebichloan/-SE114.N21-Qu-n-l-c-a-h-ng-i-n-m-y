@@ -4,12 +4,14 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -19,10 +21,11 @@ import android.widget.Toast;
 
 import com.example.se114n21.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
-public class NVMain extends AppCompatActivity {
+public class AdminMain extends AppCompatActivity {
 
     ImageView avata;
     Uri uri;
@@ -35,30 +38,35 @@ public class NVMain extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_nvmain);
+        setContentView(R.layout.activity_admin_main);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationAdminView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_account);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.bottom_khachHang:
-                    startActivity(new Intent(getApplicationContext(), QLKhachHang.class));
+                case R.id.bottom_admin_khachHang:
+                    startActivity(new Intent(getApplicationContext(), admin_QLKhachHang.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;
-                case R.id.bottom_sanPham:
-                    startActivity(new Intent(getApplicationContext(), QLSanPham.class));
+                case R.id.bottom_admin_sanPham:
+                    startActivity(new Intent(getApplicationContext(), admin_QLSanPham.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;
-                case R.id.bottom_hoaDon:
-                    startActivity(new Intent(getApplicationContext(), QLHoaDon.class));
+                case R.id.bottom_admin_hoaDon:
+                    startActivity(new Intent(getApplicationContext(), admin_QLHoaDon.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
                     return true;
-                case R.id.bottom_account:
-//                    startActivity(new Intent(getApplicationContext(), NVMain.class));
+                case R.id.bottom_admin_nhanVien:
+                    startActivity(new Intent(getApplicationContext(), admin_QLNhanVien.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_admin_account:
+//                    startActivity(new Intent(getApplicationContext(), Account.class));
 //                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
 //                    finish();
                     return true;
@@ -87,7 +95,7 @@ public class NVMain extends AppCompatActivity {
                             uri = data.getData();
                             avata.setImageURI(uri);
                         } else {
-                            Toast.makeText(NVMain.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminMain.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -111,29 +119,29 @@ public class NVMain extends AppCompatActivity {
                     emailVerified = firebaseUser.isEmailVerified();
                 }
                 if (emailVerified) {
-                    startActivity(new Intent(NVMain.this, AdminProfile.class));
+                    startActivity(new Intent(AdminMain.this, AdminProfile.class));
                 }  else {
-                    startActivity(new Intent(NVMain.this, NVProfile.class));
+                    startActivity(new Intent(AdminMain.this, NVProfile.class));
                 }
             }
         });
         butEmailNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NVMain.this, ChangeEmail.class));
+                startActivity(new Intent(AdminMain.this, ChangeEmail.class));
             }
         });
         butPasswordNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(NVMain.this, ChangePassword.class));
+                startActivity(new Intent(AdminMain.this, ChangePassword.class));
             }
         });
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 auth.signOut();
-                startActivity(new Intent(NVMain.this, Login.class));
+                startActivity(new Intent(AdminMain.this, Login.class));
             }
         });
 
