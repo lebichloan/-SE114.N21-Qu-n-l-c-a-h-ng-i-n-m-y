@@ -20,11 +20,6 @@ public class admin_QLHoaDon extends AppCompatActivity {
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){
-                case R.id.bottom_admin_home:
-                    startActivity(new Intent(getApplicationContext(), AdminMain.class));
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
-                    finish();
-                    return true;
                 case R.id.bottom_admin_khachHang:
                     startActivity(new Intent(getApplicationContext(), admin_QLKhachHang.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
@@ -43,7 +38,7 @@ public class admin_QLHoaDon extends AppCompatActivity {
                     finish();
                     return true;
                 case R.id.bottom_admin_account:
-                    startActivity(new Intent(getApplicationContext(), Account.class));
+                    startActivity(new Intent(getApplicationContext(), AdminMain.class));
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                     finish();
             }
