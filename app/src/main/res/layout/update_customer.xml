@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Cập nhật thông tin khách hàng"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Họ và tên"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edt_name"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#EE786C"
+        android:textColor="@color/white"
+        android:hint="Nhập họ và tên"
+        android:textSize="18sp"
+        android:textColorHint="#44FDFDFD"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Số điện thoại"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+    <EditText
+        android:id="@+id/edt_sdt"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#EE786C"
+        android:textColor="@color/white"
+        android:hint="Nhập số điện thoại"
+        android:textSize="18sp"
+        android:textColorHint="#44FDFDFD"
+        android:textStyle="bold"></EditText>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Địa chỉ"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edt_address"
+        android:layout_width="380dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#EE786C"
+        android:hint="Nhập địa chỉ"
+        android:textColor="@color/white"
+        android:textColorHint="#44FDFDFD"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:gravity="top"></EditText>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edt_email"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#EE786C"
+        android:textColor="@color/white"
+        android:hint="Nhập email"
+        android:textSize="18sp"
+        android:textColorHint="#44FDFDFD"
+        android:textStyle="bold"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Loại khách hàng"
+        android:textColor="@color/black"
+        android:background="@color/white"
+        android:textSize="18dp"
+        android:textStyle="bold"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp">
+    </TextView>
+
+    <EditText
+        android:id="@+id/edt_loaikh"
+        android:layout_width="380dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#EE786C"
+        android:textColor="@color/white"
+        android:hint="Nhập loại khách hàng"
+        android:textSize="18sp"
+        android:textColorHint="#44FDFDFD"
+        android:textStyle="bold"/>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center">
+        <Button
+            android:id="@+id/cancelupdatecustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:width="150dp"
+            android:text="HUỶ"
+            android:height="55dp"
+            android:background="@drawable/add_button"
+            />
+        <Button
+            android:id="@+id/updatecustomer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="30dp"
+            android:layout_marginStart="30dp"
+            android:width="150dp"
+            android:text="CẬP NHẬT"
+            android:height="55dp"
+            android:background="@drawable/add_button"
+            android:layout_toRightOf="@id/cancelupdatecustomer"
+            />
+    </RelativeLayout>
+
+
+</LinearLayout>
