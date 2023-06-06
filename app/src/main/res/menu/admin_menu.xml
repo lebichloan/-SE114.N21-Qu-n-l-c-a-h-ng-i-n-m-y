@@ -23,12 +23,13 @@
 
     <item
         android:id="@+id/bottom_nhanVien"
-        android:icon="@drawable/ic_setting"
-        android:title="Hóa đơn"/>
+        android:icon="@drawable/ic_account"
+        android:title="Nhân viên"/>
 
     <item
         android:id="@+id/bottom_account"
-        android:icon="@drawable/ic_person"
+        android:icon="@drawable/ic_account"
         android:title="Tài khoản"/>
+
 
 </menu>
