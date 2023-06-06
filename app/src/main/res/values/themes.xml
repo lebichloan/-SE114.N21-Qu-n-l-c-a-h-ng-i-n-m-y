@@ -8,6 +8,20 @@
         <!-- Customize your theme here. -->
     </style>
 
+    <style name="CustomOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorPrimary">@color/blue</item>
+    </style>
 
+    <style name="ButtonCancel" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/gray_button</item>
+    </style>
+
+    <style name="ButtonEditProductType" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/orange</item>
+    </style>
+
+    <style name="ButtonDeleteProductType" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/red</item>
+    </style>
 
 </resources>

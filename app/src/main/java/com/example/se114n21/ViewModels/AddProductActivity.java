@@ -4,12 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,9 +15,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.Toast;
-
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -30,8 +26,6 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.example.se114n21.Adapter.ImageAdapter;
 import com.example.se114n21.Adapter.ImageSliderAdapter;
 import com.example.se114n21.Models.IdGenerator;
@@ -39,11 +33,8 @@ import com.example.se114n21.Models.KhoHang;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
-import com.google.android.gms.auth.api.signin.internal.Storage;
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -52,18 +43,15 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.smarteist.autoimageslider.IndicatorView.animation.type.IndicatorAnimationType;
-import com.smarteist.autoimageslider.SliderAnimations;
 import com.smarteist.autoimageslider.SliderView;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicMarkableReference;
+import java.util.Locale;
 
 public class AddProductActivity extends AppCompatActivity {
     private Button btn_AddImage, btn_SaveProduct;
@@ -82,11 +70,6 @@ public class AddProductActivity extends AppCompatActivity {
     private ImageAdapter mImageAdapter;
     private List<Uri> mListUri;
 
-    private SliderView sliderView;
-    private List<String> mListImageSlider;
-    private ImageSliderAdapter mImageSliderAdapter;
-
-    private ImageView imageView;
 
 //    passing
     LoaiSanPham loaiSanPhamPicked = null;
@@ -150,6 +133,7 @@ public class AddProductActivity extends AppCompatActivity {
                 });
 
         initUI();
+        textChangeListener();
 
         btn_AddImage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,9 +154,195 @@ public class AddProductActivity extends AppCompatActivity {
         btn_SaveProduct.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                checkValid();
-                progressDialog.show();
-                getmaxId();
+                if (checkValid()) {
+                    progressDialog.show();
+                    getmaxId();
+                }
+            }
+        });
+    }
+
+    private boolean checkValid() {
+        boolean isValid = true;
+
+        if (edit_Name.getText().toString().equals("")) {
+            layout_Name.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+        if (edit_Brand.getText().toString().equals("")) {
+            layout_Brand.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+        if (edit_MGF.getText().toString().equals("")) {
+            layout_MGF.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+        if (edit_RetailPrice.getText().toString().equals("")) {
+            layout_RetailPrice.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+        if (edit_CostPrice.getText().toString().equals("")) {
+            layout_CostPrice.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+
+        if (edit_Stock.getText().toString().equals("")) {
+            layout_Stock.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+
+        if (edit_Commission.getText().toString().equals("")) {
+            layout_Commission.setError("* Khong duoc bo trong");
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    private void textChangeListener() {
+        edit_Name.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_Name.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_MGF.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_MGF.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_Brand.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_Brand.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_RetailPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_RetailPrice.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_CostPrice.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_CostPrice.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_Stock.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_Stock.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edit_Commission.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String str = charSequence.toString();
+                if (str.length() > 0) {
+                    layout_Commission.setError("");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
             }
         });
     }
@@ -184,6 +354,9 @@ public class AddProductActivity extends AppCompatActivity {
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
                 Toast.makeText(AddProductActivity.this, "Upload Product Successfully!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AddProductActivity.this, ListProduct.class);
+                setResult(RESULT_OK, intent);
+                finish();
             }
         });
 
@@ -249,11 +422,13 @@ public class AddProductActivity extends AppCompatActivity {
 
         sanPham.setMota(edit_Desc.getText().toString().trim());
 
-        sanPham.setGiaBan((double) Integer.parseInt(edit_RetailPrice.getText().toString().trim()));
+        sanPham.setGiaBan(Integer.parseInt(edit_RetailPrice.getText().toString().trim()));
 
-        sanPham.setGiaNhap((double) Integer.parseInt(edit_CostPrice.getText().toString().trim()));
+        sanPham.setGiaNhap(Integer.parseInt(edit_CostPrice.getText().toString().trim()));
 
-        sanPham.setHoaHong((double) Integer.parseInt(edit_Commission.getText().toString().trim()) / 100);
+        sanPham.setHoaHong((double) Integer.parseInt(edit_Commission.getText().toString().trim()));
+
+        sanPham.setSoLuong(Integer.parseInt(edit_Stock.getText().toString().trim()));
 
         KhoHang khoHang = new KhoHang(ID, Long.parseLong(edit_Stock.getText().toString().trim()));
 
@@ -299,9 +474,6 @@ public class AddProductActivity extends AppCompatActivity {
         return mime.getExtensionFromMimeType(cr.getType(mUri));
     }
 
-    private void checkValid() {
-    }
-
     private void openGallery() {
         Intent intent= new Intent();
         intent.setType("image/*");
@@ -315,27 +487,6 @@ public class AddProductActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Please wait!");
-
-
-//        SLIDER VIEW
-//        sliderView = findViewById(R.id.sliderview_add_product);
-//
-//        mListImageSlider = new ArrayList<>();
-//
-//        mListImageSlider.add("https://plus.unsplash.com/premium_photo-1675019222084-1be97a344202?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=502&q=80");
-//        mListImageSlider.add("https://images.unsplash.com/photo-1684388021048-b0a9f52a8a80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80");
-//        mListImageSlider.add("https://images.unsplash.com/photo-1685519318525-4e0689672391?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80");
-//        mListImageSlider.add("https://images.unsplash.com/photo-1661956600655-e772b2b97db4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80");
-//        mListImageSlider.add("https://images.unsplash.com/photo-1685268960236-024737840fa7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=435&q=80");
-//
-//        mImageSliderAdapter = new ImageSliderAdapter(this, mListImageSlider);
-//
-//        sliderView.setSliderAdapter(mImageSliderAdapter);
-//
-//        sliderView.setIndicatorAnimation(IndicatorAnimationType.FILL);
-//        sliderView.setSliderTransformAnimation(SliderAnimations.SIMPLETRANSFORMATION);
-//
-//        mImageSliderAdapter.notifyDataSetChanged();
 
 
 

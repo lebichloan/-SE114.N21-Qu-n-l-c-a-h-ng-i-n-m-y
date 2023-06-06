@@ -36,10 +36,11 @@ public class ImageSliderAdapter extends SliderViewAdapter<ImageSliderAdapter.Ima
             return;
         }
 
-//        Toast.makeText(mContext, "co ne", Toast.LENGTH_SHORT).show();
 
         Glide.with(mContext)
                 .load(str)
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.mipmap.ic_launcher)
                 .into(holder.imgSlider);
     }
 

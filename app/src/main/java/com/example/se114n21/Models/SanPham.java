@@ -8,19 +8,29 @@ public class SanPham {
     private String MaLSP;
     private List<String> LinkAnhSP;
     private String TenSP;
-    private Double GiaNhap;
-    private Double GiaBan;
+    private Integer GiaNhap;
+    private Integer GiaBan;
     private String ThuongHieu;
     private Integer NamSX;
     private List<ThuocTinh> DSThuocTinh;
     private String Mota;
     private Double HoaHong;
 
+    private Integer SoLuong;
+
     public SanPham() {
         LinkAnhSP = new ArrayList<>();
     }
 
-    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Double giaNhap, Double giaBan, String thuongHieu, Integer namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong) {
+    public Integer getSoLuong() {
+        return SoLuong;
+    }
+
+    public void setSoLuong(Integer soLuong) {
+        SoLuong = soLuong;
+    }
+
+    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Integer giaNhap, Integer giaBan, String thuongHieu, Integer namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong, Integer soLuong) {
         MaSP = maSP;
         MaLSP = maLSP;
         LinkAnhSP = linkAnhSP;
@@ -32,6 +42,7 @@ public class SanPham {
         this.DSThuocTinh = DSThuocTinh;
         Mota = mota;
         HoaHong = hoaHong;
+        SoLuong = soLuong;
     }
 
     public String getMaSP() {
@@ -66,19 +77,19 @@ public class SanPham {
         TenSP = tenSP;
     }
 
-    public Double getGiaNhap() {
+    public Integer getGiaNhap() {
         return GiaNhap;
     }
 
-    public void setGiaNhap(Double giaNhap) {
+    public void setGiaNhap(Integer giaNhap) {
         GiaNhap = giaNhap;
     }
 
-    public Double getGiaBan() {
+    public Integer getGiaBan() {
         return GiaBan;
     }
 
-    public void setGiaBan(Double giaBan) {
+    public void setGiaBan(Integer giaBan) {
         GiaBan = giaBan;
     }
 
