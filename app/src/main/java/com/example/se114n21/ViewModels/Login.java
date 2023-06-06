@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -35,20 +36,20 @@ public class Login extends AppCompatActivity {
     ImageButton eyeButton;
     Button butLogin;
     FirebaseAuth auth;
-    ProgressBar processBar;
-    TextView textViewForgotPassword;
+    TextView textViewForgotPassword, textViewSignUp;
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
         auth = FirebaseAuth.getInstance();
-        butBack = findViewById(R.id.butBack);
-        txtEmail = findViewById(R.id.txtEmail);
-        txtPassword = findViewById(R.id.txtPassword);
-        eyeButton = findViewById(R.id.eyeButton);
-        butLogin = findViewById(R.id.butLogin);
-        textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
+        initUI();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setTitle("Please wait");
+        progressDialog.setCanceledOnTouchOutside(false);
+
 
         // Ki?m tra user ?? ??ng nh?p hay ch?a
         // ??nh d?u ch? c?a h?ng v?i nh?n vi?n b?ng vi?c verified email
@@ -76,8 +77,19 @@ public class Login extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(Login.this, "Login Sucessful", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(Login.this, Account.class));
+                                        Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
+                                        FirebaseUser firebaseUser = auth.getCurrentUser();
+                                        boolean emailVerified = false;
+                                        if (firebaseUser != null ) {
+                                            emailVerified = firebaseUser.isEmailVerified();
+                                        }
+                                        if (emailVerified) {
+                                            startActivity(new Intent(Login.this, AdminMain.class));
+                                        }  else {
+                                            startActivity(new Intent(Login.this, NVMain.class));
+                                        }
+
+//                                        startActivity(new Intent(Login.this, Account.class));
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -87,20 +99,33 @@ public class Login extends AppCompatActivity {
                                     }
                                 });
                     } else {
+                        Toast.makeText(Login.this, "Vui l?ng nh?p v?o m?t kh?u", Toast.LENGTH_SHORT).show();
                         txtPassword.setError("Password canot be empty");
+                        txtPassword.requestFocus();
                     }
                 } else if (email.isEmpty()) {
+                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email", Toast.LENGTH_SHORT).show();
                     txtEmail.setError("Email cannot be empty");
+                    txtEmail.requestFocus();
                 } else {
+                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email h?p l?", Toast.LENGTH_SHORT).show();
                     txtEmail.setError("Please enter valid email");
+                    txtEmail.requestFocus();
                 }
-
             }
         });
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, ForgotPassword.class));
+                finish();
+            }
+        });
+
+        textViewSignUp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(Login.this, SignUp.class));
                 finish();
             }
         });
@@ -137,6 +162,16 @@ public class Login extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void initUI() {
+        butBack = findViewById(R.id.butBack);
+        txtEmail = findViewById(R.id.txtEmail);
+        txtPassword = findViewById(R.id.txtPassword);
+        eyeButton = findViewById(R.id.eyeButton);
+        butLogin = findViewById(R.id.butLogin);
+        textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
+        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
 
 }

@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:paddingHorizontal="17dp"
     android:background="@color/white"
-    tools:context=".ViewModels.Login">
+    tools:context=".ViewModels.SignUp">
 
     <View
         android:layout_width="match_parent"
@@ -28,9 +28,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="30dp"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp"
-            android:text="Đăng nhập"
+            android:text="Đăng ký"
             android:gravity="center"
             android:textSize="35sp"
             android:textStyle="bold"
@@ -38,9 +38,59 @@
 
     </RelativeLayout>
 
+<!--    <View-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="15dp" />-->
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/avata"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:padding="2dp"
+                android:src="@drawable/ic_upload"
+                android:background="@drawable/background_image"
+                app:shapeAppearanceOverlay="@style/circleImageView" />
+
+        </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
     <View
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="15dp" />
+
+    <EditText
+        android:id="@+id/txtHoTen"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_edit_text"
+        android:ellipsize="end"
+        android:hint="Họ tên"
+        android:inputType="text"
+        android:maxLines="1"
+        android:padding="20dp"
+        android:singleLine="true"
+        android:textColor="@android:color/black"
+        android:drawableStart="@drawable/ic_person"
+        android:drawablePadding="10dp"
+        tools:ignore="VisualLintTextFieldSize" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
 
     <EditText
         android:id="@+id/txtEmail"
@@ -60,7 +110,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="15dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -100,29 +150,17 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <TextView
-        android:id="@+id/textViewForgotPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Quên mật khẩu?"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_marginVertical="10dp"
-        android:layout_gravity="end"
-        android:clickable="true"
-        android:foreground="?android:attr/selectableItemBackground"/>
-
     <View
         android:layout_width="match_parent"
         android:layout_height="20dp" />
 
     <Button
-        android:id="@+id/butLogin"
+        android:id="@+id/butSignUp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/background_button"
         android:layout_marginBottom="4dp"
-        android:text="ĐĂNG NHẬP"
+        android:text="ĐĂNG KÝ"
         android:textColor="@color/white"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -141,7 +179,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bạn chưa có tài khoản? "
+            android:text="Bạn đã có tài khoản? "
             android:textSize="18dp"
             android:textColor="@color/black"
             android:layout_marginVertical="10dp"
@@ -151,11 +189,11 @@
 
 
         <TextView
-            android:id="@+id/textViewSignUp"
+            android:id="@+id/textViewLogin"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textStyle="bold"
-            android:text="Đăng ký"
+            android:text="Đăng nhập"
             android:textSize="18dp"
             android:textColor="@color/black"
             android:layout_marginVertical="10dp"
@@ -164,6 +202,5 @@
             android:foreground="?android:attr/selectableItemBackground"/>
 
     </LinearLayout>
-
 
 </LinearLayout>

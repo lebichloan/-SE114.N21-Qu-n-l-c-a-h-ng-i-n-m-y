@@ -4,7 +4,6 @@ import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -19,17 +18,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.R;
-import com.google.android.material.imageview.ShapeableImageView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-public class Account extends AppCompatActivity {
+public class NVMain extends AppCompatActivity {
 
     ImageView avata;
     Uri uri;
@@ -42,7 +35,36 @@ public class Account extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_account);
+        setContentView(R.layout.activity_nvmain);
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_account);
+
+        bottomNavigationView.setOnItemSelectedListener(item -> {
+            switch (item.getItemId()){
+                case R.id.bottom_khachHang:
+                    startActivity(new Intent(getApplicationContext(), QLKhachHang.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_sanPham:
+                    startActivity(new Intent(getApplicationContext(), QLSanPham.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_hoaDon:
+                    startActivity(new Intent(getApplicationContext(), QLHoaDon.class));
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    finish();
+                    return true;
+                case R.id.bottom_account:
+//                    startActivity(new Intent(getApplicationContext(), NVMain.class));
+//                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+//                    finish();
+                    return true;
+            }
+            return false;
+        });
 
         auth = FirebaseAuth.getInstance();
         initUI();
@@ -65,7 +87,7 @@ public class Account extends AppCompatActivity {
                             uri = data.getData();
                             avata.setImageURI(uri);
                         } else {
-                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(NVMain.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -89,31 +111,32 @@ public class Account extends AppCompatActivity {
                     emailVerified = firebaseUser.isEmailVerified();
                 }
                 if (emailVerified) {
-                    startActivity(new Intent(Account.this, AdminProfile.class));
+                    startActivity(new Intent(NVMain.this, AdminProfile.class));
                 }  else {
-                    startActivity(new Intent(Account.this, NVProfile.class));
+                    startActivity(new Intent(NVMain.this, NVProfile.class));
                 }
             }
         });
         butEmailNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Account.this, ChangeEmail.class));
+                startActivity(new Intent(NVMain.this, ChangeEmail.class));
             }
         });
         butPasswordNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Account.this, ChangePassword.class));
+                startActivity(new Intent(NVMain.this, ChangePassword.class));
             }
         });
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 auth.signOut();
-                startActivity(new Intent(Account.this, Login.class));
+                startActivity(new Intent(NVMain.this, Login.class));
             }
         });
+
     }
 
     private void getUserProfile() {
@@ -130,7 +153,7 @@ public class Account extends AppCompatActivity {
         }
     }
 
-//    private void getAccountData() {
+    //    private void getAccountData() {
 //        String userId = auth.getUid();
 //        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
 //        Query checkUserDatabase = reference.orderByChild("userId").equalTo(userId);
@@ -206,4 +229,5 @@ public class Account extends AppCompatActivity {
         butPasswordNext = findViewById(R.id.butPasswordNext);
         butLogout = findViewById(R.id.butLogout);
     }
+
 }
