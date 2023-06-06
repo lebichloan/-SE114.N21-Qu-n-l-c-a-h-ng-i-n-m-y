@@ -3,27 +3,27 @@
 
     <item
         android:id="@+id/bottom_admin_khachHang"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_customer"
         android:title="Khách hàng"/>
 
     <item
         android:id="@+id/bottom_admin_sanPham"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_storefront"
         android:title="Sản phẩm"/>
 
     <item
         android:id="@+id/bottom_admin_hoaDon"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_add_shopping_cart"
         android:title="Hóa đơn"/>
 
     <item
         android:id="@+id/bottom_admin_nhanVien"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_manage_accounts"
         android:title="Nhân viên"/>
 
     <item
         android:id="@+id/bottom_admin_account"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_person"
         android:title="Tài khoản"/>
 
 </menu>
