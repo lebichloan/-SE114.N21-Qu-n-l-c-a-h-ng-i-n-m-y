@@ -84,7 +84,7 @@ public class Login extends AppCompatActivity {
                                             emailVerified = firebaseUser.isEmailVerified();
                                         }
                                         if (emailVerified) {
-                                            startActivity(new Intent(Login.this, AdminMain.class));
+//                                            startActivity(new Intent(Login.this, AdminMain.class));
                                         }  else {
                                             startActivity(new Intent(Login.this, NVMain.class));
                                         }
