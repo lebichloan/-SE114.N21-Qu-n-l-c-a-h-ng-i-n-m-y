@@ -22,6 +22,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
     IclickListener iclickListener;
     public interface IclickListener{
         void OnClickUpdateitem(KhachHang kh);
+        void OnClickDeleteitem(KhachHang kh);
     }
     public AdapterCustomer(List<KhachHang> listcustomer, IclickListener iclickListener) {
         this.listcustomer = listcustomer;
@@ -50,6 +51,12 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
                 iclickListener.OnClickUpdateitem(kh);
             }
         });
+        holder.delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iclickListener.OnClickDeleteitem(kh);
+            }
+        });
     }
 
 
@@ -67,6 +74,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
         private TextView tvname;
 
         private Button edit;
+        private Button delete;
         public CustomerViewHolder(@NonNull View item)
         {
             super(item);
@@ -77,6 +85,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
             tvid = itemView.findViewById(R.id.tv_makh);
             tvname = itemView.findViewById(R.id.tv_name);
             edit = itemView.findViewById(R.id.update_customer_button);
+            delete = itemView.findViewById(R.id.delete_customer_button);
         }
     }
 }

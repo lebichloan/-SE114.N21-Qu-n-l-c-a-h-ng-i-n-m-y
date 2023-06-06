@@ -1,6 +1,8 @@
 package com.example.se114n21.ViewModels;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
@@ -68,9 +70,33 @@ public class CustomerActivity extends AppCompatActivity {
             public void OnClickUpdateitem(KhachHang kh) {
                 OpenDialogUpdate(kh);
             }
+
+            @Override
+            public void OnClickDeleteitem(KhachHang kh) {
+                OnClickdeletedata(kh);
+            }
         });
 
         recyclerView.setAdapter(adapterCustomer);
+    }
+
+    private void OnClickdeletedata(KhachHang kh) {
+        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
+                .setMessage("Delete this Customer ?")
+                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int i) {
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myref = database.getReference("listKhachHang");
+
+                        myref.child(String.valueOf(kh.getMaKH())).removeValue(new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                Toast.makeText(CustomerActivity.this, "Delete Successfull",Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                }).setNegativeButton("CANCEL",null ).show();
     }
 
     private void OpenDialogUpdate(KhachHang kh) {
@@ -183,7 +209,20 @@ public class CustomerActivity extends AppCompatActivity {
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
+                KhachHang kh = snapshot.getValue(KhachHang.class);
+                if (kh == null || listkhachhang == null || listkhachhang.isEmpty())
+                {
+                    return;
+                }
+                for (int i =0; i < listkhachhang.size();i++)
+                {
+                    if (kh.getMaKH() == listkhachhang.get(i).getMaKH())
+                    {
+                        listkhachhang.remove(listkhachhang.get(i));
+                        break;
+                    }
+                }
+                adapterCustomer.notifyDataSetChanged();
             }
 
             @Override
