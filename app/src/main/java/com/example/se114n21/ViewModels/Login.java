@@ -78,7 +78,18 @@ public class Login extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
-                                        startActivity(new Intent(Login.this, Account.class));
+                                        FirebaseUser firebaseUser = auth.getCurrentUser();
+                                        boolean emailVerified = false;
+                                        if (firebaseUser != null ) {
+                                            emailVerified = firebaseUser.isEmailVerified();
+                                        }
+                                        if (emailVerified) {
+                                            startActivity(new Intent(Login.this, AdminMain.class));
+                                        }  else {
+                                            startActivity(new Intent(Login.this, NVMain.class));
+                                        }
+
+//                                        startActivity(new Intent(Login.this, Account.class));
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
