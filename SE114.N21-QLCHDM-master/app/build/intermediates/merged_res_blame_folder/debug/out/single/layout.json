@@ -1,0 +1,118 @@
+[
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_admin_main.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_admin_main.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_account.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_account.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_qlnhan_vien.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_qlnhan_vien.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/fragment_add_staff.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/fragment_add_staff.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_change_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_change_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_save_change_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_save_change_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_sign_up.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_sign_up.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_fail_corfirm_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_fail_corfirm_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_admin_profile.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_admin_profile.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_main.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_fail_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_fail_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_qlsan_pham.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_qlsan_pham.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_change_email.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_change_email.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_forgot_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_forgot_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_nvprofile.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_nvprofile.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_send_email_sucess.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_send_email_sucess.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/fragment_staff.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/fragment_staff.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_login_sucess.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_login_sucess.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/item_staff.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/item_staff.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_confirm_new_password.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_confirm_new_password.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_nvmain.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_nvmain.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_loading.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_loading.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_logout.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_logout.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_qlkhach_hang.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_qlkhach_hang.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_add_product.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_add_product.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_qlhoa_don.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_qlhoa_don.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_login.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_login.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/dialog_fail_email.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/dialog_fail_email.xml"
+    },
+    {
+        "merged": "com.example.se114n21.app-mergeDebugResources-37:/layout/activity_sign_up_sucess.xml",
+        "source": "com.example.se114n21.app-main-40:/layout/activity_sign_up_sucess.xml"
+    }
+]
