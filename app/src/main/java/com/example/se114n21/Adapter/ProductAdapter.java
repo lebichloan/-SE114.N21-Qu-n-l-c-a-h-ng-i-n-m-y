@@ -4,12 +4,15 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.se114n21.Interface.ProductInterface;
+import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
 import com.example.se114n21.ViewModels.ListProduct;
@@ -20,8 +23,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder>{
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> implements Filterable {
     private List<SanPham> mListSanPham;
+    private List<SanPham> mListSanPhamOLD;
     private Context mContext;
     private ProductInterface productInterface;
 
@@ -29,6 +33,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         this.mListSanPham = mListSanPham;
         this.mContext = mContext;
         this.productInterface = productInterface;
+        this.mListSanPhamOLD = mListSanPham;
     }
 
     @NonNull
@@ -95,5 +100,40 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
             tvStock = itemView.findViewById(R.id.tv_stock_product);
             imgProduct = itemView.findViewById(R.id.img_product);
         }
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence charSequence) {
+                String strSearch = charSequence.toString();
+
+                if (strSearch.isEmpty()) {
+                    mListSanPham = mListSanPhamOLD;
+                }
+                else {
+                    List<SanPham> list = new ArrayList<>();
+                    for (SanPham sanPham : mListSanPhamOLD) {
+                        if (sanPham.getTenSP().toLowerCase().contains(strSearch.toLowerCase())
+                            || sanPham.getMaSP().toLowerCase().contains(strSearch.toLowerCase())) {
+                            list.add(sanPham);
+                        }
+                    }
+
+                    mListSanPham = list;
+                }
+
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = mListSanPham;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+                mListSanPham =  (List<SanPham>) filterResults.values;
+                notifyDataSetChanged();
+            }
+        };
     }
 }

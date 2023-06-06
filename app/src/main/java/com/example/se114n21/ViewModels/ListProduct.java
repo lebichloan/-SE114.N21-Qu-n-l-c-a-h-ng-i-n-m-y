@@ -7,6 +7,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -43,6 +44,7 @@ public class ListProduct extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcher;
     private ActivityResultLauncher<Intent> launcher_add_product;
     private Button btnAddProduct;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,22 @@ public class ListProduct extends AppCompatActivity {
     }
 
     private void initUI() {
+//        SEARCH VIEW
+        searchView = findViewById(R.id.search_view_product);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mProductAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mProductAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
 //        ACTION BAR
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Danh sách sản phẩm");
