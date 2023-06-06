@@ -1,9 +1,9 @@
 package com.example.se114n21.reports;
 
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
 
 public class ViewPagerAdapter extends FragmentPagerAdapter {
     public ViewPagerAdapter(FragmentManager fm) {
@@ -15,7 +15,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
         switch (position)
         {
             case 0:
-                return new sale_fragment();
+                return new Sell_fragment();
 
             case 1:
                 return new Repo_fragment();
@@ -24,7 +24,7 @@ public class ViewPagerAdapter extends FragmentPagerAdapter {
                 return new Profit_fragment();
 
             default:
-                return new sale_fragment();
+                return new Sell_fragment();
         }
     }
 

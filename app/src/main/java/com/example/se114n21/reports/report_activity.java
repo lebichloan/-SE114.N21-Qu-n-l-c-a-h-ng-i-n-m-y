@@ -1,27 +1,39 @@
 package com.example.se114n21.reports;
 
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.example.se114n21.R;
 
-public class report_activity extends AppCompatActivity {
-
+public class report_activity extends Fragment {
+    TextView tvSale;
     private TabLayout tabLayoutRp;
     private ViewPager viewPager;
+
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_report);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_report, container, false);
 
-        tabLayoutRp = findViewById(R.id.tabLayoutRp);
-        viewPager = findViewById(R.id.viewPager);
+        tabLayoutRp = view.findViewById(R.id.tabLayoutRp);
+        viewPager = view.findViewById(R.id.viewPager);
 
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getChildFragmentManager());
         viewPager.setAdapter(viewPagerAdapter);
 
         tabLayoutRp.setupWithViewPager(viewPager);
+
+        return view;
     }
 }
