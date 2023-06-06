@@ -1,5 +1,8 @@
 package com.example.se114n21.Models;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class KhachHang {
     private String MaKH;
     private String Ten;
@@ -78,5 +81,15 @@ public class KhachHang {
                 ", Email='" + Email + '\'' +
                 ", LoaiKH='" + LoaiKH + '\'' +
                 '}';
+    }
+    public Map<String, Object> toMap()
+    {
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("ten", Ten);
+        result.put("dienThoai",DienThoai);
+        result.put("diaChi",DiaChi);
+        result.put("email",Email);
+        result.put("loaiKH",LoaiKH);
+        return result;
     }
 }

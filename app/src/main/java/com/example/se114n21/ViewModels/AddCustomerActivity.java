@@ -40,7 +40,6 @@ public class AddCustomerActivity extends AppCompatActivity {
             }
         });
     }
-
     private void Pushdata() {
         DatabaseReference myRef2 = database.getReference("maxKhachHang");
         myRef2.addValueEventListener(new ValueEventListener() {
@@ -64,7 +63,7 @@ public class AddCustomerActivity extends AppCompatActivity {
         String email = edtemail.getText().toString();
         String loaikh = edtloaikh.getText().toString();
         KhachHang kh = new KhachHang(id,name,address,sdt,email,loaikh);
-        myRef.push().setValue(kh);
+        myRef.child(id).setValue(kh);
         maxid = maxid + 1;
         myRef2.setValue(maxid);
     }
