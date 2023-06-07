@@ -8,9 +8,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.ImageSliderAdapter;
+import com.example.se114n21.Adapter.PropertyAdapter;
 import com.example.se114n21.Models.SanPham;
+import com.example.se114n21.Models.ThuocTinh;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -53,6 +58,11 @@ public class DetailProduct extends AppCompatActivity {
     private SanPham sanPham;
     private ActivityResultLauncher<Intent> launcher;
 
+//    RCV PROPERTY
+    private RecyclerView rcvProperty;
+    private List<ThuocTinh> mListThuocTinh;
+    private PropertyAdapter mPropertyAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +77,27 @@ public class DetailProduct extends AppCompatActivity {
     }
 
     private void initUI() {
+//        RCV
+        rcvProperty = findViewById(R.id.rcv_property_detail_product);
+
+        rcvProperty.setItemViewCacheSize(5);
+        rcvProperty.setDrawingCacheEnabled(true);
+        rcvProperty.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+
+        LinearLayoutManager linearLayoutManagerThuocTinh = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcvProperty.setLayoutManager(linearLayoutManagerThuocTinh);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rcvProperty.addItemDecoration(itemDecoration);
+
+        mListThuocTinh = new ArrayList<>();
+
+        mPropertyAdapter = new PropertyAdapter(mListThuocTinh, "detail");
+
+        rcvProperty.setAdapter(mPropertyAdapter);
+
+
 //        PROGRESS DIALOG
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
@@ -127,6 +158,7 @@ public class DetailProduct extends AppCompatActivity {
 
     private void getData() {
         mListImageSlider.clear();
+        mListThuocTinh.clear();
         progressDialog.show();
         DatabaseReference myRef = database.getReference("listSanPham/" + ID);
 
@@ -162,6 +194,10 @@ public class DetailProduct extends AppCompatActivity {
 
         mListImageSlider.addAll(sanPham.getLinkAnhSP());
         mImageSliderAdapter.notifyDataSetChanged();
+
+        mListThuocTinh.addAll(sanPham.getDSThuocTinh());
+        mPropertyAdapter.notifyDataSetChanged();
+
         progressDialog.dismiss();
     }
 

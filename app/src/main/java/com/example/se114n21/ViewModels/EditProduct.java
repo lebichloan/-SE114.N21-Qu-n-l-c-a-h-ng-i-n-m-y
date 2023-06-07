@@ -8,14 +8,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.ImageForEditAdapter;
+import com.example.se114n21.Adapter.PropertyAdapter;
 import com.example.se114n21.Interface.ImageInterface;
 import com.example.se114n21.Models.KhoHang;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
+import com.example.se114n21.Models.ThuocTinh;
 import com.example.se114n21.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,20 +34,27 @@ import com.google.firebase.storage.UploadTask;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -70,8 +80,13 @@ public class EditProduct extends AppCompatActivity {
     private StorageReference storageRef = storage.getReference();
     private List<String> mListURL_delete = new ArrayList<>();
     private List<String> mListURL_moithem = new ArrayList<>();
-
     private boolean isDelete = false;
+
+    //    RCV THUOC TINH
+    private RecyclerView rcvThuocTinh;
+    private List<ThuocTinh> mListThuocTinh;
+    private PropertyAdapter mPropertyAdapter;
+    private Button btnAddProperty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +104,36 @@ public class EditProduct extends AppCompatActivity {
     }
 
     private void initUI() {
+//      BUTTON ADD PROPERTY
+        btnAddProperty = findViewById(R.id.btn_add_property_edit_product);
+        btnAddProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddPropertyDialog(Gravity.CENTER);
+            }
+        });
+
+//        RCV THUOC TINH
+        rcvThuocTinh = findViewById(R.id.rcv_property_edit_product);
+
+        rcvThuocTinh.setItemViewCacheSize(5);
+        rcvThuocTinh.setDrawingCacheEnabled(true);
+        rcvThuocTinh.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+
+        LinearLayoutManager linearLayoutManagerThuocTinh = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcvThuocTinh.setLayoutManager(linearLayoutManagerThuocTinh);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rcvThuocTinh.addItemDecoration(itemDecoration);
+
+        mListThuocTinh = new ArrayList<>();
+
+        mPropertyAdapter = new PropertyAdapter(mListThuocTinh, "add");
+
+        rcvThuocTinh.setAdapter(mPropertyAdapter);
+
+
 //        ACTION BAR
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Cập nhật sản phẩm");
@@ -230,6 +275,69 @@ public class EditProduct extends AppCompatActivity {
                 });
     }
 
+    private void openAddPropertyDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.property_dialog);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+//        nhan ra ngoai thi tat dialog
+//        dialog.setCancelable(true);
+
+        TextView tvTitle = dialog.findViewById(R.id.tv_title_property_dialog);
+        EditText editName = dialog.findViewById(R.id.edit_name_property_dialog);
+        EditText editValue = dialog.findViewById(R.id.edit_value_property_dialog);
+        Button btnCancel = dialog.findViewById(R.id.btn_property_dialog_cancel);
+        Button btnOk = dialog.findViewById(R.id.btn_property_dialog_ok);
+
+        tvTitle.setText("Thêm thuộc tính");
+        btnCancel.setText("Hủy");
+        btnOk.setText("Lưu");
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editName.getText().toString().trim();
+                String value = editValue.getText().toString().trim();
+
+                if (name.isEmpty() || value.isEmpty()) {
+                    Toast.makeText(EditProduct.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    progressDialog.show();
+
+                    ThuocTinh newThuocTinh = new ThuocTinh(name, value);
+
+                    mListThuocTinh.add(mListThuocTinh.size(), newThuocTinh);
+                    mPropertyAdapter.notifyItemInserted(mListThuocTinh.size());
+
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
+    }
+
     private void updateProduct() {
         String path = "listSanPham/" + sanPham.getMaSP();
         DatabaseReference myRef = database.getReference(path);
@@ -249,6 +357,7 @@ public class EditProduct extends AppCompatActivity {
         map.put("soLuong", Integer.parseInt(edit_Stock.getText().toString().trim()));
         map.put("hoaHong", Double.parseDouble(edit_Commission.getText().toString().trim()));
         map.put("linkAnhSP", mListURL);
+        map.put("dsthuocTinh", mListThuocTinh);
 
 
         myRef.updateChildren(map, new DatabaseReference.CompletionListener() {
@@ -363,6 +472,9 @@ public class EditProduct extends AppCompatActivity {
 
         mListURL.addAll(sanPham.getLinkAnhSP());
         mImageForEditAdapter.notifyDataSetChanged();
+
+        mListThuocTinh.addAll(sanPham.getDSThuocTinh());
+        mPropertyAdapter.notifyDataSetChanged();
 
         progressDialog.dismiss();
     }

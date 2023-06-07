@@ -1,20 +1,27 @@
 package com.example.se114n21.ViewModels;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
@@ -24,14 +31,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.se114n21.Adapter.ImageAdapter;
 import com.example.se114n21.Adapter.ImageSliderAdapter;
+import com.example.se114n21.Adapter.PropertyAdapter;
 import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhoHang;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
+import com.example.se114n21.Models.ThuocTinh;
 import com.example.se114n21.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -77,6 +87,11 @@ public class AddProductActivity extends AppCompatActivity {
 //
     List<String> mListURL = new ArrayList<>();
 
+//    RCV THUOC TINH
+    private RecyclerView rcvThuocTinh;
+    private List<ThuocTinh> mListThuocTinh;
+    private PropertyAdapter mPropertyAdapter;
+    private Button btnAddProperty;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -420,6 +435,8 @@ public class AddProductActivity extends AppCompatActivity {
             sanPham.setMaLSP(loaiSanPhamPicked.getMaLSP());
         }
 
+        sanPham.setDSThuocTinh(mListThuocTinh);
+
         sanPham.setMota(edit_Desc.getText().toString().trim());
 
         sanPham.setGiaBan(Integer.parseInt(edit_RetailPrice.getText().toString().trim()));
@@ -488,6 +505,14 @@ public class AddProductActivity extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Please wait!");
 
+//      BUTTON ADD PROPERTY
+        btnAddProperty = findViewById(R.id.btn_add_property);
+        btnAddProperty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddPropertyDialog(Gravity.CENTER);
+            }
+        });
 
 
 //        ACTION BAR
@@ -543,6 +568,89 @@ public class AddProductActivity extends AppCompatActivity {
         mImageAdapter = new ImageAdapter(mListUri);
 
         rcvImg.setAdapter(mImageAdapter);
+
+//        RCV THUOC TINH
+        rcvThuocTinh = findViewById(R.id.rcv_property);
+
+        rcvThuocTinh.setItemViewCacheSize(5);
+        rcvThuocTinh.setDrawingCacheEnabled(true);
+        rcvThuocTinh.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
+
+
+        LinearLayoutManager linearLayoutManagerThuocTinh = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        rcvThuocTinh.setLayoutManager(linearLayoutManagerThuocTinh);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        rcvThuocTinh.addItemDecoration(itemDecoration);
+
+        mListThuocTinh = new ArrayList<>();
+
+        mPropertyAdapter = new PropertyAdapter(mListThuocTinh, "add");
+
+        rcvThuocTinh.setAdapter(mPropertyAdapter);
+    }
+
+    private void openAddPropertyDialog(int gravity) {
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.property_dialog);
+
+        Window window = dialog.getWindow();
+
+        if (window == null) {
+            return;
+        }
+
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        WindowManager.LayoutParams windowAttributes = window.getAttributes();
+        windowAttributes.gravity = gravity;
+        window.setAttributes(windowAttributes);
+
+//        nhan ra ngoai thi tat dialog
+//        dialog.setCancelable(true);
+
+        TextView tvTitle = dialog.findViewById(R.id.tv_title_property_dialog);
+        EditText editName = dialog.findViewById(R.id.edit_name_property_dialog);
+        EditText editValue = dialog.findViewById(R.id.edit_value_property_dialog);
+        Button btnCancel = dialog.findViewById(R.id.btn_property_dialog_cancel);
+        Button btnOk = dialog.findViewById(R.id.btn_property_dialog_ok);
+
+        tvTitle.setText("Thêm thuộc tính");
+        btnCancel.setText("Hủy");
+        btnOk.setText("Lưu");
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String name = editName.getText().toString().trim();
+                String value = editValue.getText().toString().trim();
+                
+                if (name.isEmpty() || value.isEmpty()) {
+                    Toast.makeText(AddProductActivity.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                } else {
+                    dialog.dismiss();
+                    progressDialog.show();
+
+                    ThuocTinh newThuocTinh = new ThuocTinh(name, value);
+
+                    mListThuocTinh.add(mListThuocTinh.size(), newThuocTinh);
+                    mPropertyAdapter.notifyItemInserted(mListThuocTinh.size());
+
+                    progressDialog.dismiss();
+                }
+            }
+        });
+
+        dialog.show();
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

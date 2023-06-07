@@ -20,6 +20,7 @@ public class SanPham {
 
     public SanPham() {
         LinkAnhSP = new ArrayList<>();
+        DSThuocTinh = new ArrayList<>();
     }
 
     public Integer getSoLuong() {
@@ -114,7 +115,7 @@ public class SanPham {
     }
 
     public void setDSThuocTinh(List<ThuocTinh> DSThuocTinh) {
-        this.DSThuocTinh = DSThuocTinh;
+        this.DSThuocTinh.addAll(DSThuocTinh);
     }
 
     public String getMota() {

@@ -1,26 +1,17 @@
 package com.example.se114n21.Models;
 
 public class ThuocTinh {
-    private String MaSP;
     private String TenTT;
     private String GiaTriTT;
 
     public ThuocTinh() {
     }
 
-    public ThuocTinh(String maSP, String tenTT, String giaTriTT) {
-        MaSP = maSP;
+    public ThuocTinh(String tenTT, String giaTriTT) {
         TenTT = tenTT;
         GiaTriTT = giaTriTT;
     }
 
-    public String getMaSP() {
-        return MaSP;
-    }
-
-    public void setMaSP(String maSP) {
-        MaSP = maSP;
-    }
 
     public String getTenTT() {
         return TenTT;
