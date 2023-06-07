@@ -20,6 +20,7 @@
             android:layout_height="15dp"/>
 
         <TextView
+            android:id="@+id/tv_sohoadon"
             android:text="Số hóa đơn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,6 +34,7 @@
             android:layout_height="5dp"/>
 
         <TextView
+            android:id="@+id/tv_hotenkhachhang"
             android:text="Họ tên khách hàng"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,6 +54,7 @@
             android:layout_marginLeft="10dp">
 
             <TextView
+                android:id="@+id/tv_thanhtien"
                 android:text="Thành tiền"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,6 +67,7 @@
                 android:layout_height="match_parent"/>
 
             <TextView
+                android:id="@+id/tv_tinhtrang"
                 android:text="Tình trạng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

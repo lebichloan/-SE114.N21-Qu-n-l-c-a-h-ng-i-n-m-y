@@ -76,11 +76,11 @@
         <activity
             android:name=".ViewModels.MainActivity"
             android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".ViewModels.CustomerActivity"-->
+<!--            android:exported="false" />-->
         <activity
             android:name=".ViewModels.CustomerActivity"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

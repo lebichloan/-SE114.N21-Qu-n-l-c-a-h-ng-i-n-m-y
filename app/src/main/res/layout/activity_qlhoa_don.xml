@@ -34,7 +34,7 @@
                 android:layout_height="match_parent"/>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
-                android:id="@+id/butAdd"
+                android:id="@+id/butAddhoadon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/blue_violet"
@@ -48,6 +48,7 @@
             android:layout_height="15dp"/>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview_hoadon"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
