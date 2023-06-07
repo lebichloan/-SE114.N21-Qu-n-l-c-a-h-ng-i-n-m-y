@@ -1,10 +1,28 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.SE114N21" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="Theme.SE114N21" parent="Theme.MaterialComponents.Light.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
+        <item name="colorPrimary">@color/purple_app</item>
         <item name="colorPrimaryDark">@color/purple_700</item>
         <item name="colorAccent">@color/teal_200</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="CustomOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="colorPrimary">@color/blue</item>
+    </style>
+
+    <style name="ButtonCancel" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/gray_button</item>
+    </style>
+
+    <style name="ButtonEditProductType" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/orange</item>
+    </style>
+
+    <style name="ButtonDeleteProductType" parent="Widget.MaterialComponents.Button">
+        <item name="colorPrimary">@color/red</item>
+    </style>
+
+
 </resources>
