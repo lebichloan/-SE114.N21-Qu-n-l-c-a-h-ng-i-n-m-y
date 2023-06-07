@@ -232,12 +232,11 @@
                     android:layout_height="wrap_content"
                     android:gravity="center">
 
-                    <androidx.appcompat.widget.SearchView
-                        android:id="@+id/search_bar"
-                        android:layout_width="match_parent"
+                    <Button
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edit_text"/>
-
+                        android:text="+ Thêm Khách hàng "
+                        android:id="@+id/addcustomerbutton"/>
                 </LinearLayout>
 
                 <View
@@ -265,21 +264,18 @@
                         android:layout_height="5dp"
                         android:background="@color/white"/>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/txtHoTen"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edit_text_white"
                         android:ellipsize="end"
-                        android:hint=""
-                        android:inputType="text"
                         android:maxLines="1"
                         android:textSize="20dp"
                         android:paddingVertical="7dp"
                         android:layout_marginLeft="10dp"
                         android:singleLine="true"
                         android:textColor="@android:color/black"
-                        tools:ignore="VisualLintTextFieldSize" />
+                        />
 
                     <View
                         android:layout_width="match_parent"
@@ -300,21 +296,18 @@
                         android:layout_height="5dp"
                         android:background="@color/white"/>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/txtDiaChi"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edit_text_white"
                         android:ellipsize="end"
-                        android:hint=""
-                        android:inputType="text"
                         android:maxLines="1"
                         android:textSize="20dp"
                         android:paddingVertical="7dp"
                         android:layout_marginLeft="10dp"
                         android:singleLine="true"
                         android:textColor="@android:color/black"
-                        tools:ignore="VisualLintTextFieldSize" />
+                        />
 
                     <View
                         android:layout_width="match_parent"
@@ -335,21 +328,18 @@
                         android:layout_height="5dp"
                         android:background="@color/white"/>
 
-                    <EditText
+                    <TextView
                         android:id="@+id/txtSDT"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/border_edit_text_white"
                         android:ellipsize="end"
-                        android:hint=""
-                        android:inputType="text"
                         android:maxLines="1"
                         android:textSize="20dp"
                         android:paddingVertical="7dp"
                         android:layout_marginLeft="10dp"
                         android:singleLine="true"
                         android:textColor="@android:color/black"
-                        tools:ignore="VisualLintTextFieldSize" />
+                        />
 
                 </LinearLayout>
 

@@ -1,5 +1,6 @@
 package com.example.se114n21.ViewModels;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -74,6 +75,19 @@ public class CustomerActivity extends AppCompatActivity {
             @Override
             public void OnClickDeleteitem(KhachHang kh) {
                 OnClickdeletedata(kh);
+            }
+
+            @Override
+            public void OnClickGetitem(KhachHang kh) {
+                String getname = kh.getTen();
+                String getaddress = kh.getDiaChi();
+                String getsdt = kh.getDienThoai();
+                Intent returnintent = new Intent();
+                returnintent.putExtra("key_sdt",getsdt);
+                returnintent.putExtra("key_address",getaddress);
+                returnintent.putExtra("key_name", getname);
+                setResult(Activity.RESULT_OK,returnintent);
+                finish();
             }
         });
 
