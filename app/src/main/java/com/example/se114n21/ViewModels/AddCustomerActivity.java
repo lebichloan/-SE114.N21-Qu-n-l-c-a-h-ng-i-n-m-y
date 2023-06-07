@@ -2,6 +2,7 @@ package com.example.se114n21.ViewModels;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.se114n21.Models.IdGenerator;
@@ -23,6 +25,8 @@ import com.google.firebase.database.ValueEventListener;
 public class AddCustomerActivity extends AppCompatActivity {
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference myRef = database.getReference("listKhachHang");
+    FirebaseDatabase database1 = FirebaseDatabase.getInstance();
+    DatabaseReference myref2 = database1.getReference("maxKhachHang");
     int maxid;
     EditText edtname,edtsdt,edtaddress,edtemail,edtloaikh;
     Button addbutton;
@@ -41,31 +45,32 @@ public class AddCustomerActivity extends AppCompatActivity {
         });
     }
     private void Pushdata() {
-        DatabaseReference myRef2 = database.getReference("maxKhachHang");
-        myRef2.addValueEventListener(new ValueEventListener() {
+
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int maxKhachHang = dataSnapshot.getValue(Integer.class);
-                maxid = maxKhachHang;
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int count = snapshot.getValue(Integer.class);
+                maxid = count;
+                IdGenerator generator = new IdGenerator();
+                generator.init("KH","",maxid,"%04d");
+                id = generator.generate();
+                String name = edtname.getText().toString();
+                String address = edtaddress.getText().toString();
+                String sdt = edtsdt.getText().toString();
+                String email = edtemail.getText().toString();
+                String loaikh = edtloaikh.getText().toString();
+                KhachHang kh = new KhachHang(id,name,address,sdt,email,loaikh);
+                myRef.child(id).setValue(kh);
+                maxid = maxid + 1;
+                myref2.setValue(maxid);
             }
+
             @Override
-            public void onCancelled(DatabaseError error) {
-                // Failed to read value
-                Log.w(TAG, "Failed to read value.", error.toException());
+            public void onCancelled(@NonNull DatabaseError error) {
             }
         });
-        IdGenerator generator = new IdGenerator();
-        generator.init("KH","",maxid,"%04d");
-        id = generator.generate();
-        String name = edtname.getText().toString();
-        String address = edtaddress.getText().toString();
-        String sdt = edtsdt.getText().toString();
-        String email = edtemail.getText().toString();
-        String loaikh = edtloaikh.getText().toString();
-        KhachHang kh = new KhachHang(id,name,address,sdt,email,loaikh);
-        myRef.child(id).setValue(kh);
-        maxid = maxid + 1;
-        myRef2.setValue(maxid);
+        Intent intent = new Intent(AddCustomerActivity.this,CustomerActivity.class);
+        startActivity(intent);
     }
 
     private void initUI() {

@@ -41,7 +41,7 @@ public class AdminMain extends AppCompatActivity {
         setContentView(R.layout.activity_admin_main);
 
         BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationAdminView);
-        bottomNavigationView.setSelectedItemId(R.id.bottom_account);
+        bottomNavigationView.setSelectedItemId(R.id.bottom_admin_account);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {
             switch (item.getItemId()){

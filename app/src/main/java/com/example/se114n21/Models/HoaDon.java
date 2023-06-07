@@ -1,6 +1,8 @@
 package com.example.se114n21.Models;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class HoaDon {
     private String MaHD;
@@ -201,5 +203,26 @@ public class HoaDon {
                 ", ChiTietHD=" + ChiTietHD +
                 ", HoaHong=" + HoaHong +
                 '}';
+    }
+    public Map<String, Object> toMap()
+    {
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("MaNV", MaNV);
+        result.put("maKH",MaKH);
+        result.put("NgayHD",NgayHD);
+        result.put("DiaCHiNhanHang",DiaCHiNhanHang);
+        result.put("PhiVanChuyen",PhiVanChuyen);
+        result.put("PhiLapDat",PhiLapDat);
+        result.put("ChietKhau",ChietKhau);
+        result.put("TongTienPhaiTra",TongTienPhaiTra);
+        result.put("TienVon",TienVon);
+        result.put("TinhTrangHD",TinhTrangHD);
+        result.put("TinhTrangGiaoHang",TinhTrangGiaoHang);
+        result.put("GhiChu",GhiChu);
+        result.put("PhuongThucThanhToan",PhuongThucThanhToan);
+        result.put("ChiTietHD",ChiTietHD);
+        result.put("HoaHong",HoaHong);
+
+        return result;
     }
 }
