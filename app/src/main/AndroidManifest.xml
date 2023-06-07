@@ -8,6 +8,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -25,13 +26,82 @@
             android:name=".ViewModels.EditProduct"
             android:exported="false" />
         <activity
+            android:name=".ViewModels.ListProduct"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.AddProductActivity"
             android:exported="false" />
         <activity
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.ListProduct"
+            android:name=".ViewModels.ThemHoaDon"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLHoaDon"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLKhachHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AdminMain"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.NVMain"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLHoaDon"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLKhachHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SignUpSucess"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChangeEmail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SendEmailSucess"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.NVProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Account"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ConfirmNewPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AdminProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -43,10 +113,10 @@
             android:name=".ViewModels.ListProductType"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.MainActivity"
+            android:name=".ViewModels.AddCustomerActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.Login"
+            android:name=".ViewModels.AddProductActivity"
             android:exported="false" />
     </application>
 
