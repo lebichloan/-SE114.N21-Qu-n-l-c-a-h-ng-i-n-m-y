@@ -74,6 +74,9 @@
             android:name=".ViewModels.MainActivity"
             android:exported="false" />
         <activity
+            android:name=".ViewModels.CustomerActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.SignUp"
             android:exported="true">
             <intent-filter>
@@ -82,6 +85,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ViewModels.AddCustomerActivity"
+            android:exported="false"/>
         <activity
             android:name=".ViewModels.AddProductActivity"
             android:exported="false" />

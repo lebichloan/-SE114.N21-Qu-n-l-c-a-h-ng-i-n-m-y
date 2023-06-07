@@ -16,7 +16,8 @@ public class AddProductActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_product);
 
 
-        initUI
+        initUI();
+    }
 
     private void initUI() {
         btn_AddImage = findViewById(R.id.btn_addImage);
