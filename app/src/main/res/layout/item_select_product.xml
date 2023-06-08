@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        >
+
+
+        <ImageView
+            android:id="@+id/check_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_check_circle"
+            android:layout_gravity="center"
+            android:layout_marginRight="10dp"
+            app:tint="@color/blue">
+
+        </ImageView>
+
+        <ImageView
+            android:id="@+id/img_select_product"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:scaleType="centerCrop"
+            android:src="@mipmap/img_avt_3"
+            android:layout_marginRight="12dp">
+
+        </ImageView>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_id_select_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SP0001"
+                android:textColor="@color/textColor"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_name_select_product"
+                android:layout_width="wrap_content"
+                android:maxWidth="160dp"
+                android:layout_height="wrap_content"
+                android:text="slflsnfldnflsdfsdfsfssdfsfsfsdfsdfsfsdfsdfsfsdnflsdknflsdnfslnfsdnfldjsnfj"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="1dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginLeft="12dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="end">
+                <TextView
+                    android:id="@+id/tv_retail_select_product"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="100000000"
+                    android:textColor="@color/orange"
+                    android:textSize="14sp"
+                    >
+                </TextView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="VNĐ"
+                    android:textColor="@color/orange"
+                    android:textSize="14sp"
+                    android:layout_marginStart="2dp"
+                    >
+                </TextView>
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/tv_stock_select_product"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="600"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                android:layout_marginTop="5dp"
+                android:layout_gravity="end"
+                >
+            </TextView>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>
