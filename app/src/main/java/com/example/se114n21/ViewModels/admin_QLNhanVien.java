@@ -15,7 +15,10 @@ public class admin_QLNhanVien extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_qlnhan_vien);
 
-        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationAdminView);
+        //hide toolbar
+        getSupportActionBar().hide();
+
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottomNavigationView);
         bottomNavigationView.setSelectedItemId(R.id.bottom_admin_nhanVien);
 
         bottomNavigationView.setOnItemSelectedListener(item -> {

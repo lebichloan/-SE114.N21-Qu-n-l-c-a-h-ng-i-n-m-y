@@ -13,6 +13,8 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_next.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/ic_sucess.xml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/lam_background_ripple_effect_primary.xml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_add_staff.xml" charset="windows-1251" />
+    <file url="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_staff.xml" charset="windows-1251" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

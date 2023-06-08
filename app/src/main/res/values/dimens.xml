@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="define_dimen_5">5dp</dimen>
+    <dimen name="define_dimen_10">10dp</dimen>
+    <dimen name="define_dimen_2">2dp</dimen>
+    <dimen name="define_dimen_6">6dp</dimen>
+    <dimen name="define_dimen_80">80dp</dimen>
+
+    <!-- Text size -->
+    <dimen name="text_size_xxtiny">4sp</dimen>
+    <dimen name="text_size_xtiny">6sp</dimen>
+    <dimen name="text_size_tiny">8sp</dimen>
+    <dimen name="text_size_xxsmall">10sp</dimen>
+    <dimen name="text_size_xsmall">12sp</dimen>
+    <dimen name="text_size_small">14sp</dimen>
+    <dimen name="text_size_normal">16sp</dimen>
+    <dimen name="text_size_xnormal">18sp</dimen>
+    <dimen name="text_size_xxnormal">20sp</dimen>
+    <dimen name="text_size_large">22sp</dimen>
+    <dimen name="text_size_xlarge">24sp</dimen>
+    <dimen name="text_size_xxlarge">26sp</dimen>
+    <dimen name="text_size_huge">28sp</dimen>
+    <dimen name="text_size_xhuge">30sp</dimen>
+    <dimen name="text_size_xxhuge">32sp</dimen>
+    <dimen name="define_dimen_110">110dp</dimen>
+</resources>

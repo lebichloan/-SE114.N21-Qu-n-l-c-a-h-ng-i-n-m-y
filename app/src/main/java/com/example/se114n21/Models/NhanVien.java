@@ -1,7 +1,8 @@
 package com.example.se114n21.Models;
 
+import java.io.Serializable;
 import java.util.List;
-public class NhanVien {
+public class NhanVien implements Serializable {
     private String LinkAvt;
     private String MaNV;
     private String HoTen;
@@ -12,6 +13,9 @@ public class NhanVien {
     private String Email;
     private String NgayVaoLam;
     private Double LuongTheoGio;
+
+    private int loaiNhanVien;
+
     private List<String> DanhSachCaLam;
 
     public NhanVien() {
@@ -29,6 +33,14 @@ public class NhanVien {
         NgayVaoLam = ngayVaoLam;
         LuongTheoGio = luongTheoGio;
         DanhSachCaLam = danhSachCaLam;
+    }
+
+    public int getLoaiNhanVien() {
+        return loaiNhanVien;
+    }
+
+    public void setLoaiNhanVien(int loaiNhanVien) {
+        this.loaiNhanVien = loaiNhanVien;
     }
 
     public String getLinkAvt() {
