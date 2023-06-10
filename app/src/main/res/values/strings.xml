@@ -17,4 +17,6 @@
     <string name="Counselor">Nhân viên tư vấn</string>
     <string name="phone">Phone</string>
     <string name="image_back">Image back\n</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

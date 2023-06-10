@@ -83,10 +83,14 @@ public class Login extends AppCompatActivity {
                                         if (firebaseUser != null ) {
                                             emailVerified = firebaseUser.isEmailVerified();
                                         }
+
+//                                       Có 2 cái bottom nav view Loan chỉnh nha
+//                                        BottomNavigation
+//                                        BottomNavigationNhanVien
                                         if (emailVerified) {
-                                            startActivity(new Intent(Login.this, AdminMain.class));
+                                            startActivity(new Intent(Login.this, BottomNavigation.class));
                                         }  else {
-                                            startActivity(new Intent(Login.this, NVMain.class));
+                                            startActivity(new Intent(Login.this, BottomNavigation.class));
                                         }
 
 //                                        startActivity(new Intent(Login.this, Account.class));
