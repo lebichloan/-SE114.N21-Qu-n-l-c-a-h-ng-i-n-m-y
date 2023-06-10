@@ -18,11 +18,6 @@ public class Sell_fragment extends Fragment {
 
     TextView tvSale, tvProfit, tvOrder;
 
-    public interface OnItemClickListener {
-        void onItemClick();
-    }
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

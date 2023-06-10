@@ -38,7 +38,7 @@ public class sell_sale extends Fragment {
                 calendar.set(Calendar.MONTH, Selectedmonth);
                 calendar.set(Calendar.DAY_OF_MONTH, SelecteddayOfMonth);
 
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
                 String selectedDate = sdf.format(calendar.getTime());
 
                 tv.setText(selectedDate);
@@ -55,6 +55,12 @@ public class sell_sale extends Fragment {
 
         tvDate = view.findViewById(R.id.tvDate);
         tvDate1 = view.findViewById(R.id.tvDate1);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String today = sdf.format(calendar.getTime());
+
+        tvDate.setText(today);
+        tvDate1.setText(today);
 
         btnDate = view.findViewById(R.id.btnDate);
         btnDate.setOnClickListener(new View.OnClickListener() {

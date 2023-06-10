@@ -20,7 +20,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="35dp"
         android:drawableLeft="@mipmap/sale_foreground"
-        android:textColor="@color/purple_500"/>
+        android:textColor="#1976D2"/>
 
 
     <TextView
@@ -34,7 +34,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:drawableLeft="@mipmap/profit_foreground"
-        android:textColor="@color/purple_500"/>
+        android:textColor="#1976D2"/>
 
     <TextView
         android:id="@+id/tvOrder"
@@ -47,6 +47,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="30dp"
         android:drawableLeft="@mipmap/order_foreground"
-        android:textColor="@color/purple_500"/>
+        android:textColor="#1976D2"/>
 
 </LinearLayout>

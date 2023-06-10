@@ -14,7 +14,8 @@
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="16dp"
-        android:textAlignment="center"/>
+        android:textAlignment="center"
+        android:textColor="#1976D2"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +28,9 @@
             android:layout_height="wrap_content"
             android:onClick="showDatePickerDialog"
             android:text="Từ ngày:  "
-            android:padding="16dp" />
+            android:padding="16dp"
+            android:textColor="#1976D2"
+            android:background="@drawable/rp_customed_button"/>
 
         <TextView
             android:id="@+id/tvDate"
@@ -53,7 +56,9 @@
             android:layout_height="wrap_content"
             android:onClick="showDatePickerDialog"
             android:text="Đến ngày:"
-            android:padding="16dp"/>
+            android:padding="16dp"
+            android:textColor="#1976D2"
+            android:background="@drawable/rp_customed_button"/>
 
 
         <TextView
@@ -68,11 +73,12 @@
 
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/lvSale"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rvSale"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1" />
+        android:layout_weight="1"
+        android:padding="16dp" />
 
     <TextView
         android:id="@+id/tvTotal"
@@ -81,6 +87,7 @@
         android:text="Tổng doanh thu: $5000"
         android:textSize="18sp"
         android:textStyle="bold"
-        android:padding="16dp" />
+        android:padding="16dp"
+        android:textColor="#1976D2"/>
 
 </LinearLayout>
