@@ -6,6 +6,17 @@
     <string name="change_email">Thay đổi email</string>
     <string name="change_password">Thay đổi mật khẩu</string>
     <string name="action_search">Search</string>
+
+    <string name="search">Search</string>
+    <string name="employee_manager">Quản lý nhân viên</string>
+    <string name="enter_email">enter email</string>
+    <string name="waiting_message">Vui lòng đợi..</string>
+    <string name="update_staff">Sửa Nhân Viên</string>
+    <string name="sales_agent">Nhân viên bán hàng</string>
+    <string name="supervisory_staff">Nhân viên giám sát</string>
+    <string name="Counselor">Nhân viên tư vấn</string>
+    <string name="phone">Phone</string>
+    <string name="image_back">Image back\n</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
