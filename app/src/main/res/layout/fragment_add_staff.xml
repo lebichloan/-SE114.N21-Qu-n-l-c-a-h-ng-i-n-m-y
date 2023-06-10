@@ -143,9 +143,9 @@
             android:layout_height="wrap_content"
             android:background="@drawable/border_edit_text"
             android:ellipsize="end"
-            android:hint="Phone"
+            android:hint="@string/phone"
             android:imeOptions="actionDone"
-            android:inputType="text"
+            android:inputType="phone"
             android:maxLines="1"
             android:digits="0123456789"
             android:padding="20dp"
@@ -154,7 +154,8 @@
             app:layout_constraintTop_toTopOf="parent"
             android:drawableStart="@drawable/baseline_local_phone_24"
             android:drawablePadding="10dp"
-            tools:ignore="VisualLintTextFieldSize" />
+            tools:ignore="VisualLintTextFieldSize"
+            android:autofillHints="phone" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
