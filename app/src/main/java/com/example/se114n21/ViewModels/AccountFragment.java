@@ -43,7 +43,7 @@ public class AccountFragment extends Fragment {
         btnAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), AdminMain.class);
+                Intent intent = new Intent(getActivity(), Account.class);
                 startActivity(intent);
             }
         });

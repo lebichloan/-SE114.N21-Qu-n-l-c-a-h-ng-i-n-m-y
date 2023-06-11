@@ -90,7 +90,7 @@ public class Login extends AppCompatActivity {
                                         if (emailVerified) {
                                             startActivity(new Intent(Login.this, BottomNavigation.class));
                                         }  else {
-                                            startActivity(new Intent(Login.this, BottomNavigation.class));
+                                            startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
                                         }
 
 //                                        startActivity(new Intent(Login.this, Account.class));
