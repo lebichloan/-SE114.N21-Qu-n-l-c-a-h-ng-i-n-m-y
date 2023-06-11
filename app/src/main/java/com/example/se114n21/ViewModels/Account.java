@@ -5,12 +5,14 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -35,7 +37,6 @@ public class Account extends AppCompatActivity {
     Uri uri;
     TextView txtProfile, txtEmail, txtPassword;
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
-    ImageButton butBack;
     Button butLogout;
     FirebaseAuth auth;
 
@@ -47,13 +48,6 @@ public class Account extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         initUI();
         getUserProfile();
-
-        butBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -196,7 +190,11 @@ public class Account extends AppCompatActivity {
 //    }
 //
     private void initUI() {
-        butBack = findViewById(R.id.butBack);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Thông tin tài khoản");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
         avata = findViewById(R.id.avata);
         txtProfile = findViewById(R.id.txtProfile);
         txtEmail = findViewById(R.id.txtEmail);
@@ -206,4 +204,14 @@ public class Account extends AppCompatActivity {
         butPasswordNext = findViewById(R.id.butPasswordNext);
         butLogout = findViewById(R.id.butLogout);
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
