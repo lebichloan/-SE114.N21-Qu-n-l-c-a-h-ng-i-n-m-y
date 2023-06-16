@@ -51,7 +51,9 @@ public class AccountFragment extends Fragment {
         btnListNhanVien.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "Chuyen quan danh sach nhan vien di", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), "Chuyen quan danh sach nhan vien di", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), QLNhanVien.class);
+                startActivity(intent);
             }
         });
         

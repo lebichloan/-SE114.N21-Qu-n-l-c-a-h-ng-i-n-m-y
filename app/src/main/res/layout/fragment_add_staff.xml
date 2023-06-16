@@ -177,9 +177,14 @@
         android:drawablePadding="10dp"
         tools:ignore="VisualLintTextFieldSize" />
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp" />
+
     <Spinner
         android:id="@+id/spn_type_staff"
+        android:background="@drawable/border_edit_text"
         android:layout_width="match_parent"
-        android:layout_height="50dp"/>
+        android:layout_height="60dp"/>
 
 </LinearLayout>
