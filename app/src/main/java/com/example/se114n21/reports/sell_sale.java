@@ -15,22 +15,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.se114n21.R;
+import com.example.se114n21.adapters.SaleAdapter;
 import com.example.se114n21.models.Sale;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Vector;
-
 
 public class sell_sale extends Fragment {
 
@@ -43,6 +42,71 @@ public class sell_sale extends Fragment {
     int year = calendar.get(Calendar.YEAR);
     int month = calendar.get(Calendar.MONTH);
     int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+
+
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_sell_sale, container, false);
+
+        initUI(view);
+        initEvent();
+
+        return view;
+    }
+
+    private void initUI(View view)
+    {
+        rvSale = view.findViewById(R.id.rvSale);
+
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        String today = sdf.format(calendar.getTime());
+
+        tvDate = view.findViewById(R.id.tvDate);
+        tvDate1 = view.findViewById(R.id.tvDate1);
+        tvDate.setText(today);
+        tvDate1.setText(today);
+
+        btnDate = view.findViewById(R.id.btnDate);
+        btnDate1 = view.findViewById(R.id.btnDate1);
+    }
+
+    private void initEvent()
+    {
+        //set up data for recycle view
+        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
+        rvSale.setLayoutManager(manager);
+
+        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
+        rvSale.addItemDecoration(divider);
+
+        saleList = new ArrayList<>();
+        getDataRealTime((String) tvDate.getText(), (String) tvDate1.getText());
+
+        adapter = new SaleAdapter(getContext());
+        adapter.setData(saleList);
+
+        rvSale.setAdapter(adapter);
+
+        //set datePicker for button
+        btnDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePicker = createDatePicker(tvDate);
+                datePicker.show();
+            }
+        });
+
+        btnDate1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePicker = createDatePicker(tvDate1);
+                datePicker.show();
+            }
+        });
+    }
 
     private DatePickerDialog createDatePicker(TextView tv)
     {
@@ -58,85 +122,39 @@ public class sell_sale extends Fragment {
                 String selectedDate = sdf.format(calendar.getTime());
 
                 tv.setText(selectedDate);
-
+                getDataRealTime((String) tvDate.getText(), (String) tvDate1.getText());
             }
         }, year, month, dayOfMonth);
         return datePickerDialog;
     }
 
-    private void getDataRealTime()
+    private void getDataRealTime(String dateStart, String dateEnd)
     {
         List<Sale> list = new ArrayList<>();
+
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference ref = database.getReference("sale");
-        ref.addValueEventListener(new ValueEventListener() {
+
+        Query query = ref.orderByChild("date");
+
+        query.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (saleList != null)
+                    saleList.clear();
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Sale sale = dataSnapshot.getValue(Sale.class);
-                    saleList.add(sale);
+                    if (sale.getDate().compareTo(dateStart) >= 0 && sale.getDate().compareTo(dateEnd) <= 0)
+                        saleList.add(sale);
                 }
                 adapter.notifyDataSetChanged();
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-            }
+            public void onCancelled(@NonNull DatabaseError error) {}
         });
-
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_sell_sale, container, false);
-
-        rvSale = view.findViewById(R.id.rvSale);
-
-        LinearLayoutManager manager = new LinearLayoutManager(getContext(), RecyclerView.VERTICAL, false);
-        rvSale.setLayoutManager(manager);
-
-        DividerItemDecoration divider = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL);
-        rvSale.addItemDecoration(divider);
-
-        saleList = new ArrayList<>();
-        getDataRealTime();
-
-        adapter = new SaleAdapter(getContext());
-        adapter.setData(saleList);
-
-        rvSale.setAdapter(adapter);
-
-
-        tvDate = view.findViewById(R.id.tvDate);
-        tvDate1 = view.findViewById(R.id.tvDate1);
-
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-        String today = sdf.format(calendar.getTime());
-
-        tvDate.setText(today);
-        tvDate1.setText(today);
-
-        btnDate = view.findViewById(R.id.btnDate);
-        btnDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePicker = createDatePicker(tvDate);
-                datePicker.show();
-            }
-        });
-
-        btnDate1 = view.findViewById(R.id.btnDate1);
-        btnDate1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                DatePickerDialog datePicker = createDatePicker(tvDate1);
-                datePicker.show();
-            }
-        });
-
-        return view;
     }
 }
+

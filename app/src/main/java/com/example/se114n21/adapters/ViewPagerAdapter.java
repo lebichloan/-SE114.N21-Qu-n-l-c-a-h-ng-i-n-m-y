@@ -1,4 +1,4 @@
-package com.example.se114n21.reports;
+package com.example.se114n21.adapters;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;

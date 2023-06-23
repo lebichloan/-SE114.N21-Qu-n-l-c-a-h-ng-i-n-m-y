@@ -1,5 +1,6 @@
 package com.example.se114n21.reports;
 
+import com.example.se114n21.adapters.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 import androidx.fragment.app.Fragment;
