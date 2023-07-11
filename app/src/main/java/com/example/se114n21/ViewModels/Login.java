@@ -29,6 +29,11 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
     ImageButton butBack;
@@ -36,6 +41,7 @@ public class Login extends AppCompatActivity {
     ImageButton eyeButton;
     Button butLogin;
     FirebaseAuth auth;
+    FirebaseDatabase database;
     TextView textViewForgotPassword, textViewSignUp;
     ProgressDialog progressDialog;
 
@@ -44,7 +50,10 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getSupportActionBar().hide();
+
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         initUI();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
@@ -79,21 +88,41 @@ public class Login extends AppCompatActivity {
                                     public void onSuccess(AuthResult authResult) {
                                         Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
                                         FirebaseUser firebaseUser = auth.getCurrentUser();
-                                        boolean emailVerified = false;
-                                        if (firebaseUser != null ) {
-                                            emailVerified = firebaseUser.isEmailVerified();
-                                        }
+                                        DatabaseReference reference = database.getReference("Staff").child(firebaseUser.getUid());
+                                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for (DataSnapshot datas: snapshot.getChildren()){
+                                                    String usertype = datas.child("loaiNhanVien").getValue().toString();
+
+                                                    if (usertype.equals("1")) {
+                                                        startActivity(new Intent(Login.this, BottomNavigation.class));
+                                                    }
+                                                    else if (usertype.equals("2")) {
+                                                        startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
+                                                    }
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+
+                                            }
+                                        });
+                                        //
+//                                        boolean emailVerified = false;
+//                                        if (firebaseUser != null ) {
+//                                            emailVerified = firebaseUser.isEmailVerified();
+//                                        }
 
 //                                       Có 2 cái bottom nav view Loan chỉnh nha
 //                                        BottomNavigation
 //                                        BottomNavigationNhanVien
-                                        if (emailVerified) {
-                                            startActivity(new Intent(Login.this, BottomNavigation.class));
-                                        }  else {
-                                            startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
-                                        }
-
-//                                        startActivity(new Intent(Login.this, Account.class));
+//                                        if (emailVerified) {
+//                                            startActivity(new Intent(Login.this, BottomNavigation.class));
+//                                        }  else {
+//                                            startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
+//                                        }
                                         finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
@@ -126,13 +155,13 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Login.this, SignUp.class));
-                finish();
-            }
-        });
+//        textViewSignUp.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                startActivity(new Intent(Login.this, SignUp.class));
+//                finish();
+//            }
+//        });
 
         txtPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -175,7 +204,7 @@ public class Login extends AppCompatActivity {
         eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
-        textViewSignUp = findViewById(R.id.textViewSignUp);
+//        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
 
 }
