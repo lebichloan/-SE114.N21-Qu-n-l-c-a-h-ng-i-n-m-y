@@ -11,6 +11,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
@@ -86,7 +87,7 @@ public class Login extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
                                     @Override
                                     public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
+//                                        Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
                                         FirebaseUser firebaseUser = auth.getCurrentUser();
                                         DatabaseReference reference = database.getReference("Staff").child(firebaseUser.getUid());
                                         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -94,19 +95,29 @@ public class Login extends AppCompatActivity {
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                                 for (DataSnapshot datas: snapshot.getChildren()){
                                                     String usertype = datas.child("loaiNhanVien").getValue().toString();
-
-                                                    if (usertype.equals("1")) {
+                                                    Toast.makeText(Login.this, usertype, Toast.LENGTH_SHORT).show();
+                                                    if (usertype.equals("admin")) {
                                                         startActivity(new Intent(Login.this, BottomNavigation.class));
                                                     }
-                                                    else if (usertype.equals("2")) {
+                                                    else {
                                                         startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
                                                     }
                                                 }
+//                                                String usertype = snapshot.child("loaiNhanVien").getValue(String.class);
+//                                                if (usertype != null) {
+//                                                    if (usertype.equals("admin")) {
+//                                                        startActivity(new Intent(Login.this, BottomNavigation.class));
+//                                                    }
+//                                                    else {
+//                                                        startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
+//                                                    }
+//                                                }
+                                                Log.d("a", "a");
                                             }
 
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError error) {
-
+                                                Log.d("b", "b");
                                             }
                                         });
                                         //
@@ -123,7 +134,7 @@ public class Login extends AppCompatActivity {
 //                                        }  else {
 //                                            startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
 //                                        }
-                                        finish();
+//                                        finish();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override
