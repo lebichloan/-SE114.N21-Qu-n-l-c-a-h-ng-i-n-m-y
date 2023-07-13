@@ -391,9 +391,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:text="Mã khách hàng: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 android:alpha="0.8"
+                                android:textStyle="bold"
                                 >
                             </TextView>
 
@@ -408,7 +409,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="KH0003"
+                                android:text=""
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 >
@@ -426,9 +427,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:text="Tên khách hàng: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 android:alpha="0.8"
+                                android:textStyle="bold"
                                 >
                             </TextView>
 
@@ -443,7 +445,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="Nguyễn Văn A"
+                                android:text=""
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 >
@@ -461,9 +463,10 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
                                 android:text="Số điện thoại: "
-                                android:textColor="@color/black"
+                                android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 android:alpha="0.8"
+                                android:textStyle="bold"
                                 >
                             </TextView>
 
@@ -478,7 +481,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="0222333562"
+                                android:text=""
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
                                 >
@@ -524,7 +527,7 @@
                             >
 
                             <com.google.android.material.textfield.TextInputEditText
-                                android:id="@+id/llkk"
+                                android:id="@+id/ghichu_donhang"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:textSize="15sp"
@@ -555,6 +558,7 @@
                         </TextView>
 
                         <RadioGroup
+                            android:id="@+id/radio_group_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"

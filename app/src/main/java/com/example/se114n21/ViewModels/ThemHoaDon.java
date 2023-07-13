@@ -26,6 +26,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -50,18 +51,24 @@ import java.util.List;
 import java.util.Map;
 
 public class ThemHoaDon extends AppCompatActivity {
-    private ActivityResultLauncher<Intent> launcher;
     private List<String> mListID = new ArrayList<>();
-    private Button btnSelectProduct, btnSelectCustomer;
+    private Button btnSelectProduct, btnSelectCustomer, btnPurchase, btnTienMat, btnChuyenKhoan, btnQuetThe;
+    private RadioGroup radioGroup;
     private ProgressDialog progressDialog;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
-    private TextView tvTongTienHang, tvPhiVanChuyen, tvPhiLapDat, tvChietKhau, tvTongThanhToan, tvTongThanhToan2;
+    private TextView tvTongTienHang, tvPhiVanChuyen, tvPhiLapDat, tvChietKhau, tvTongThanhToan, tvTongThanhToan2,
+                        tvMaKH, tvTenKH, tvDienThoaiKH;
+    private EditText editPhoneNhanHang, editDiaChiNhanHang, editNote;
 
 // RCV
     private RecyclerView recyclerView;
     private List<ChiTietHoaDon> mListCTHD;
     private ThemhoadonAdapter mThemhoadonAdapter;
+
+//    LAUNCHER
+    private ActivityResultLauncher<Intent> SelectCustomerLauncher;
+    private ActivityResultLauncher<Intent> launcher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +91,19 @@ public class ThemHoaDon extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
 
+//        EDIT TEXT
+        editPhoneNhanHang = findViewById(R.id.phone_nhanhang);
+        editDiaChiNhanHang = findViewById(R.id.diachinhanhang);
+        editNote = findViewById(R.id.ghichu_donhang);
+
+//        RADIO GROUP PAYMENT
+        radioGroup = findViewById(R.id.radio_group_payment);
+
+////        BUTTON PAYMENT
+//        btnTienMat = findViewById(R.id.btn_tienmat);
+//        btnChuyenKhoan = findViewById(R.id.btn_chuyenkhoan);
+//        btnQuetThe = findViewById(R.id.btn_quetthe);
+
 //      LAUNCHER
         launcher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -103,8 +123,28 @@ public class ThemHoaDon extends AppCompatActivity {
                     }
                 });
 
+//        SELECT CUSTOMER LAUNCHER
+        SelectCustomerLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent intent = result.getData();
+                            String ID = intent.getStringExtra("CUS_ID");
+                            String NAME = intent.getStringExtra("CUS_NAME");
+                            String PHONE = intent.getStringExtra("CUS_PHONE");
 
-//        BUTTON SELECT
+                            tvMaKH.setText(ID);
+                            tvTenKH.setText(NAME);
+                            tvDienThoaiKH.setText(PHONE);
+
+                        }
+                    }
+                });
+
+
+//        BUTTON SELECT PRODUCT
         btnSelectProduct = findViewById(R.id.btn_select_product);
         btnSelectProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,16 +153,27 @@ public class ThemHoaDon extends AppCompatActivity {
                 launcher.launch(intent);
             }
         });
-        
+
+//        BUTTON SELECT CUSTOMER
         btnSelectCustomer = findViewById(R.id.btn_themkhachhang);
-        
         btnSelectCustomer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(ThemHoaDon.this, "OK", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ThemHoaDon.this, SelectCustomer.class);
+                SelectCustomerLauncher.launch(intent);
             }
         });
 
+//        BUTTON PURCHASE
+        btnPurchase = findViewById(R.id.btn_thanhtoan);
+        btnPurchase.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (checkBill() == true) {
+                    Toast.makeText(ThemHoaDon.this, "OK", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 //        RCV
         recyclerView = findViewById(R.id.rcv_product_picked);
@@ -192,6 +243,28 @@ public class ThemHoaDon extends AppCompatActivity {
 
         tvTongThanhToan = findViewById(R.id.tongthanhtoan);
         tvTongThanhToan2 = findViewById(R.id.tongthanhtoan2);
+
+        tvMaKH = findViewById(R.id.makhachhang);
+        tvTenKH = findViewById(R.id.tenkhachhang);
+        tvDienThoaiKH = findViewById(R.id.sodienthoaikhachhang);
+    }
+    
+    private boolean checkBill() {
+
+        if (mThemhoadonAdapter.getItemCount() == 0) {
+            Toast.makeText(this, "Chưa chọn sản phẩm", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+        if (tvMaKH.getText().toString().trim().equals("")){
+            Toast.makeText(this, "Chưa thêm khách hàng", Toast.LENGTH_SHORT).show();
+            return false;
+        } else
+        if (radioGroup.getCheckedRadioButtonId() == -1) {
+            Toast.makeText(this, "Chưa chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        
+        return true;
     }
 
     private void setData() {
