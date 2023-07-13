@@ -29,12 +29,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
     ImageButton butBack;
@@ -60,13 +63,6 @@ public class Login extends AppCompatActivity {
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-
-        // Ki?m tra user ?? ??ng nh?p hay ch?a
-        // ??nh d?u ch? c?a h?ng v?i nh?n vi?n b?ng vi?c verified email
-//        FirebaseUser user = auth.getCurrentUser();
-//        if (user != null) {
-//            startActivity(new Intent(Login.this, MainActivity.class));
-//        }
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,70 +74,58 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email, password;
-                email = String.valueOf(txtEmail.getText());
-                password = String.valueOf(txtPassword.getText());
+//                email = String.valueOf(txtEmail.getText());
+//                password = String.valueOf(txtPassword.getText());
+
+                email = txtEmail.getText().toString().trim();
+                password = txtPassword.getText().toString().trim();
 
                 if (! email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     if (! password.isEmpty()) {
-                        auth.signInWithEmailAndPassword(email, password)
-                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                    @Override
-                                    public void onSuccess(AuthResult authResult) {
-//                                        Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
-                                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                                        DatabaseReference reference = database.getReference("Staff").child(firebaseUser.getUid());
-                                        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                            @Override
-                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                                for (DataSnapshot datas: snapshot.getChildren()){
-                                                    String usertype = datas.child("loaiNhanVien").getValue().toString();
-                                                    Toast.makeText(Login.this, usertype, Toast.LENGTH_SHORT).show();
-                                                    if (usertype.equals("admin")) {
-                                                        startActivity(new Intent(Login.this, BottomNavigation.class));
-                                                    }
-                                                    else {
-                                                        startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
-                                                    }
+                        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressDialog.dismiss();
+
+                                if(task.isSuccessful()){
+                                    FirebaseUser user = auth.getCurrentUser();
+                                    DatabaseReference reference;
+                                    Toast.makeText(getApplicationContext(),"Successfully Login",Toast.LENGTH_LONG).show();
+                                    reference = FirebaseDatabase.getInstance().
+                                            getReference("Staff").child(user.getEmail());
+
+
+                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for(DataSnapshot datas: dataSnapshot.getChildren()){
+                                                String usertype=datas.child("loaiNhanVien").getValue().toString();
+
+                                                // If the users is professor but if it is
+                                                // student go to userStudent.class
+                                                if(usertype.equals("admin")){
+
+                                                    startActivity(new
+                                                            Intent(getApplicationContext(),BottomNavigation.class));
+                                                    finish();
+
+                                                }else if (usertype.equals("staff")) {
+                                                    startActivity(new
+                                                            Intent(getApplicationContext(),BottomNavigationNhanVien.class));
+                                                    finish();
                                                 }
-//                                                String usertype = snapshot.child("loaiNhanVien").getValue(String.class);
-//                                                if (usertype != null) {
-//                                                    if (usertype.equals("admin")) {
-//                                                        startActivity(new Intent(Login.this, BottomNavigation.class));
-//                                                    }
-//                                                    else {
-//                                                        startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
-//                                                    }
-//                                                }
-                                                Log.d("a", "a");
-                                            }
 
-                                            @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                                Log.d("b", "b");
                                             }
-                                        });
-                                        //
-//                                        boolean emailVerified = false;
-//                                        if (firebaseUser != null ) {
-//                                            emailVerified = firebaseUser.isEmailVerified();
-//                                        }
+                                        }
 
-//                                       Có 2 cái bottom nav view Loan chỉnh nha
-//                                        BottomNavigation
-//                                        BottomNavigationNhanVien
-//                                        if (emailVerified) {
-//                                            startActivity(new Intent(Login.this, BottomNavigation.class));
-//                                        }  else {
-//                                            startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
-//                                        }
-//                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+                                        }
+                                    });
+                                }
+
+                            }
+                        });
                     } else {
                         Toast.makeText(Login.this, "Vui l?ng nh?p v?o m?t kh?u", Toast.LENGTH_SHORT).show();
                         txtPassword.setError("Password canot be empty");
@@ -158,6 +142,7 @@ public class Login extends AppCompatActivity {
                 }
             }
         });
+
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,14 +150,6 @@ public class Login extends AppCompatActivity {
                 finish();
             }
         });
-
-//        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                startActivity(new Intent(Login.this, SignUp.class));
-//                finish();
-//            }
-//        });
 
         txtPassword.addTextChangedListener(new TextWatcher() {
             @Override
@@ -218,5 +195,106 @@ public class Login extends AppCompatActivity {
 //        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
 
-}
+//    private void login() {
+//        String email = txtEmail.getText().toString().trim();
+//        String password = txtPassword.getText().toString().trim();
+//
+//        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+//            Toast.makeText(this, "Invalid email pattern...", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        if (TextUtils.isEmpty(password)){
+//            Toast.makeText(this, "Enter password...", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//
+//        progressDialog.setMessage("Logging in...");
+//        progressDialog.show();
+//
+//        auth.signInWithEmailAndPassword(email, password)
+//                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+//                    @Override
+//                    public void onSuccess(AuthResult authResult) {
+//                        //logged in successfully
+//                        makeMeOnline();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        //failed logging in
+//                        progressDialog.dismiss();
+//                        Toast.makeText(Login.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
+//    }
+//
+//    private void makeMeOnline() {
+//        //after logging in, make user online
+//        progressDialog.setMessage("Checking User...");
+//
+//        HashMap<String, Object> hashMap = new HashMap<>();
+//        hashMap.put("online","true");
+//
+//        //update value to db
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Staff");
+//        ref.child(auth.getUid()).updateChildren(hashMap)
+//                .addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        //update successfully
+//                        checkUserType();
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        //failed updating
+//                        progressDialog.dismiss();
+//                        Toast.makeText(Login.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//    }
+//
+//    private void checkUserType() {
+//        // if user is seller, start seller main screen
+//        // if user is buyer, start user mai screen
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Staff");
+//        ref.orderByChild("maNV").equalTo(auth.getUid())
+//                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
+//                            String accountType = ""+ds.child("loaiNhanVien");
+//                            if (accountType.contains("admin")){
+//                                progressDialog.dismiss();
+//                                //user is seller
+//                                startActivity(new Intent(Login.this, BottomNavigation.class));
+////                                Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
+////                                intent.putExtra("navigateToHomeFragment", true);
+////                                startActivity(intent);
+//                                finish();
+//                            }
+//                            else{
+//                                progressDialog.dismiss();
+//                                //user is buyer
+//                                startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
+////                                Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
+////                                intent.putExtra("navigateToHomeFragment", true);
+////                                startActivity(intent);
+//                                finish();
+//                            }
+//                        }
+//                    }
+//
+//
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//    }
 
+}

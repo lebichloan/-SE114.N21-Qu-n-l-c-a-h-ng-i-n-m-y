@@ -243,7 +243,7 @@ public class AddOrEditStaffFragment extends BaseFragment {
         if (this.nhanVien != null) {
             nhanVien.setMaNV(this.nhanVien.getMaNV());
         } else {
-            nhanVien.setMaNV(UUID.randomUUID().toString());
+            nhanVien.setMaNV(addOrEditStaffFragment.txtEmail.getText().toString());
         }
         nhanVien.setHoTen(addOrEditStaffFragment.txtHoTen.getText().toString());
         nhanVien.setEmail(addOrEditStaffFragment.txtEmail.getText().toString());
