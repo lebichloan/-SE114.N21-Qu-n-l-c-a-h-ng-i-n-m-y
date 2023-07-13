@@ -2,20 +2,11 @@ package com.example.se114n21.Models;
 
 public class ChiTietHoaDon {
     private SanPham sanPham;
-    private String SoLuong;
-    private Double ThanhTien;
-    private Double TienVon;
-    private String NgayHD;
+    private Integer SoLuong;
+    private Integer ThanhTien;
+    private Integer TienVon;
 
     public ChiTietHoaDon() {
-    }
-
-    public ChiTietHoaDon(SanPham sanPham, String soLuong, Double thanhTien, Double tienVon, String ngayHD) {
-        this.sanPham = sanPham;
-        SoLuong = soLuong;
-        ThanhTien = thanhTien;
-        TienVon = tienVon;
-        NgayHD = ngayHD;
     }
 
     public SanPham getSanPham() {
@@ -26,35 +17,34 @@ public class ChiTietHoaDon {
         this.sanPham = sanPham;
     }
 
-    public String getSoLuong() {
+    public Integer getSoLuong() {
         return SoLuong;
     }
 
-    public void setSoLuong(String soLuong) {
+    public void setSoLuong(Integer soLuong) {
         SoLuong = soLuong;
     }
 
-    public Double getThanhTien() {
+    public Integer getThanhTien() {
         return ThanhTien;
     }
 
-    public void setThanhTien(Double thanhTien) {
+    public void setThanhTien(Integer thanhTien) {
         ThanhTien = thanhTien;
     }
 
-    public Double getTienVon() {
+    public Integer getTienVon() {
         return TienVon;
     }
 
-    public void setTienVon(Double tienVon) {
+    public void setTienVon(Integer tienVon) {
         TienVon = tienVon;
     }
 
-    public String getNgayHD() {
-        return NgayHD;
-    }
-
-    public void setNgayHD(String ngayHD) {
-        NgayHD = ngayHD;
+    public ChiTietHoaDon(SanPham sanPham, Integer soLuong) {
+        this.sanPham = sanPham;
+        SoLuong = soLuong;
+        ThanhTien = sanPham.getGiaBan() * soLuong;
+        TienVon = sanPham.getGiaNhap() * soLuong;
     }
 }

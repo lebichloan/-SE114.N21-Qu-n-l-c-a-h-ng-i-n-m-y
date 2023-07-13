@@ -25,6 +25,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ViewModels.SelectCustomer"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.ChonSanPham"
             android:exported="false" />
         <activity
@@ -111,8 +114,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- <activity android:name=".ViewModels.CustomerRelateHoadonActivity" -->
-        <!-- android:exported="false"/> -->
         <activity
             android:name=".ViewModels.AddCustomerActivity"
             android:exported="false" />
