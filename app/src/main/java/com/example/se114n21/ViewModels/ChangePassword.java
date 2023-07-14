@@ -42,8 +42,6 @@ public class ChangePassword extends AppCompatActivity {
         butNext = findViewById(R.id.butNext);
         butBack = findViewById(R.id.butBack);
 
-//        butNext.setEnabled(false);
-
         FirebaseUser firebaseUser = auth.getCurrentUser();
 
         if (firebaseUser.equals("")) {
@@ -107,36 +105,14 @@ public class ChangePassword extends AppCompatActivity {
                        txtOldPassword.setError("Please enter your current password to authenticate");
                        txtOldPassword.requestFocus();
                    } else {
-                       // show process bar
                        AuthCredential credential = EmailAuthProvider.getCredential(firebaseUser.getEmail(), oldPassword);
                        firebaseUser.reauthenticate(credential).addOnCompleteListener(new OnCompleteListener<Void>() {
                            @Override
                            public void onComplete(@NonNull Task<Void> task) {
                                if (task.isSuccessful()) {
-                                   // show process bar
-//                                   butNext.setEnabled(true);
                                    Toast.makeText(ChangePassword.this, "You can change password now", Toast.LENGTH_SHORT).show();
                                    startActivity(new Intent(ChangePassword.this, ConfirmNewPassword.class));
                                    finish();
-//                                   txtOldPassword.setEnabled(false);
-//                                   txtNewPassword.setEnabled(true);
-//                                   txtConfirmNewPassword.setEnabled(true);
-//                                   butSave.setEnabled(true);
-
-//                                   butSave.setOnClickListener(new View.OnClickListener() {
-//                                       @Override
-//                                       public void onClick(View v) {
-//                                           changePassword(firebaseUser);
-//                                       }
-//                                   });
-
-//                                   butNext.setOnClickListener(new View.OnClickListener() {
-//                                       @Override
-//                                       public void onClick(View v) {
-//                                           startActivity(new Intent(ChangePassword.this, ConfirmNewPassword.class));
-//                                           finish();
-//                                       }
-//                                   });
                                } else {
                                    try {
                                        throw task.getException();
@@ -144,7 +120,6 @@ public class ChangePassword extends AppCompatActivity {
                                        Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                    }
                                }
-                               //show process bar
                            }
                        });
                    }

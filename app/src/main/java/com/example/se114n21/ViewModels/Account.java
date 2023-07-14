@@ -6,14 +6,20 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -47,7 +53,7 @@ public class Account extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         initUI();
-        getUserProfile();
+        getData();
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -77,16 +83,31 @@ public class Account extends AppCompatActivity {
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser firebaseUser = auth.getCurrentUser();
-                boolean emailVerified = false;
-                if (firebaseUser != null ) {
-                    emailVerified = firebaseUser.isEmailVerified();
-                }
-                if (emailVerified) {
-                    startActivity(new Intent(Account.this, AdminProfile.class));
-                }  else {
-                    startActivity(new Intent(Account.this, NVProfile.class));
-                }
+                FirebaseUser user = auth.getCurrentUser();
+                DatabaseReference reference;
+                reference = FirebaseDatabase.getInstance().
+                        getReference("NhanVien").child(user.getUid());
+
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+                            if(usertype.equals("admin")){
+                                startActivity(new
+                                        Intent(getApplicationContext(),AdminProfile.class));
+                                finish();
+                            }else if (usertype.equals("staff")) {
+                                startActivity(new
+                                        Intent(getApplicationContext(),NVProfile.class));
+                                finish();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
         });
         butEmailNext.setOnClickListener(new View.OnClickListener() {
@@ -104,26 +125,69 @@ public class Account extends AppCompatActivity {
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                auth.signOut();
-                startActivity(new Intent(Account.this, Login.class));
+                showCustomDialog("Bạn chắc chắn muốn đăng xuất");
             }
         });
     }
 
-    private void getUserProfile() {
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null ) {
-            String name = firebaseUser.getDisplayName();
-            String email = firebaseUser.getEmail();
-            Uri photoUrl = firebaseUser.getPhotoUrl();
-            String uid = firebaseUser.getUid();
-            boolean emailVerified = firebaseUser.isEmailVerified();
+    private void showCustomDialog(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                auth.signOut();
+                startActivity(new Intent(Account.this, Login.class));
+            }
+        });
 
-            txtProfile.setText(name);
-            txtEmail.setText(email);
+        Button butCancel = dialogView.findViewById(R.id.butCancel);
+        butCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
         }
+        dialog.show();
+
     }
 
+    private void getData(){
+        FirebaseUser user = auth.getCurrentUser();
+        DatabaseReference reference;
+        reference = FirebaseDatabase.getInstance().
+                getReference("NhanVien").child(user.getUid());
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String hoTen = dataSnapshot.child("hoTen").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
+                    txtProfile.setText(hoTen);
+                    txtEmail.setText(email);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Thông tin tài khoản");
