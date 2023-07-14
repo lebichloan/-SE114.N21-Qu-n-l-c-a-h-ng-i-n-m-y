@@ -21,6 +21,9 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ViewModels.QLNhanVien"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.Login"
             android:exported="false" />
         <activity
@@ -48,7 +51,7 @@
             android:name=".ViewModels.admin_QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLNhanVien"
+            android:name=".ViewModels.AddStaff"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
