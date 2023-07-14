@@ -16,6 +16,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Interpolator;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
@@ -26,6 +27,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +36,8 @@ import com.example.se114n21.Adapter.ThemhoadonAdapter;
 import com.example.se114n21.Interface.ThemhoadonInterface;
 import com.example.se114n21.Interface.ThemhoadonInterface2;
 import com.example.se114n21.Models.ChiTietHoaDon;
+import com.example.se114n21.Models.HoaDon;
+import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhachHang;
 import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
@@ -45,7 +49,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.net.Inet4Address;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -170,7 +178,8 @@ public class ThemHoaDon extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (checkBill() == true) {
-                    Toast.makeText(ThemHoaDon.this, "OK", Toast.LENGTH_SHORT).show();
+                    progressDialog.show();
+                    getMaxId();
                 }
             }
         });
@@ -248,7 +257,98 @@ public class ThemHoaDon extends AppCompatActivity {
         tvTenKH = findViewById(R.id.tenkhachhang);
         tvDienThoaiKH = findViewById(R.id.sodienthoaikhachhang);
     }
-    
+
+    boolean save = false;
+    private void getMaxId() {
+        save = false;
+        DatabaseReference myRef = database.getReference("maxHoaDon");
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (save == false) {
+                    String maHD = snapshot.getValue(String.class);
+                    Integer maxId = Integer.parseInt(maHD.substring(3));
+                    PrepareBill(maxId);
+                    save = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
+            }
+        });
+    }
+
+    private String createID(Integer maxId) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("HD", "", maxId, "%04d");
+
+        return generator.generate();
+    }
+
+    private void PrepareBill(Integer maxId) {
+        HoaDon hoaDon = new HoaDon();
+
+        hoaDon.setMaHD(createID(maxId));
+
+        hoaDon.setMaNV("NV0001");
+
+        hoaDon.setMaKH(tvMaKH.getText().toString().trim());
+
+//      DATE
+        Date currentTime = Calendar.getInstance().getTime();
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm dd/MM/yyyy");
+        hoaDon.setNgayHD(sdf.format(currentTime));
+
+        hoaDon.setDienThoaiNhanHang(editPhoneNhanHang.getText().toString().trim());
+        hoaDon.setDiaCHiNhanHang(editDiaChiNhanHang.getText().toString().trim());
+
+        hoaDon.setPhiVanChuyen(Integer.parseInt(tvPhiVanChuyen.getText().toString().trim()));
+        hoaDon.setPhiLapDat(Integer.parseInt(tvPhiLapDat.getText().toString().trim()));
+        hoaDon.setChietKhau(Integer.parseInt(tvChietKhau.getText().toString().trim()));
+
+        hoaDon.setTongTienPhaiTra(Integer.parseInt(tvTongThanhToan.getText().toString().trim()));
+
+        hoaDon.setGhiChu(editNote.getText().toString().trim());
+
+        RadioButton radioButton = findViewById(radioGroup.getCheckedRadioButtonId());
+        hoaDon.setPhuongThucThanhToan(radioButton.getText().toString());
+
+        hoaDon.setChiTietHD(mListCTHD);
+
+//        TIEN VON
+        Integer tong = 0;
+        for (int i=0; i<mListCTHD.size(); i++) {
+            tong += mListCTHD.get(i).getTienVon();
+        }
+        hoaDon.setTienVon(tong);
+
+        addBill(hoaDon);
+    }
+
+    private void addBill(HoaDon hoaDon) {
+        DatabaseReference myRef = database.getReference("listHoaDon");
+        myRef.child(hoaDon.getMaHD()).setValue(hoaDon, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                updateMaxId(hoaDon);
+            }
+        });
+    }
+
+    private void updateMaxId(HoaDon hoaDon) {
+        DatabaseReference myRef = database.getReference("maxHoaDon");
+        myRef.setValue(hoaDon.getMaHD(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                progressDialog.dismiss();
+                Toast.makeText(ThemHoaDon.this, "them hoa don thanh cong!", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     private boolean checkBill() {
 
         if (mThemhoadonAdapter.getItemCount() == 0) {
@@ -431,6 +531,7 @@ public class ThemHoaDon extends AppCompatActivity {
 
                             chiTietHoaDon.setSoLuong(Integer.parseInt(soluong));
                             chiTietHoaDon.setThanhTien(Integer.parseInt(soluong) * chiTietHoaDon.getSanPham().getGiaBan());
+                            chiTietHoaDon.setTienVon(Integer.parseInt(soluong) * chiTietHoaDon.getSanPham().getGiaNhap());
 
                             mListCTHD.set(pos, chiTietHoaDon);
                             mThemhoadonAdapter.notifyItemChanged(pos);

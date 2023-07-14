@@ -1,5 +1,6 @@
 package com.example.se114n21.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ public class HoaDon {
     private List<ChiTietHoaDon> ChiTietHD;
 
     public HoaDon() {
+        this.ChiTietHD = new ArrayList<>();
     }
 
     public HoaDon(String maHD, String maNV, String maKH, String ngayHD, String diaCHiNhanHang, String dienThoaiNhanHang, Integer phiVanChuyen, Integer phiLapDat, Integer chietKhau, Integer tongTienPhaiTra, Integer tienVon, String ghiChu, String phuongThucThanhToan, List<ChiTietHoaDon> chiTietHD) {
