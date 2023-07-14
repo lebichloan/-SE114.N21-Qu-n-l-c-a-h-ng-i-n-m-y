@@ -44,9 +44,6 @@ import com.google.firebase.storage.UploadTask;
 public class AddStaff extends AppCompatActivity {
 
     ImageButton butBack;
-    ImageView avata;
-    String linkAvata;
-    Uri uri;
     EditText txtHoTen, txtEmail;
     Button butAdd;
     NhanVien nhanVien;
@@ -55,22 +52,6 @@ public class AddStaff extends AppCompatActivity {
     DatabaseReference reference;
     Spinner spn_type_staff;
     private String[] arr = new String[2];
-
-//    ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//                public void onActivityResult(ActivityResult result) {
-//                    if (result.getResultCode() == Activity.RESULT_OK) {
-//                        Intent data = result.getData();
-//                        uri = data.getData();
-//                        avata.setImageURI(uri);
-//                    } else {
-//                        Toast.makeText(AddStaff.this, "No Image Selected", Toast.LENGTH_SHORT).show();
-//                    }
-//                }
-//            }
-//    );
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +67,7 @@ public class AddStaff extends AppCompatActivity {
         arr[1]= getResources().getString(R.string.admin);
 
         initSpinner();
-        setData(nhanVien);
+//        setData(nhanVien);
 
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,9 +85,6 @@ public class AddStaff extends AppCompatActivity {
     }
 
     private void addStaff() {
-        String name = txtHoTen.getText().toString().trim();
-        String email = txtEmail.getText().toString().trim();
-
         if (isNameEmpty()) {
             Toast.makeText(AddStaff.this, "Vui long nhap vao ho ten", Toast.LENGTH_SHORT).show();
             txtHoTen.setError("Email can not be empty");
@@ -117,8 +95,8 @@ public class AddStaff extends AppCompatActivity {
             txtEmail.setError("Password can not be empty");
             txtEmail.requestFocus();
         } else {
+            String email = txtEmail.getText().toString().trim();
             String password = "123456789";
-
             auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -148,49 +126,6 @@ public class AddStaff extends AppCompatActivity {
                                 nhanVien
                         );
                         Toast.makeText(AddStaff.this, "Them nguoi dung thanh cong", Toast.LENGTH_SHORT).show();
-////                                ??y data l?n firebase realtime
-//                        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("Account")
-//                                .child(uri.getLastPathSegment());
-//
-//                        AlertDialog.Builder builder = new AlertDialog.Builder(SignUp.this);
-//                        builder.setCancelable(false);
-//                        builder.setView(R.layout.dialog_loading);
-//                        AlertDialog dialog = builder.create();
-//                        dialog.show();
-//
-//                        storageReference.putFile(uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//                            @Override
-//                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                                Task<Uri> uriTask = taskSnapshot.getStorage().getDownloadUrl();
-//                                while (!uriTask.isComplete());
-//                                Uri urlImage = uriTask.getResult();
-//                                linkAvata = urlImage.toString();
-//                                com.example.se114n21.Models.Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
-//                                FirebaseDatabase.getInstance().getReference("Account").child(userId)
-//                                        .setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                            @Override
-//                                            public void onComplete(@NonNull Task<Void> task) {
-//                                                if (task.isSuccessful()){
-////                                                            Th?ng b?o luwu th?nh c?ng
-////                                                            Toast.makeText(SignUp.this, "Saved", Toast.LENGTH_SHORT).show();
-////                                                            finish();
-//                                                }
-//                                            }
-//                                        }).addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-////                                                        B?o l?i
-////                                                        Toast.makeText(SignUp.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        });
-//                                dialog.dismiss();
-//                            }
-//                        }).addOnFailureListener(new OnFailureListener() {
-//                            @Override
-//                            public void onFailure(@NonNull Exception e) {
-//                                dialog.dismiss();
-//                            }
-//                        });
                     } else {
                         Toast.makeText(AddStaff.this, "Add staff failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                     }
@@ -204,9 +139,6 @@ public class AddStaff extends AppCompatActivity {
         NhanVien nhanVien = new NhanVien();
         nhanVien.setHoTen(txtHoTen.getText().toString());
         nhanVien.setEmail(txtEmail.getText().toString());
-        //set loai tai khoan:
-        //type = 1 la admin
-        //type = 2 la nhan vien
         String type = "admin";
         if (spn_type_staff.getSelectedItem().toString().equals(getResources().getString(R.string.admin))) {
             type = "admin";
@@ -239,7 +171,6 @@ public class AddStaff extends AppCompatActivity {
 
     private void initUI() {
         butBack = findViewById(R.id.butBack);
-        avata = findViewById(R.id.avata);
         txtHoTen = findViewById(R.id.txtHoTen);
         txtEmail = findViewById(R.id.txtEmail);
         butAdd = findViewById(R.id.butAdd);
