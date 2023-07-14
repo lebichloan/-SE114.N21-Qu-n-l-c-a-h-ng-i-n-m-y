@@ -111,8 +111,7 @@ public class StaffFragment extends BaseFragment {
     }
 
     private void initRecyclerView() {
-        fragmentStaffBinding.rcvStaff.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false));
-        fragmentStaffBinding.rcvStaff.setAdapter(staffAdapter);
+        fragmentStaffBinding.rcvStaff.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));        fragmentStaffBinding.rcvStaff.setAdapter(staffAdapter);
     }
 
     private void initAdapter() {

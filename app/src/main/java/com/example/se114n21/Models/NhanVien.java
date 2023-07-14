@@ -13,9 +13,8 @@ public class NhanVien implements Serializable {
     private String Email;
     private String NgayVaoLam;
     private Double LuongTheoGio;
-
-    private int loaiNhanVien;
-
+    private String loaiNhanVien;
+    private  String password;
     private List<String> DanhSachCaLam;
 
     public NhanVien() {
@@ -35,11 +34,19 @@ public class NhanVien implements Serializable {
         DanhSachCaLam = danhSachCaLam;
     }
 
-    public int getLoaiNhanVien() {
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getLoaiNhanVien() {
         return loaiNhanVien;
     }
 
-    public void setLoaiNhanVien(int loaiNhanVien) {
+    public void setLoaiNhanVien(String loaiNhanVien) {
         this.loaiNhanVien = loaiNhanVien;
     }
 
