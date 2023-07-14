@@ -1,15 +1,21 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -20,6 +26,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class ConfirmNewPassword extends AppCompatActivity {
     ImageButton butBack;
@@ -139,33 +150,59 @@ public class ConfirmNewPassword extends AppCompatActivity {
             txtConfirmNewPassword.setError("Please re-enter same password");
             txtConfirmNewPassword.requestFocus();
         }
-//        else if (! oldPassword.matches(newPassword)) {
-//            Toast.makeText(ConfirmNewPassword.this, "New password can not be same old password", Toast.LENGTH_SHORT).show();
-//            txtNewPassword.setError("Please enter new password");
-//            txtNewPassword.requestFocus();
-//        }
         else {
-            // show process bar
-            firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_save_change_password, null);
+            builder.setView(dialogView);
+            Dialog dialog = builder.create();
+            Button butOK = dialogView.findViewById(R.id.butOK);
+            Button butBack = dialogView.findViewById(R.id.butBack);
+            butOK.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onComplete(@NonNull Task<Void> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(ConfirmNewPassword.this, "Password has been change", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(ConfirmNewPassword.this, Account.class);
-                        startActivity(intent);
-                        finish();
-                    } else {
-                        try {
-                            throw task.getException();
-                        } catch (Exception e) {
-                            Toast.makeText(ConfirmNewPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                public void onClick(View v) {
+                    dialog.dismiss();
+                    firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if (task.isSuccessful()) {
+                                Toast.makeText(ConfirmNewPassword.this, "Password has been change", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(ConfirmNewPassword.this, Account.class);
+                                startActivity(intent);
+                                finish();
+                            } else {
+                                try {
+                                    throw task.getException();
+                                } catch (Exception e) {
+                                    Toast.makeText(ConfirmNewPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         }
-                    }
-                    //show process bar
+                    });
 
                 }
             });
+
+            butBack.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+            Window dialogWindow = dialog.getWindow();
+            if (dialogWindow != null) {
+                WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+                layoutParams.gravity = Gravity.TOP;
+                layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+                dialogWindow.setAttributes(layoutParams);
+            }
+            dialog.show();
+
         }
     }
+
+    private void showDialogLoginSucess() {
+    }
+
 
 }

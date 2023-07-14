@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,7 +14,11 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,7 +51,7 @@ public class Login extends AppCompatActivity {
     Button butLogin;
     FirebaseAuth auth;
     FirebaseDatabase database;
-    TextView textViewForgotPassword, textViewSignUp;
+    TextView textViewForgotPassword;
     ProgressDialog progressDialog;
 
     @Override
@@ -74,9 +79,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email, password;
-//                email = String.valueOf(txtEmail.getText());
-//                password = String.valueOf(txtPassword.getText());
-
                 email = txtEmail.getText().toString().trim();
                 password = txtPassword.getText().toString().trim();
 
@@ -88,48 +90,22 @@ public class Login extends AppCompatActivity {
                                 progressDialog.dismiss();
 
                                 if(task.isSuccessful()){
-                                    FirebaseUser user = auth.getCurrentUser();
-                                    DatabaseReference reference;
-                                    Toast.makeText(getApplicationContext(),"Successfully Login",Toast.LENGTH_LONG).show();
-                                    reference = FirebaseDatabase.getInstance().
-                                            getReference("NhanVien").child(user.getUid());
-
-                                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(DataSnapshot dataSnapshot) {
-                                            if (dataSnapshot.exists()){
-                                                String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
-                                                if(usertype.equals("admin")){
-                                                    startActivity(new
-                                                            Intent(getApplicationContext(),BottomNavigation.class));
-                                                    finish();
-                                                }else if (usertype.equals("staff")) {
-                                                    startActivity(new
-                                                            Intent(getApplicationContext(),BottomNavigationNhanVien.class));
-                                                    finish();
-                                                }
-
-                                            }
-                                        }
-                                        @Override
-                                        public void onCancelled(DatabaseError databaseError) {
-                                        }
-                                    });
+                                    showDialogLoginSucess();
                                 }
 
                             }
                         });
                     } else {
-                        Toast.makeText(Login.this, "Vui l?ng nh?p v?o m?t kh?u", Toast.LENGTH_SHORT).show();
+                        showCustomDialog("Vui lòng nhập vào mật khẩu");
                         txtPassword.setError("Password canot be empty");
                         txtPassword.requestFocus();
                     }
                 } else if (email.isEmpty()) {
-                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email", Toast.LENGTH_SHORT).show();
+                    showCustomDialog("Vui lòng nhập vào địa chỉ email");
                     txtEmail.setError("Email cannot be empty");
                     txtEmail.requestFocus();
                 } else {
-                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email h?p l?", Toast.LENGTH_SHORT).show();
+                    showCustomDialog("Vui lòng nhập vào địa chỉ email hợp lệ");
                     txtEmail.setError("Please enter valid email");
                     txtEmail.requestFocus();
                 }
@@ -178,6 +154,85 @@ public class Login extends AppCompatActivity {
 
     }
 
+    private void showDialogLoginSucess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText("Đăng nhập thành công");
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                FirebaseUser user = auth.getCurrentUser();
+                DatabaseReference reference;
+
+                reference = FirebaseDatabase.getInstance().
+                        getReference("NhanVien").child(user.getUid());
+
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+                            if(usertype.equals("admin")){
+                                startActivity(new
+                                        Intent(getApplicationContext(),BottomNavigation.class));
+                                finish();
+                            }else if (usertype.equals("staff")) {
+                                startActivity(new
+                                        Intent(getApplicationContext(),BottomNavigationNhanVien.class));
+                                finish();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
+
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialog(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
@@ -185,109 +240,6 @@ public class Login extends AppCompatActivity {
         eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
-//        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
-
-//    private void login() {
-//        String email = txtEmail.getText().toString().trim();
-//        String password = txtPassword.getText().toString().trim();
-//
-//        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-//            Toast.makeText(this, "Invalid email pattern...", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//        if (TextUtils.isEmpty(password)){
-//            Toast.makeText(this, "Enter password...", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        progressDialog.setMessage("Logging in...");
-//        progressDialog.show();
-//
-//        auth.signInWithEmailAndPassword(email, password)
-//                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-//                    @Override
-//                    public void onSuccess(AuthResult authResult) {
-//                        //logged in successfully
-//                        makeMeOnline();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        //failed logging in
-//                        progressDialog.dismiss();
-//                        Toast.makeText(Login.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//
-//    }
-//
-//    private void makeMeOnline() {
-//        //after logging in, make user online
-//        progressDialog.setMessage("Checking User...");
-//
-//        HashMap<String, Object> hashMap = new HashMap<>();
-//        hashMap.put("online","true");
-//
-//        //update value to db
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Staff");
-//        ref.child(auth.getUid()).updateChildren(hashMap)
-//                .addOnSuccessListener(new OnSuccessListener<Void>() {
-//                    @Override
-//                    public void onSuccess(Void unused) {
-//                        //update successfully
-//                        checkUserType();
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        //failed updating
-//                        progressDialog.dismiss();
-//                        Toast.makeText(Login.this, "" + e.getMessage(), Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-//    }
-//
-//    private void checkUserType() {
-//        // if user is seller, start seller main screen
-//        // if user is buyer, start user mai screen
-//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference("Staff");
-//        ref.orderByChild("maNV").equalTo(auth.getUid())
-//                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        for (DataSnapshot ds: dataSnapshot.getChildren()){
-//                            String accountType = ""+ds.child("loaiNhanVien");
-//                            if (accountType.contains("admin")){
-//                                progressDialog.dismiss();
-//                                //user is seller
-//                                startActivity(new Intent(Login.this, BottomNavigation.class));
-////                                Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
-////                                intent.putExtra("navigateToHomeFragment", true);
-////                                startActivity(intent);
-//                                finish();
-//                            }
-//                            else{
-//                                progressDialog.dismiss();
-//                                //user is buyer
-//                                startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
-////                                Intent intent = new Intent(LoginActivity.this, MainUserActivity.class);
-////                                intent.putExtra("navigateToHomeFragment", true);
-////                                startActivity(intent);
-//                                finish();
-//                            }
-//                        }
-//                    }
-//
-//
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//    }
 
 }

@@ -13,7 +13,6 @@ import com.example.se114n21.R;
 public class SendEmailSucess extends AppCompatActivity {
 
     Button butBack;
-    ProgressBar processBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
