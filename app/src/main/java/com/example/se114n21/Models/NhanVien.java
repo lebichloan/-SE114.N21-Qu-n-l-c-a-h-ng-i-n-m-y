@@ -20,6 +20,13 @@ public class NhanVien implements Serializable {
     public NhanVien() {
     }
 
+    public NhanVien(String maNV, String hoTen, String email, String loaiNhanVien){
+        MaNV = maNV;
+        HoTen = hoTen;
+        Email = email;
+        this.loaiNhanVien = loaiNhanVien;
+    }
+
     public NhanVien(String linkAvt, String maNV, String hoten, String ngaySinh, String gioiTinh, String diaChi, String sdt, String email, String ngayVaoLam, Double luongTheoGio, List<String> danhSachCaLam) {
         LinkAvt = linkAvt;
         MaNV = maNV;

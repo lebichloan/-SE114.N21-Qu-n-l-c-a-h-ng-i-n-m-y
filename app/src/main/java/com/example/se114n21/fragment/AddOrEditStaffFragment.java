@@ -95,7 +95,6 @@ public class AddOrEditStaffFragment extends BaseFragment {
         }
     }
 
-    //oke. nếu bạn mệt r thì để mai cũngdđược. ti tui sợ bạn có việc khác á, ok 3 phút
     private void initEvents() {
         // add staff
         addOrEditStaffFragment.imgAddStaff.setOnClickListener(new View.OnClickListener() {
