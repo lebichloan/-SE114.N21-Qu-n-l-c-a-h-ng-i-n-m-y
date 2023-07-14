@@ -92,23 +92,17 @@ public class Login extends AppCompatActivity {
                                     DatabaseReference reference;
                                     Toast.makeText(getApplicationContext(),"Successfully Login",Toast.LENGTH_LONG).show();
                                     reference = FirebaseDatabase.getInstance().
-                                            getReference("Staff").child(user.getEmail());
-
+                                            getReference("NhanVien").child(user.getUid());
 
                                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(DataSnapshot dataSnapshot) {
-                                            for(DataSnapshot datas: dataSnapshot.getChildren()){
-                                                String usertype=datas.child("loaiNhanVien").getValue().toString();
-
-                                                // If the users is professor but if it is
-                                                // student go to userStudent.class
+                                            if (dataSnapshot.exists()){
+                                                String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
                                                 if(usertype.equals("admin")){
-
                                                     startActivity(new
                                                             Intent(getApplicationContext(),BottomNavigation.class));
                                                     finish();
-
                                                 }else if (usertype.equals("staff")) {
                                                     startActivity(new
                                                             Intent(getApplicationContext(),BottomNavigationNhanVien.class));
@@ -117,7 +111,6 @@ public class Login extends AppCompatActivity {
 
                                             }
                                         }
-
                                         @Override
                                         public void onCancelled(DatabaseError databaseError) {
                                         }

@@ -27,7 +27,7 @@
             android:name=".ViewModels.QLNhanVien"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.Login"
+            android:name=".ViewModels.EditStaff"
             android:exported="false" />
         <activity
             android:name=".ViewModels.BottomNavigationNhanVien"
@@ -54,7 +54,7 @@
             android:name=".ViewModels.admin_QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.EditStaff"
+            android:name=".ViewModels.Login"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
