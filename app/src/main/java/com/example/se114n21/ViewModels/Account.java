@@ -5,6 +5,7 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -36,6 +39,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 public class Account extends AppCompatActivity {
@@ -46,6 +52,7 @@ public class Account extends AppCompatActivity {
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
     Button butLogout;
     FirebaseAuth auth;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,8 +60,10 @@ public class Account extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         auth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
         initUI();
         getData();
+        getAvata();
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -65,8 +74,10 @@ public class Account extends AppCompatActivity {
                             Intent data = result.getData();
                             uri = data.getData();
                             avata.setImageURI(uri);
+                            updateAvata(uri);
                         } else {
-                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            showCustomDialogFail("Vui lòng chọn hình ảnh");
+//                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -80,7 +91,6 @@ public class Account extends AppCompatActivity {
                 activityResultLauncher.launch(photoPicker);
             }
         });
-
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,30 +136,75 @@ public class Account extends AppCompatActivity {
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCustomDialog("Bạn chắc chắn muốn đăng xuất");
+                showCustomDialogConfirm("Bạn chắc chắn muốn đăng xuất");
             }
         });
     }
 
+    private void updateAvata(Uri uri){
+        StorageReference storageRef = storage.getReference().child("NhanVien").child(auth.getCurrentUser().getUid());
+        storageRef.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String avataUrl = uri.toString();
+                                // update link avata to firebase
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NhanVien").child(auth.getCurrentUser().getUid()).child("linkAvt");
+                                reference.setValue(avataUrl, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                        if (error == null){
+                                            // khong co loi
+
+                                        }
+                                        else {
+                                            // co loi
+                                            showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+                    }
+                });
+    }
     private void getAvata(){
-        DatabaseReference avataRef = FirebaseDatabase.getInstance().getReference().child("NhanVien").child(auth.getUid()).child("LinkAvt");
-        avataRef.addValueEventListener(new ValueEventListener() {
+//        DatabaseReference avataRef = FirebaseDatabase.getInstance().getReference().child("NhanVien").child(auth.getCurrentUser().getUid()).child("linkAvt");
+//        avataRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                String avataUrl = "";
+//                if (snapshot.exists()){
+//                    String avataUrl = snapshot.getValue(String.class);
+////                    if (avataUrl != null){
+//                        Picasso.get().load(avataUrl).into(avata);
+////                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        StorageReference storageRef = storage.getReference().child("NhanVien").child(auth.getCurrentUser().getUid());
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    String avataUrl = snapshot.getValue(String.class);
-                    Picasso.get().load(avataUrl).into(avata);
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(avata);
             }
         });
     }
-
-    private void showCustomDialog(String data){
+    private void showCustomDialogConfirm(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
         View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
@@ -184,7 +239,32 @@ public class Account extends AppCompatActivity {
         dialog.show();
 
     }
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
 
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
     private void getData(){
         FirebaseUser user = auth.getCurrentUser();
         DatabaseReference reference;
@@ -222,7 +302,6 @@ public class Account extends AppCompatActivity {
         butPasswordNext = findViewById(R.id.butPasswordNext);
         butLogout = findViewById(R.id.butLogout);
     }
-
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

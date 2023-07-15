@@ -42,8 +42,7 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:padding="2dp"
-                    android:src="@drawable/avata"
-                    android:background="@drawable/background_image"
+                    android:background="@drawable/background_avata"
                     app:shapeAppearanceOverlay="@style/circleImageView" />
 
             </FrameLayout>
