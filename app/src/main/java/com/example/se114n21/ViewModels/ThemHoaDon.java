@@ -343,8 +343,23 @@ public class ThemHoaDon extends AppCompatActivity {
         myRef.setValue(hoaDon.getMaHD(), new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                for(int i=0; i<mListCTHD.size(); i++) {
+                    String path = "listSanPham/" + mListCTHD.get(i).getSanPham().getMaSP();
+                    DatabaseReference myRef = database.getReference(path);
+
+                    Map<String, Object> map = new HashMap<>();
+                    map.put("soLuong", mListCTHD.get(i).getSanPham().getSoLuong() - mListCTHD.get(i).getSoLuong());
+
+
+                    myRef.updateChildren(map, new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        }
+                    });
+                }
+
                 progressDialog.dismiss();
-                Toast.makeText(ThemHoaDon.this, "them hoa don thanh cong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ThemHoaDon.this, "Them hoa don thanh cong!", Toast.LENGTH_SHORT).show();
             }
         });
     }
