@@ -18,6 +18,7 @@ public class SendEmailSucess extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_email_sucess);
+        getSupportActionBar().hide();
 
         butBack = findViewById(R.id.butBack);
 

@@ -19,6 +19,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.R;
@@ -32,6 +33,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import org.w3c.dom.Text;
+
 public class ConfirmNewPassword extends AppCompatActivity {
     ImageButton butBack;
     EditText txtNewPassword, txtConfirmNewPassword;
@@ -43,6 +46,7 @@ public class ConfirmNewPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_confirm_new_password);
+        getSupportActionBar().hide();
 
         auth = FirebaseAuth.getInstance();
         butBack = findViewById(R.id.butBack);
@@ -59,7 +63,6 @@ public class ConfirmNewPassword extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
         butSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,7 +89,6 @@ public class ConfirmNewPassword extends AppCompatActivity {
 
             }
         });
-
         eyeButton.setOnClickListener(view -> {
             if (txtNewPassword.getInputType() == 129) {
                 txtNewPassword.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -97,7 +99,6 @@ public class ConfirmNewPassword extends AppCompatActivity {
                 eyeButton.setImageDrawable(getDrawable(R.drawable.eye));
             }
         });
-
         txtConfirmNewPassword.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -118,7 +119,6 @@ public class ConfirmNewPassword extends AppCompatActivity {
 
             }
         });
-
         eyeButton1.setOnClickListener(view -> {
             if (txtConfirmNewPassword.getInputType() == 129) {
                 txtConfirmNewPassword.setInputType(InputType.TYPE_CLASS_TEXT);
@@ -130,79 +130,88 @@ public class ConfirmNewPassword extends AppCompatActivity {
             }
         });
 
-
     }
 
     private void changePassword(FirebaseUser firebaseUser) {
         String newPassword = txtNewPassword.getText().toString();
         String confirmNewPassword = txtConfirmNewPassword.getText().toString();
 
-        if (TextUtils.isEmpty(newPassword)) {
-            Toast.makeText(ConfirmNewPassword.this, "New password is need", Toast.LENGTH_SHORT).show();
+        if (newPassword.isEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào mật khẩu mới của bạn");
             txtNewPassword.setError("Please enter your new password");
             txtNewPassword.requestFocus();
-        } else if (TextUtils.isEmpty(confirmNewPassword)) {
-            Toast.makeText(ConfirmNewPassword.this, "Please confirm your new password", Toast.LENGTH_SHORT).show();
+        } else if (confirmNewPassword.isEmpty()) {
+            showCustomDialogFail("Vui lòng xác nhận mật khẩu mới trước khi tiếp tục");
             txtConfirmNewPassword.setError("Please re-enter your new password");
             txtConfirmNewPassword.requestFocus();
         } else if (! newPassword.matches(confirmNewPassword)) {
-            Toast.makeText(ConfirmNewPassword.this, "Password did not match", Toast.LENGTH_SHORT).show();
+            showCustomDialogFail("Mật khẩu mới và mật khẩu xác nhận phải trùng khớp");
             txtConfirmNewPassword.setError("Please re-enter same password");
             txtConfirmNewPassword.requestFocus();
         }
         else {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            LayoutInflater inflater = getLayoutInflater();
-            View dialogView = inflater.inflate(R.layout.dialog_save_change_password, null);
-            builder.setView(dialogView);
-            Dialog dialog = builder.create();
-            Button butOK = dialogView.findViewById(R.id.butOK);
-            Button butBack = dialogView.findViewById(R.id.butBack);
-            butOK.setOnClickListener(new View.OnClickListener() {
+            firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                    firebaseUser.updatePassword(newPassword).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if (task.isSuccessful()) {
-                                Toast.makeText(ConfirmNewPassword.this, "Password has been change", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(ConfirmNewPassword.this, Account.class);
-                                startActivity(intent);
-                                finish();
-                            } else {
-                                try {
-                                    throw task.getException();
-                                } catch (Exception e) {
-                                    Toast.makeText(ConfirmNewPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                                }
-                            }
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        showCustomDialogSucess("Đổi mật khẩu thành công");
+                        startActivity(new Intent(ConfirmNewPassword.this, Account.class));
+                        finish();
+                    } else {
+                        try {
+                            throw task.getException();
+                        } catch (Exception e) {
+                            showCustomDialogFail(e.getMessage());
+//                            Toast.makeText(ConfirmNewPassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                         }
-                    });
-
+                    }
                 }
             });
-
-            butBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-            Window dialogWindow = dialog.getWindow();
-            if (dialogWindow != null) {
-                WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-                layoutParams.gravity = Gravity.TOP;
-                layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-                dialogWindow.setAttributes(layoutParams);
-            }
-            dialog.show();
 
         }
     }
-
-    private void showDialogLoginSucess() {
+    private void showCustomDialogSucess(String data) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
     }
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
 
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
 
 }

@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -11,6 +12,7 @@ import android.text.TextUtils;
 import android.util.Patterns;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -19,7 +21,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.se114n21.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -37,6 +38,7 @@ public class ForgotPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+        getSupportActionBar().hide();
 
         auth = FirebaseAuth.getInstance();
         butBack = findViewById(R.id.butBack);
@@ -85,10 +87,10 @@ public class ForgotPassword extends AppCompatActivity {
     private void showCustomDialog(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
+        View dialogView = inflater.inflate(R.layout.dialog_fail, null);
         builder.setView(dialogView);
         Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        TextView txtContent = dialogView.findViewById(R.id.txtAlert);
         txtContent.setText(data);
         Button butOK = dialogView.findViewById(R.id.butOK);
         butOK.setOnClickListener(new View.OnClickListener() {

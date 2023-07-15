@@ -36,6 +36,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 public class Account extends AppCompatActivity {
 
@@ -126,6 +127,24 @@ public class Account extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showCustomDialog("Bạn chắc chắn muốn đăng xuất");
+            }
+        });
+    }
+
+    private void getAvata(){
+        DatabaseReference avataRef = FirebaseDatabase.getInstance().getReference().child("NhanVien").child(auth.getUid()).child("LinkAvt");
+        avataRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    String avataUrl = snapshot.getValue(String.class);
+                    Picasso.get().load(avataUrl).into(avata);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
     }

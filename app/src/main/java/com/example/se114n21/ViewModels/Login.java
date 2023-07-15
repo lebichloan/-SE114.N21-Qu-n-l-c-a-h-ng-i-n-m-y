@@ -88,7 +88,6 @@ public class Login extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<AuthResult> task) {
                                 progressDialog.dismiss();
-
                                 if(task.isSuccessful()){
                                     showDialogLoginSucess();
                                 }
@@ -96,16 +95,16 @@ public class Login extends AppCompatActivity {
                             }
                         });
                     } else {
-                        showCustomDialog("Vui lòng nhập vào mật khẩu");
+                        showCustomDialogFail("Vui lòng nhập vào mật khẩu");
                         txtPassword.setError("Password canot be empty");
                         txtPassword.requestFocus();
                     }
                 } else if (email.isEmpty()) {
-                    showCustomDialog("Vui lòng nhập vào địa chỉ email");
+                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email");
                     txtEmail.setError("Email cannot be empty");
                     txtEmail.requestFocus();
                 } else {
-                    showCustomDialog("Vui lòng nhập vào địa chỉ email hợp lệ");
+                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email hợp lệ");
                     txtEmail.setError("Please enter valid email");
                     txtEmail.requestFocus();
                 }
@@ -162,40 +161,13 @@ public class Login extends AppCompatActivity {
         Dialog dialog = builder.create();
         TextView txtContent = dialogView.findViewById(R.id.txtContent);
         txtContent.setText("Đăng nhập thành công");
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                FirebaseUser user = auth.getCurrentUser();
-                DatabaseReference reference;
-
-                reference = FirebaseDatabase.getInstance().
-                        getReference("NhanVien").child(user.getUid());
-
-                reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        if (dataSnapshot.exists()){
-                            String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
-                            if(usertype.equals("admin")){
-                                startActivity(new
-                                        Intent(getApplicationContext(),BottomNavigation.class));
-                                finish();
-                            }else if (usertype.equals("staff")) {
-                                startActivity(new
-                                        Intent(getApplicationContext(),BottomNavigationNhanVien.class));
-                                finish();
-                            }
-                        }
-                    }
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-                    }
-                });
-
-            }
-        });
+//        Button butOK = dialogView.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
@@ -205,17 +177,45 @@ public class Login extends AppCompatActivity {
             dialogWindow.setAttributes(layoutParams);
         }
         dialog.show();
+        FirebaseUser user = auth.getCurrentUser();
+        DatabaseReference reference;
+
+        reference = FirebaseDatabase.getInstance().
+                getReference("NhanVien").child(user.getUid());
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+                    if(usertype.equals("admin")){
+                        startActivity(new
+                                Intent(getApplicationContext(),BottomNavigation.class));
+                        finish();
+                    }else if (usertype.equals("staff")) {
+                        startActivity(new
+                                Intent(getApplicationContext(),BottomNavigationNhanVien.class));
+                        finish();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
     }
 
-    private void showCustomDialog(String data){
+    private void showCustomDialogFail(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogView);
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
         Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
         butOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -231,7 +231,6 @@ public class Login extends AppCompatActivity {
             dialogWindow.setAttributes(layoutParams);
         }
         dialog.show();
-
     }
     private void initUI() {
         butBack = findViewById(R.id.butBack);
