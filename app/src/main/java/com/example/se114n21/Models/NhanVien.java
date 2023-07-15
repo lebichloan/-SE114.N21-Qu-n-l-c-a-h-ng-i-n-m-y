@@ -21,6 +21,7 @@ public class NhanVien implements Serializable {
     }
 
     public NhanVien(String maNV, String hoTen, String email, String loaiNhanVien){
+        LinkAvt = "";
         MaNV = maNV;
         HoTen = hoTen;
         Email = email;
