@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    >
+<RelativeLayout
+    android:layout_width="350dp"
+    android:layout_height="140dp"
+    android:layout_marginTop="40dp"
+    android:background="@drawable/hd_background"
+    >
+
+    <ImageButton
+        android:id="@+id/themmoihoadon"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/addbuthd" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="Tạo mới hoá đơn"
+        android:textSize="20dp"
+        android:layout_centerHorizontal="true"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:layout_marginTop="100dp"
+        />
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/hd_dathanhtoan"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_marginTop="2dp"
+        android:background="#DDDDFF"
+        android:gravity="center_vertical">
+        <View
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/ic_hd"
+            android:layout_marginStart="25dp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hoá đơn đã thanh toán"
+            android:textSize="20dp"
+            android:textColor="#333333"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="80dp"/>
+    </RelativeLayout>
+<RelativeLayout
+android:id="@+id/hd_luutam"
+android:layout_width="match_parent"
+android:layout_height="80dp"
+android:layout_marginTop="2dp"
+android:background="#DDDDFF"
+android:gravity="center_vertical">
+<View
+    android:layout_width="40dp"
+    android:layout_height="40dp"
+    android:background="@drawable/ic_luutam"
+    android:layout_marginStart="25dp"/>
+    <View
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:background="@drawable/ic_clock"
+        android:layout_marginStart="55dp"/>
+<TextView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Đơn lưu tạm"
+    android:textSize="20dp"
+    android:textColor="#333333"
+    android:layout_marginTop="5dp"
+    android:layout_marginStart="80dp"/>
+</RelativeLayout>
+</LinearLayout>

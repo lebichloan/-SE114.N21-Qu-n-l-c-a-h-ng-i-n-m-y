@@ -12,35 +12,34 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         >
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="vertical"
-                >
+                android:orientation="vertical">
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_select_product"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Chọn sản phẩm"
-                    android:textAllCaps="false"
-                    android:textSize="15sp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:icon="@drawable/baseline_add_circle_24"
-                    app:iconGravity="end"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/textColor"
-                    app:iconTint="@color/blue"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
-                    >
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="Chọn sản phẩm"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor"
+                    android:textSize="15sp"
+                    app:icon="@drawable/baseline_add_circle_24"
+                    app:iconGravity="end"
+                    app:iconTint="@color/blue">
 
                 </com.google.android.material.button.MaterialButton>
 
@@ -48,55 +47,50 @@
                     android:id="@+id/rcv_product_picked"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_marginRight="10dp"
                     android:layout_marginLeft="10dp"
-                    >
+                    android:layout_marginTop="5dp"
+                    android:layout_marginRight="10dp">
 
                 </androidx.recyclerview.widget.RecyclerView>
 
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Thông tin nhận hàng"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
-                            >
-                        </TextView>
+                            android:textSize="15sp"></TextView>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/dds"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:hint="Số điện thoại nhận hàng"
                             android:theme="@style/CustomOutlinedBox"
                             app:endIconMode="clear_text"
                             app:endIconTint="@color/blue"
-                            android:layout_marginTop="10dp"
                             app:errorEnabled="true"
                             app:startIconDrawable="@drawable/baseline_phone_24"
-                            app:startIconTint="@color/blaltic_sea"
-                            >
+                            app:startIconTint="@color/blaltic_sea">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/phone_nhanhang"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
                                 android:inputType="number"
-                                ></com.google.android.material.textfield.TextInputEditText>
+                                android:textSize="15sp"></com.google.android.material.textfield.TextInputEditText>
                         </com.google.android.material.textfield.TextInputLayout>
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -110,15 +104,13 @@
                             app:endIconTint="@color/blue"
                             app:errorEnabled="true"
                             app:startIconDrawable="@drawable/baseline_table_rows_24"
-                            app:startIconTint="@color/blaltic_sea"
-                            >
+                            app:startIconTint="@color/blaltic_sea">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/diachinhanhang"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                ></com.google.android.material.textfield.TextInputEditText>
+                                android:textSize="15sp"></com.google.android.material.textfield.TextInputEditText>
                         </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -128,39 +120,35 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
+
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Chi tiết thanh toán"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
-                            >
-                        </TextView>
+                            android:textSize="15sp"></TextView>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Tổng tiền hàng: "
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                android:alpha="0.8"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -168,6 +156,7 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/tv_tongtienhang"
                                 android:layout_width="wrap_content"
@@ -175,27 +164,23 @@
                                 android:layout_gravity="start"
                                 android:text="0"
                                 android:textColor="@color/textColor"
-                                android:textSize="15sp"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Phí vận chuyển: "
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                android:alpha="0.8"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -203,38 +188,36 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/phivanchuyen"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="0"
-                                android:textColor="@color/textColor"
-                                android:textSize="15sp"
                                 android:background="@drawable/bg_white_border_blue"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="20dp"
+                                android:text="0"
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
 
-                                >
-                            </TextView>
+                                ></TextView>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Phí lắp đặt: "
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                android:alpha="0.8"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -242,37 +225,36 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/philapdat"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="0"
-                                android:textColor="@color/textColor"
-                                android:textSize="15sp"
                                 android:background="@drawable/bg_white_border_blue"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="20dp"
+                                android:text="0"
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
 
-                                >
-                            </TextView>
+                                ></TextView>
                         </LinearLayout>
+
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Chiết khấu: "
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                android:alpha="0.8"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -280,39 +262,37 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/chietkhau"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
-                                android:text="0"
-                                android:textColor="@color/textColor"
-                                android:textSize="15sp"
                                 android:background="@drawable/bg_white_border_blue"
                                 android:paddingLeft="20dp"
                                 android:paddingRight="20dp"
+                                android:text="0"
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
 
-                                >
-                            </TextView>
+                                ></TextView>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Tổng thanh toán: "
                                 android:textColor="@color/black"
                                 android:textSize="16sp"
-                                android:alpha="0.8"
-                                android:textStyle="bold"
-                                >
-                            </TextView>
+                                android:textStyle="bold"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -337,26 +317,24 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
+
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Khách hàng"
                                 android:textColor="@color/black"
-                                android:textSize="15sp"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -367,14 +345,13 @@
 
                             <com.google.android.material.button.MaterialButton
                                 android:id="@+id/btn_themkhachhang"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_marginRight="5dp"
                                 app:icon="@drawable/ic_add"
                                 app:iconGravity="textStart"
-                                app:iconTint="@color/blue"
-                                android:layout_marginRight="5dp"
-                                >
+                                app:iconTint="@color/blue">
 
                             </com.google.android.material.button.MaterialButton>
                         </LinearLayout>
@@ -383,20 +360,18 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Mã khách hàng: "
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
-                                android:alpha="0.8"
-                                android:textStyle="bold"
-                                >
-                            </TextView>
+                                android:textStyle="bold"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -404,6 +379,7 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/makhachhang"
                                 android:layout_width="wrap_content"
@@ -411,28 +387,24 @@
                                 android:layout_gravity="start"
                                 android:text=""
                                 android:textColor="@color/textColor"
-                                android:textSize="15sp"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Tên khách hàng: "
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
-                                android:alpha="0.8"
-                                android:textStyle="bold"
-                                >
-                            </TextView>
+                                android:textStyle="bold"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -440,6 +412,7 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/tenkhachhang"
                                 android:layout_width="wrap_content"
@@ -447,28 +420,24 @@
                                 android:layout_gravity="start"
                                 android:text=""
                                 android:textColor="@color/textColor"
-                                android:textSize="15sp"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
                         </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
-                            android:layout_marginTop="10dp">
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
+                                android:alpha="0.8"
                                 android:text="Số điện thoại: "
                                 android:textColor="@color/textColor"
                                 android:textSize="15sp"
-                                android:alpha="0.8"
-                                android:textStyle="bold"
-                                >
-                            </TextView>
+                                android:textStyle="bold"></TextView>
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -476,6 +445,7 @@
                                 android:layout_weight="1">
 
                             </TextView>
+
                             <TextView
                                 android:id="@+id/sodienthoaikhachhang"
                                 android:layout_width="wrap_content"
@@ -483,9 +453,7 @@
                                 android:layout_gravity="start"
                                 android:text=""
                                 android:textColor="@color/textColor"
-                                android:textSize="15sp"
-                                >
-                            </TextView>
+                                android:textSize="15sp"></TextView>
                         </LinearLayout>
 
                     </LinearLayout>
@@ -494,8 +462,8 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -507,31 +475,27 @@
                             android:layout_height="wrap_content"
                             android:text="Ghi chú"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
-                            >
-                        </TextView>
+                            android:textSize="15sp"></TextView>
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/ghichu"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
                             android:hint="Thêm ghi chú"
                             android:theme="@style/CustomOutlinedBox"
                             app:endIconMode="clear_text"
                             app:endIconTint="@color/blue"
                             app:errorEnabled="true"
                             app:startIconDrawable="@drawable/baseline_edit_calendar_24"
-                            app:startIconTint="@color/blaltic_sea"
-                            android:layout_marginTop="10dp"
-                            >
+                            app:startIconTint="@color/blaltic_sea">
 
                             <com.google.android.material.textfield.TextInputEditText
                                 android:id="@+id/ghichu_donhang"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:textSize="15sp"
-                                ></com.google.android.material.textfield.TextInputEditText>
+                                android:textSize="15sp"></com.google.android.material.textfield.TextInputEditText>
                         </com.google.android.material.textfield.TextInputLayout>
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -539,52 +503,48 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_margin="10dp"
-                    >
+                    android:layout_margin="10dp">
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
-                        android:padding="10dp"
-                        >
+                        android:padding="10dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:text="Phương thức thanh toán"
                             android:textColor="@color/black"
-                            android:textSize="15sp"
-                            >
-                        </TextView>
+                            android:textSize="15sp"></TextView>
 
                         <RadioGroup
                             android:id="@+id/radio_group_payment"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            >
+                            android:layout_marginTop="10dp">
+
                             <RadioButton
                                 android:id="@+id/btn_tienmat"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Tiền mặt"
-                                >
+                                android:text="Tiền mặt">
 
                             </RadioButton>
+
                             <RadioButton
                                 android:id="@+id/btn_chuyenkhoan"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Chuyển khoản"
-                                >
+                                android:text="Chuyển khoản">
 
                             </RadioButton>
+
                             <RadioButton
                                 android:id="@+id/btn_quetthe"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="Quẹt thẻ"
-                                >
+                                android:text="Quẹt thẻ">
 
                             </RadioButton>
                         </RadioGroup>
@@ -595,22 +555,21 @@
 
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/btn_saveBill"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Lưu tạm"
-                    android:textAllCaps="false"
-                    android:textSize="15sp"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    app:icon="@drawable/baseline_save_alt_24"
-                    app:iconGravity="end"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/textColor"
-                    app:iconTint="@color/blue"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
                     android:layout_marginStart="5dp"
                     android:layout_marginEnd="5dp"
-                    >
+                    android:paddingTop="15dp"
+                    android:paddingBottom="15dp"
+                    android:text="Lưu tạm"
+                    android:textAlignment="textStart"
+                    android:textAllCaps="false"
+                    android:textColor="@color/textColor"
+                    android:textSize="15sp"
+                    app:icon="@drawable/baseline_save_alt_24"
+                    app:iconGravity="end"
+                    app:iconTint="@color/blue">
 
                 </com.google.android.material.button.MaterialButton>
             </LinearLayout>
