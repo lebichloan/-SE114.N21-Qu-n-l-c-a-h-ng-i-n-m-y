@@ -5,16 +5,24 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -31,10 +39,12 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -42,32 +52,34 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 public class AddStaff extends AppCompatActivity {
-
     ImageButton butBack;
-    EditText txtHoTen, txtEmail;
+    EditText txtHoTen, txtEmail, txtUserType;
     Button butAdd;
-    NhanVien nhanVien;
-    FirebaseAuth auth;
-    FirebaseDatabase database;
-    DatabaseReference reference;
-    Spinner spn_type_staff;
-    private String[] arr = new String[2];
+
+//    FIREBASE
+    FirebaseAuth mAuth;
+    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+//    AUTO COMPLETE
+
+    private String[] items = {"Admin","Nhân viên"};
+    private AutoCompleteTextView autoCompleteTextView;
+    private ArrayAdapter<String> adapterItems;
+
+//    LAYOUT
+    private TextInputLayout layoutHoten, layoutEmail, layoutUserType;
+
+    private ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_staff);
 
+        mAuth = FirebaseAuth.getInstance();
+
         initUI();
         getSupportActionBar().hide();
-
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        arr[0]= getResources().getString(R.string.staff);
-        arr[1]= getResources().getString(R.string.admin);
-
-        initSpinner();
-//        setData(nhanVien);
 
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,101 +91,140 @@ public class AddStaff extends AppCompatActivity {
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addStaff();
+                addStaffAuth();
             }
         });
     }
 
-    private void addStaff() {
-        if (isNameEmpty()) {
-            Toast.makeText(AddStaff.this, "Vui long nhap vao ho ten", Toast.LENGTH_SHORT).show();
-            txtHoTen.setError("Email can not be empty");
-            txtHoTen.requestFocus();
+
+//    CLEAR FOCUS ON EDIT TEXT
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
         }
-        if (isEmailEmpty()) {
-            Toast.makeText(AddStaff.this, "Vui long nhap vao email", Toast.LENGTH_SHORT).show();
-            txtEmail.setError("Password can not be empty");
-            txtEmail.requestFocus();
-        } else {
+        return super.dispatchTouchEvent(event);
+    }
+
+    private void addStaffAuth() {
+        if (checkForm() == true) {
+            progressDialog.show();
+
             String email = txtEmail.getText().toString().trim();
             String password = "123456789";
-            auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+            mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if (task.isSuccessful()) {
-                        String userId = auth.getUid();
-                        String hoTen = txtHoTen.getText().toString().trim();
-                        String email = txtEmail.getText().toString().trim();
-                        String type = "admin";
-                        if (spn_type_staff.getSelectedItem().toString().equals(getResources().getString(R.string.admin))) {
-                            type = "admin";
-                        }  else {
-                            type = "staff";
-                        }
-                        nhanVien = new NhanVien(userId, hoTen, email, type);
-                        auth.sendPasswordResetEmail(email)
-                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Toast.makeText(AddStaff.this, "Da gui email doi mat khau toi email vua dang ky", Toast.LENGTH_SHORT).show();
-                                        }
-                                    }
-                                });
+                        NhanVien nhanVien = new NhanVien();
 
-                        reference = database.getReference("NhanVien");
-                        reference.child(userId).setValue(
-                                nhanVien
-                        );
-                        Toast.makeText(AddStaff.this, "Them nguoi dung thanh cong", Toast.LENGTH_SHORT).show();
+                        nhanVien.setHoTen(txtHoTen.getText().toString().trim());
+                        nhanVien.setEmail(email);
+                        if (txtUserType.getText().toString().trim().equals("Admin")) {
+                            nhanVien.setLoaiNhanVien("admin");
+                        } else {
+                            nhanVien.setLoaiNhanVien("staff");
+                        }
+
+                        if (nhanVien.getLoaiNhanVien().equals("staff")) {
+
+                        } else {
+                            addStaffRealtimeDB(nhanVien, mAuth.getUid());
+                        }
+
                     } else {
-                        Toast.makeText(AddStaff.this, "Add staff failed" + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
         }
+    }
+
+    private void addStaffRealtimeDB(NhanVien nhanVien, String Uid) {
+        DatabaseReference myRef = database.getReference("Users");
+        
+        myRef.child(Uid).setValue(nhanVien, new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                if (error == null) {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddStaff.this, "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
+                } else {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void setStaffId() {
 
     }
 
-    private NhanVien getNhanVien(){
-        NhanVien nhanVien = new NhanVien();
-        nhanVien.setHoTen(txtHoTen.getText().toString());
-        nhanVien.setEmail(txtEmail.getText().toString());
-        String type = "admin";
-        if (spn_type_staff.getSelectedItem().toString().equals(getResources().getString(R.string.admin))) {
-            type = "admin";
-        }  else {
-            type = "staff";
+    private boolean checkForm() {
+        boolean isValid = true;
+
+        if (txtHoTen.getText().toString().trim().equals("")) {
+            txtHoTen.setError("Nội dung bắt buộc");
+            txtHoTen.requestFocus();
+            isValid = false;
         }
-        nhanVien.setLoaiNhanVien(type);
-        return nhanVien;
-    }
-    private boolean isNameEmpty(){
-        return txtHoTen.getText().toString().isEmpty();
-    }
 
-    private boolean isEmailEmpty(){
-        return txtEmail.getText().toString().isEmpty();
-    }
-
-    private void setData(NhanVien nhanVien) {
-        if (nhanVien != null) {
-            txtHoTen.setText(nhanVien.getHoTen());
-            txtEmail.setText(nhanVien.getEmail());
-            txtEmail.setEnabled(false);
+        if (txtEmail.getText().toString().trim().equals("")) {
+            txtEmail.setError("Nội dung bắt buộc");
+            txtEmail.requestFocus();
+            isValid = false;
         }
-    }
 
-    private void initSpinner() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(AddStaff.this, android.R.layout.simple_spinner_dropdown_item, arr);
-        spn_type_staff.setAdapter(adapter);
+        if (txtUserType.getText().toString().trim().equals("")) {
+            txtUserType.setError("Nội dung bắt buộc");
+            txtUserType.requestFocus();
+            isValid = false;
+        }
+
+       return isValid;
     }
 
     private void initUI() {
+//        PROGRESS DIALOG
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setCancelable(false);
+        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setMessage("Please wait!");
+        
+//        AUTO COMPLETE TEXT VIEW
+        autoCompleteTextView = findViewById(R.id.user_type);
+        adapterItems = new ArrayAdapter<String>(this, R.layout.role_dropdown_item, items);
+        autoCompleteTextView.setAdapter(adapterItems);
+
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String item = adapterView.getItemAtPosition(i).toString();
+                txtUserType.setError(null);
+            }
+        });
+
         butBack = findViewById(R.id.butBack);
-        txtHoTen = findViewById(R.id.txtHoTen);
-        txtEmail = findViewById(R.id.txtEmail);
         butAdd = findViewById(R.id.butAdd);
-        spn_type_staff = findViewById(R.id.spn_type_staff);
+
+        txtEmail = findViewById(R.id.txtEmail);
+        txtHoTen = findViewById(R.id.txtHoTen);
+        txtUserType = findViewById(R.id.user_type);
+
+        layoutEmail = findViewById(R.id.layout_txtEmail);
+        layoutHoten = findViewById(R.id.layout_txtHoTen);
+        layoutUserType = findViewById(R.id.layout_user_type);
     }
 }

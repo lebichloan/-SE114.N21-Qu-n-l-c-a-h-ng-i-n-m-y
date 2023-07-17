@@ -60,7 +60,7 @@ public class StaffFragment extends BaseFragment {
         Bundle bundle = null;
         if (nhanVien != null){
             bundle = new Bundle();
-            bundle.putSerializable("staff", nhanVien);
+//            bundle.putSerializable("staff", nhanVien);
         }
 
         getParentFragmentManager()

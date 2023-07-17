@@ -186,12 +186,12 @@ public class AddOrEditStaffFragment extends BaseFragment {
     }
 
     private void createAuthUser(NhanVien nhanVien ) {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(nhanVien.getEmail(), nhanVien.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                sendMessageChangePassword(nhanVien.getEmail());
-            }
-        });
+//        FirebaseAuth.getInstance().createUserWithEmailAndPassword(nhanVien.getEmail(), nhanVien.getPassword()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+//            @Override
+//            public void onComplete(@NonNull Task<AuthResult> task) {
+//                sendMessageChangePassword(nhanVien.getEmail());
+//            }
+//        });
     }
 
     private void sendMessageChangePassword(String email){
@@ -258,7 +258,7 @@ public class AddOrEditStaffFragment extends BaseFragment {
             type = "staff";
         }
         nhanVien.setLoaiNhanVien(type);
-        nhanVien.setPassword("12345678");
+//        nhanVien.setPassword("12345678");
         return nhanVien;
     }
 

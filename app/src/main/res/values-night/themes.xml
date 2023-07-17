@@ -9,7 +9,7 @@
     </style>
 
     <style name="CustomOutlinedBox" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
-        <item name="colorPrimary">@color/blue</item>
+        <item name="colorPrimary">@color/blue_violet</item>
     </style>
 
     <style name="ButtonCancel" parent="Widget.MaterialComponents.Button">

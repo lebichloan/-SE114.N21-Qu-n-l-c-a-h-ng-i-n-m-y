@@ -26,4 +26,6 @@
     <string name="address">Address</string>
     <string name="admin">admin\n</string>
     <string name="staff">staff\n</string>
+
+    <string name="select">Select Item</string>
 </resources>

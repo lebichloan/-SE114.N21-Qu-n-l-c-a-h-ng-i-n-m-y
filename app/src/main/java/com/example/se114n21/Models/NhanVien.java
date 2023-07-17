@@ -2,7 +2,7 @@ package com.example.se114n21.Models;
 
 import java.io.Serializable;
 import java.util.List;
-public class NhanVien implements Serializable {
+public class NhanVien {
     private String LinkAvt;
     private String MaNV;
     private String HoTen;
@@ -11,50 +11,20 @@ public class NhanVien implements Serializable {
     private String DiaChi;
     private String SDT;
     private String Email;
-    private String NgayVaoLam;
-    private Double LuongTheoGio;
     private String loaiNhanVien;
-    private  String password;
-    private List<String> DanhSachCaLam;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String hoTen, String email, String loaiNhanVien){
-        LinkAvt = "";
-        MaNV = maNV;
-        HoTen = hoTen;
-        Email = email;
-        this.loaiNhanVien = loaiNhanVien;
-    }
-
-    public NhanVien(String linkAvt, String maNV, String hoten, String ngaySinh, String gioiTinh, String diaChi, String sdt, String email, String ngayVaoLam, Double luongTheoGio, List<String> danhSachCaLam) {
+    public NhanVien(String linkAvt, String maNV, String hoTen, String ngaySinh, String gioiTinh, String diaChi, String SDT, String email, String loaiNhanVien) {
         LinkAvt = linkAvt;
         MaNV = maNV;
-        HoTen = hoten;
+        HoTen = hoTen;
         NgaySinh = ngaySinh;
         GioiTinh = gioiTinh;
         DiaChi = diaChi;
-        SDT = sdt;
+        this.SDT = SDT;
         Email = email;
-        NgayVaoLam = ngayVaoLam;
-        LuongTheoGio = luongTheoGio;
-        DanhSachCaLam = danhSachCaLam;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLoaiNhanVien() {
-        return loaiNhanVien;
-    }
-
-    public void setLoaiNhanVien(String loaiNhanVien) {
         this.loaiNhanVien = loaiNhanVien;
     }
 
@@ -78,8 +48,8 @@ public class NhanVien implements Serializable {
         return HoTen;
     }
 
-    public void setHoTen(String hoten) {
-        HoTen = hoten;
+    public void setHoTen(String hoTen) {
+        HoTen = hoTen;
     }
 
     public String getNgaySinh() {
@@ -110,8 +80,8 @@ public class NhanVien implements Serializable {
         return SDT;
     }
 
-    public void setSDT(String sdt) {
-        SDT = sdt;
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
     }
 
     public String getEmail() {
@@ -122,44 +92,11 @@ public class NhanVien implements Serializable {
         Email = email;
     }
 
-    public String getNgayVaoLam() {
-        return NgayVaoLam;
+    public String getLoaiNhanVien() {
+        return loaiNhanVien;
     }
 
-    public void setNgayVaoLam(String ngayVaoLam) {
-        NgayVaoLam = ngayVaoLam;
-    }
-
-    public Double getLuongTheoGio() {
-        return LuongTheoGio;
-    }
-
-    public void setLuongTheoGio(Double luongTheoGio) {
-        LuongTheoGio = luongTheoGio;
-    }
-
-    public List<String> getDanhSachCaLam() {
-        return DanhSachCaLam;
-    }
-
-    public void setDanhSachCaLam(List<String> danhSachCaLam) {
-        DanhSachCaLam = danhSachCaLam;
-    }
-
-    @Override
-    public String toString() {
-        return "NhanVien{" +
-                "LinkAvt='" + LinkAvt + '\'' +
-                ", MaNV='" + MaNV + '\'' +
-                ", HoTen='" + HoTen + '\'' +
-                ", NgaySinh='" + NgaySinh + '\'' +
-                ", GioiTinh='" + GioiTinh + '\'' +
-                ", DiaChi='" + DiaChi + '\'' +
-                ", SDT='" + SDT + '\'' +
-                ", Email='" + Email + '\'' +
-                ", NgayVaoLam='" + NgayVaoLam + '\'' +
-                ", LuongTheoGio=" + LuongTheoGio +
-                ", DanhSachCaLam=" + DanhSachCaLam +
-                '}';
+    public void setLoaiNhanVien(String loaiNhanVien) {
+        this.loaiNhanVien = loaiNhanVien;
     }
 }

@@ -52,7 +52,7 @@ public class AccountFragment extends Fragment {
             @Override
             public void onClick(View view) {
 //                Toast.makeText(getActivity(), "Chuyen quan danh sach nhan vien di", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), QLNhanVien.class);
+                Intent intent = new Intent(getActivity(), AddStaff.class);
                 startActivity(intent);
             }
         });

@@ -183,26 +183,29 @@ public class Login extends AppCompatActivity {
         reference = FirebaseDatabase.getInstance().
                 getReference("NhanVien").child(user.getUid());
 
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
-                    if(usertype.equals("admin")){
-                        startActivity(new
-                                Intent(getApplicationContext(),BottomNavigation.class));
-                        finish();
-                    }else if (usertype.equals("staff")) {
-                        startActivity(new
-                                Intent(getApplicationContext(),BottomNavigationNhanVien.class));
-                        finish();
-                    }
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
+        startActivity(new
+                Intent(getApplicationContext(),BottomNavigation.class));
+
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()){
+//                    String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+//                    if(usertype.equals("admin")){
+//                        startActivity(new
+//                                Intent(getApplicationContext(),BottomNavigation.class));
+//                        finish();
+//                    }else if (usertype.equals("staff")) {
+//                        startActivity(new
+//                                Intent(getApplicationContext(),BottomNavigationNhanVien.class));
+//                        finish();
+//                    }
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
 
     }
 
