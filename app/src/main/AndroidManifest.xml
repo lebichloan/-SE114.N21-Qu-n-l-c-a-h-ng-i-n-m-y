@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -24,7 +25,7 @@
             android:name=".ViewModels.EditSale"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.AddSale"
+            android:name=".ViewModels.Login"
             android:exported="false" />
         <activity
             android:name=".ViewModels.QLKhuyenMai"
@@ -63,7 +64,7 @@
             android:name=".ViewModels.admin_QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.Login"
+            android:name=".ViewModels.AddSale"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
