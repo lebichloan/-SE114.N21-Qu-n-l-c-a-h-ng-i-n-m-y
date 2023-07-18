@@ -20,6 +20,12 @@ import java.util.List;
 public class AdapterHoaDon extends RecyclerView.Adapter<AdapterHoaDon.HoaDonViewHolder>{
     List<HoaDon> listhoadon;
     AdapterHoaDon.IclickListener iclickListener;
+
+    public void setFilteredList(List<HoaDon> filteredList)
+    {
+        this.listhoadon = filteredList;
+        notifyDataSetChanged();
+    }
     public interface IclickListener{
         void OnClickDeleteitem(HoaDon hd);
     }

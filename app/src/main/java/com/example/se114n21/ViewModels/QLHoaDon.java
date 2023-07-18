@@ -3,6 +3,7 @@ package com.example.se114n21.ViewModels;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -41,6 +43,9 @@ public class QLHoaDon extends AppCompatActivity {
     AdapterHoaDon adapterHoaDon;
     List<HoaDon> listhoadon;
 
+    List<HoaDon> searchlist;
+    SearchView searchView;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlhoa_don);
@@ -60,9 +65,25 @@ public class QLHoaDon extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleview_hoadon);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        searchView = findViewById(R.id.search_hd);
+
+        searchView.clearFocus();
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterlist(newText);
+                return false;
+            }
+        });
 
         listhoadon = new ArrayList<>();
         adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
@@ -73,6 +94,20 @@ public class QLHoaDon extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adapterHoaDon);
+    }
+
+    private void filterlist(String newText) {
+        List<HoaDon> filteredList = new ArrayList<>();
+        for (HoaDon item : listhoadon)
+        {
+            if ((item.getMaHD().toLowerCase().contains(newText.toLowerCase()))||(item.getMaKH().toLowerCase().contains(newText.toLowerCase()))||(item.getNgayHD().toLowerCase().contains(newText.toLowerCase()))||(item.getTongTienPhaiTra().toString().toLowerCase().contains(newText.toLowerCase()))){
+                filteredList.add(item);
+            }
+        }
+        if (filteredList.isEmpty() == false)
+        {
+            adapterHoaDon.setFilteredList(filteredList);
+        }
     }
 
     private void OnClickdeletedata(HoaDon hd) {
