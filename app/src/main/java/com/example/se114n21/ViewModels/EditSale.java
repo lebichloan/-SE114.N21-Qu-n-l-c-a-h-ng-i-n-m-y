@@ -43,7 +43,9 @@ public class EditSale extends AppCompatActivity {
         butSaveSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editSale();
+                if (!isValidForm()){
+                    editSale();
+                }
             }
         });
 
@@ -51,6 +53,46 @@ public class EditSale extends AppCompatActivity {
 
     private void editSale() {
 
+    }
+
+    private boolean isValidForm(){
+        if (isTenCTEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào tên chương trình");
+            txtTenCT.setError("Please fill information before next");
+            txtTenCT.requestFocus();
+            return false;
+        } else if (isMoTaEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào mô tả");
+            txtMoTa.setError("Please fill information before next");
+            txtMoTa.requestFocus();
+            return false;
+        } else if (isNgayBDEmpty()) {
+            showCustomDialogFail("Vui lòng chọn ngày bắt đầu");
+            txtNgayBD.setError("Please fill information before next");
+            txtNgayBD.requestFocus();
+            return false;
+        } else if (isNgayKTEmpty()) {
+            showCustomDialogFail("Vui lòng chọn ngày kết thúc");
+            txtNgayKT.setError("Please fill information before next");
+            txtNgayKT.requestFocus();
+            return false;
+        } else if (isDonToiThieuEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào giá trị đơn hàng được áp dụng tối thiểu");
+            txtDonToiThieu.setError("Please fill information before next");
+            txtDonToiThieu.requestFocus();
+            return false;
+        } else if (isKhuyenMaiEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi");
+            txtKhuyenMai.setError("Please fill information before next");
+            txtKhuyenMai.requestFocus();
+            return false;
+        } else if (isGiamToiDaEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi tối đa");
+            txtGiamToiDa.setError("Please fill information before next");
+            txtGiamToiDa.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private boolean isTenCTEmpty(){

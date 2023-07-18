@@ -1,13 +1,16 @@
 package com.example.se114n21.ViewModels;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,11 +18,22 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
 public class AddSale extends AppCompatActivity {
 
@@ -29,10 +43,12 @@ public class AddSale extends AppCompatActivity {
     EditText txtMoTa;
     EditText txtNgayBD;
     EditText txtNgayKT;
+    SimpleDateFormat dateFormat;
     EditText txtDonToiThieu;
     EditText txtKhuyenMai;
     EditText txtGiamToiDa;
     Button butAddSale;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +56,143 @@ public class AddSale extends AppCompatActivity {
         setContentView(R.layout.activity_add_sale);
 
         initUI();
+        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+
+        txtNgayBD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(txtNgayBD);
+            }
+        });
+
+        txtNgayKT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(txtNgayKT);
+            }
+        });
 
         butAddSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                addSale();
+                if (isValidForm()) {
+                    addSale();
+                }
             }
         });
     }
-
     private void addSale() {
+        String tenCT = txtTenCT.getText().toString().trim();
+        String mota = txtMoTa.getText().toString().trim();
+        String ngayBD = txtNgayBD.getText().toString();
+        String ngayKT = txtNgayKT.getText().toString();
+//        String textDonToiThieu = txtDonToiThieu.getText().toString();
+//        String textKhuyenMai = txtKhuyenMai.getText().toString();
+//        String textGiamToiDa = txtGiamToiDa.getText().toString();
+//        int donToiThieu = Integer.parseInt(textDonToiThieu);
+//        double giaTriKhuyenMai  = Double.parseDouble(textKhuyenMai);
+//        int giamToiDa = Integer.parseInt(textGiamToiDa);
 
+        int donToiThieu = 0;
+        try {
+            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+        } catch (NumberFormatException e) {}
+
+        double giaTriKhuyenMai = 0;
+        try {
+            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+        } catch (NumberFormatException e) {}
+
+        int giamToiDa = 0;
+        try {
+            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+        } catch (NumberFormatException e) {}
+
+
+        String maKM = "";
+        getLastCounter();
+        maKM = generateId(lastCounter);
+        lastCounter++;
+        updateLastCounter(lastCounter);
+
+        KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
+        reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+        reference.child(maKM).setValue(khuyenMai);
+        showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
+        startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
+    }
+
+    private static int lastCounter;
+    private void getLastCounter() {
+        reference = FirebaseDatabase.getInstance().getReference().child("maxKhuyenMai");
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    int maxKhuyenMai = snapshot.getValue(Integer.class);
+                    lastCounter = maxKhuyenMai;
+                    Log.d("Add Sale", "maxKhuyenMai: " + maxKhuyenMai);
+                } else {
+                    Log.d("Add Sale", "maxKhuyenMai does not exits");
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Log.d("Add Sale", "Error: " + error.getMessage());
+            }
+        });
+    }
+    private String generateId(int lastCounter) {
+        String prefix = "KM";
+        String formattedCounter = String.format(Locale.ENGLISH, "%04d", lastCounter);
+        String generatedId = prefix + formattedCounter;
+        return generatedId;
+    }
+
+    private void updateLastCounter(int newCounter){
+        reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
+        reference.setValue(newCounter);
+    }
+
+    private boolean isValidForm(){
+        if (isTenCTEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào tên chương trình");
+            txtTenCT.setError("Please fill information before next");
+            txtTenCT.requestFocus();
+            return false;
+        } else if (isMoTaEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào mô tả");
+            txtMoTa.setError("Please fill information before next");
+            txtMoTa.requestFocus();
+            return false;
+        } else if (isNgayBDEmpty()) {
+            showCustomDialogFail("Vui lòng chọn ngày bắt đầu");
+            txtNgayBD.setError("Please fill information before next");
+            txtNgayBD.requestFocus();
+            return false;
+        } else if (isNgayKTEmpty()) {
+            showCustomDialogFail("Vui lòng chọn ngày kết thúc");
+            txtNgayKT.setError("Please fill information before next");
+            txtNgayKT.requestFocus();
+            return false;
+        } else if (isDonToiThieuEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào giá trị đơn hàng được áp dụng tối thiểu");
+            txtDonToiThieu.setError("Please fill information before next");
+            txtDonToiThieu.requestFocus();
+            return false;
+        } else if (isKhuyenMaiEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi");
+            txtKhuyenMai.setError("Please fill information before next");
+            txtKhuyenMai.requestFocus();
+            return false;
+        } else if (isGiamToiDaEmpty()) {
+            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi tối đa");
+            txtGiamToiDa.setError("Please fill information before next");
+            txtGiamToiDa.requestFocus();
+            return false;
+        }
+        return true;
     }
 
     private boolean isTenCTEmpty(){
@@ -73,6 +215,24 @@ public class AddSale extends AppCompatActivity {
     }
     private boolean isGiamToiDaEmpty(){
         return txtGiamToiDa.getText().toString().isEmpty();
+    }
+
+    private void showDatePickerDialog(final EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(AddSale.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(year, month, dayOfMonth);
+                        String selectedDate = dateFormat.format(selectedCalendar.getTime());
+                        editText.setText(selectedDate);
+                    }
+                }, year, month, dayOfMonth);
+        datePickerDialog.show();
     }
 
     private void showCustomDialogConfirm(String data){
@@ -135,6 +295,25 @@ public class AddSale extends AppCompatActivity {
         dialog.show();
     }
 
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Thêm chương trình mới");
