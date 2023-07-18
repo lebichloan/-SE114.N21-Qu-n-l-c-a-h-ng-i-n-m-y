@@ -32,6 +32,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.Models.Account;
+import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 import com.example.se114n21.utils.GlideUtils;
@@ -139,7 +140,7 @@ public class AddStaff extends AppCompatActivity {
                         }
 
                         if (nhanVien.getLoaiNhanVien().equals("staff")) {
-
+                            setStaffId(nhanVien);
                         } else {
                             addStaffRealtimeDB(nhanVien, mAuth.getUid());
                         }
@@ -162,6 +163,16 @@ public class AddStaff extends AppCompatActivity {
                 if (error == null) {
                     progressDialog.dismiss();
                     Toast.makeText(AddStaff.this, "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
+
+                    if (nhanVien.getLoaiNhanVien().equals("staff")) {
+                        updateId(nhanVien);
+                        sendResetPassword(nhanVien.getEmail());
+                    }
+
+
+                    Intent intent = new Intent(AddStaff.this, ListStaff.class);
+                    setResult(RESULT_OK, intent);
+                    finish();
                 } else {
                     progressDialog.dismiss();
                     Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
@@ -170,21 +181,54 @@ public class AddStaff extends AppCompatActivity {
         });
     }
 
-    private void setStaffId() {
-        DatabaseReference myRef = database.getReference("maxNhanVien");
+    private void sendResetPassword(String email) {
+        mAuth.sendPasswordResetEmail(email)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(AddStaff.this, "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
+    boolean save = false;
+    private void setStaffId(NhanVien nhanVien) {
+        DatabaseReference myRef = database.getReference("maxNhanVien");
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
+                if (save == false) {
+                    String maHD = snapshot.getValue(String.class);
+                    Integer maxId = Integer.parseInt(maHD.substring(3));
+                    nhanVien.setMaNV(createID(maxId));
+                    save = true;
+                    addStaffRealtimeDB(nhanVien, mAuth.getUid());
+                }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }
+
+    private String createID(Integer maxId) {
+        IdGenerator generator = new IdGenerator();
+        generator.init("NV", "", maxId, "%04d");
+
+        return generator.generate();
+    }
+
+    private void updateId(NhanVien nhanVien) {
+        DatabaseReference myRef = database.getReference("maxNhanVien");
+
+        myRef.setValue(nhanVien.getMaNV());
+    }
+
 
     private boolean checkForm() {
         boolean isValid = true;
