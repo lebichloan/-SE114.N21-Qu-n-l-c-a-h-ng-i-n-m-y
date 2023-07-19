@@ -106,7 +106,7 @@
             android:name=".ViewModels.ThemHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLHoaDon"
+            android:name=".ViewModels.HoaDonActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -114,6 +114,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ViewModels.QLHoaDon"
+            android:exported="false" />
         <activity
             android:name=".ViewModels.AddCustomerActivity"
             android:exported="false" />
