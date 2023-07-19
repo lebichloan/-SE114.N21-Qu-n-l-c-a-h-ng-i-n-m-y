@@ -3,15 +3,31 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content">
 
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
     <TextView
-        android:id="@+id/tvDateSale"
+        android:id="@+id/tvNameStock"
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:padding="16dp"
-        android:text="ngày ở đây"
+        android:text="ten san pham"
         android:textSize="18sp"
         android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/tvIdStock"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:paddingLeft="16dp"
+        android:text="id o day"
+        android:textSize="18sp" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -19,22 +35,32 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/tvCostSale"
+            android:id="@+id/tvTotalStock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="10000000 "
             android:textSize="16dp"
             android:textStyle="bold"
-            android:layout_gravity="right"/>
+            android:layout_gravity="right"
+            android:paddingTop="16dp"/>
 
         <TextView
-            android:id="@+id/tvOrderSale"
+            android:id="@+id/tvAmountStock"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_weight="1"
-            android:text="0 đơn hàng"
+            android:text="so luong: 5"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tvCostStock"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_weight="1"
+            android:text="gia von: 1800000"
             android:textSize="16dp" />
 
     </LinearLayout>
