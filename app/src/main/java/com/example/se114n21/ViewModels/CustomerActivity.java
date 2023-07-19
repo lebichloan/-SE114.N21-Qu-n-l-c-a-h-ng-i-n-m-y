@@ -171,26 +171,6 @@ public class CustomerActivity extends AppCompatActivity {
     private void GetListCustomerfromDatabase(){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("listKhachHang");
-
-//        myRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (listkhachhang != null)
-//                {
-//                    listkhachhang.clear();
-//                }
-//                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
-//                 {
-//                     KhachHang kh = dataSnapshot.getValue(KhachHang.class);
-//                     listkhachhang.add(kh);
-//                 }
-//                 adapterCustomer.notifyDataSetChanged();
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(CustomerActivity.this,"Get list failed",Toast.LENGTH_SHORT).show();
-//            }
-//        });
         myRef.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
@@ -239,12 +219,10 @@ public class CustomerActivity extends AppCompatActivity {
 
             @Override
             public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
             }
         });
     }

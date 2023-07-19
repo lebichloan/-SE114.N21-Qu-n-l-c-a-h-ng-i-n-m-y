@@ -26,6 +26,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.AdapterHoaDon;
+import com.example.se114n21.Models.ChiTietHoaDon;
 import com.example.se114n21.Models.HoaDon;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
@@ -33,6 +34,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +48,8 @@ public class QLHoaDon extends AppCompatActivity {
 
     List<HoaDon> searchlist;
     SearchView searchView;
+    long test;
+    List<ChiTietHoaDon> listchitiet;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,6 +82,7 @@ public class QLHoaDon extends AppCompatActivity {
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -96,6 +101,36 @@ public class QLHoaDon extends AppCompatActivity {
             @Override
             public void OnClickDeleteitem(HoaDon hd) {
                 OnClickdeletedata(hd);
+            }
+            @Override
+            public void OnClickGetitemHoaDon(HoaDon hd) {
+                listchitiet = hd.getChiTietHD();
+                Intent intent = new Intent(QLHoaDon.this,HoaDonDetail.class);
+                String getsohd = hd.getMaHD();
+                String getngayhd = hd.getNgayHD();
+                String getmakh = hd.getMaKH();
+                String getmanv = hd.getMaNV();
+                String gettonggiatri = hd.getTongTienPhaiTra().toString();
+                String getchietkhau = hd.getChietKhau().toString();
+                String getphilapdat = hd.getPhiLapDat().toString();
+                String getsdt = hd.getDienThoaiNhanHang();
+                String getdiachi = hd.getDiaCHiNhanHang();
+                String getphivanchuyen = hd.getPhiVanChuyen().toString();
+                String getghichu = hd.getGhiChu();
+                String getphuongthuc = hd.getPhuongThucThanhToan();
+                intent.putExtra("detailsohd", getsohd);
+                intent.putExtra("detailngayhd", getngayhd);
+                intent.putExtra("detailmakh", getmakh);
+                intent.putExtra("detailmanv", getmanv);
+                intent.putExtra("detailphuongthuc", getphuongthuc);
+                intent.putExtra("detailtonggiatri", gettonggiatri);
+                intent.putExtra("detailchietkhau", getchietkhau);
+                intent.putExtra("detailphilapdat", getphilapdat);
+                intent.putExtra("detailsdt", getsdt);
+                intent.putExtra("detaildiachi", getdiachi);
+                intent.putExtra("detailphivanchuyen", getphivanchuyen);
+                intent.putExtra("detailghichu", getghichu);
+                startActivity(intent);
             }
         });
 
