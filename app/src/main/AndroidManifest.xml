@@ -2,9 +2,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -21,6 +24,12 @@
         android:theme="@style/Theme.SE114N21"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ViewModels.SelectCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChonSanPham"
+            android:exported="false" />
         <activity
             android:name=".ViewModels.EditSale"
             android:exported="false" />
@@ -58,17 +67,13 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.ThemHoaDon"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.admin_QLHoaDon"
-            android:exported="false" />
-        <activity
             android:name=".ViewModels.AddSale"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLHoaDon"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -83,9 +88,6 @@
             android:exported="false" />
         <activity
             android:name=".ViewModels.NVMain"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.QLHoaDon"
             android:exported="false" />
         <activity
             android:name=".ViewModels.QLSanPham"
@@ -130,13 +132,13 @@
             android:name=".ViewModels.CustomerActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.admin_QLNhanVien"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.ListProductType"
+            android:name=".ViewModels.ThemHoaDon"
             android:exported="false" />
         <activity
             android:name=".ViewModels.AddCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListProductType"
             android:exported="false" />
     </application>
 

@@ -1,121 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@drawable/border_edit_text"
-    android:orientation="horizontal"
-    android:gravity="center_vertical">
-
-<!--    <com.google.android.material.floatingactionbutton.FloatingActionButton-->
-<!--        android:id="@+id/butCheck"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:backgroundTint="@color/white"-->
-<!--        android:src="@drawable/ic_checkbox"-->
-<!--        android:tint="@color/blue_violet" />-->
-
-<!--    <View-->
-<!--        android:layout_width="10dp"-->
-<!--        android:layout_height="match_parent"/>-->
-
-    <LinearLayout
-        android:layout_width="260dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-
-        <TextView
-            android:id="@+id/tv_sohoadon"
-            android:text="Số hóa đơn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentLeft="true"
-            android:textSize="20dp"
-            android:textColor="@color/black" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
-
-        <TextView
-            android:id="@+id/tv_hotenkhachhang"
-            android:text="Họ tên khách hàng"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_alignParentLeft="true"
-            android:textSize="20dp"
-            android:textColor="@color/black" />
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="5dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp">
-
-            <TextView
-                android:id="@+id/tv_thanhtien"
-                android:text="Thành tiền"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:textSize="20dp"
-                android:textColor="@color/black" />
-
-            <View
-                android:layout_width="5dp"
-                android:layout_height="match_parent"/>
-
-            <TextView
-                android:id="@+id/tv_tinhtrang"
-                android:text="Tình trạng"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:textSize="20dp"
-                android:textColor="@color/black" />
-
-        </LinearLayout>
-
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-
-    </LinearLayout>
-
-    <View
-        android:layout_width="5dp"
-        android:layout_height="match_parent"/>
-
-    <LinearLayout
+    android:layout_height="110dp"
+    android:id="@+id/itemhoadon"
+    android:orientation="horizontal">
+    <ImageView
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_centerVertical="true"
+        android:background="@drawable/ic_hd"
+        android:layout_marginStart="10dp"/>
+    <TextView
+        android:id="@+id/tv_mahoadon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/butEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_edit"
-            android:tint="@color/blue_violet" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/butDelete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/white"
-            android:src="@drawable/ic_delete"
-            android:tint="@color/blue_violet" />
-    </LinearLayout>
-
-</LinearLayout>
+        android:textSize="16dp"
+        android:text="Mã hoá đơn"
+        android:textColor="#333333"
+        android:textStyle="bold"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="10dp"/>
+    <TextView
+        android:id="@+id/tv_makhachhang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="Mã khách hàng"
+        android:textColor="#333333"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="40dp"/>
+    <TextView
+        android:id="@+id/tv_ngayhd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="Ngày hoá đơn"
+        android:textColor="#333333"
+        android:layout_marginStart="55dp"
+        android:layout_marginTop="70dp"/>
+    <TextView
+        android:id="@+id/tv_tongtien"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="Thành tiền"
+        android:textColor="#333333"
+        android:layout_marginStart="195dp"
+        android:layout_marginTop="31dp"/>
+    <TextView
+        android:id="@+id/tv_tinhtrang"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14dp"
+        android:text="Tình trạng"
+        android:textColor="#333333"
+        android:layout_marginStart="195dp"
+        android:layout_marginTop="53dp"/>
+    <Button
+        android:id="@+id/button_del_hd"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:background="@drawable/bin"
+        android:layout_marginStart="355dp"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>
