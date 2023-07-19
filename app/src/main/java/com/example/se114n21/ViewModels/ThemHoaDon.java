@@ -97,7 +97,7 @@ public class ThemHoaDon extends AppCompatActivity {
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Thêm hóa đơn");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //        EDIT TEXT
         editPhoneNhanHang = findViewById(R.id.phone_nhanhang);

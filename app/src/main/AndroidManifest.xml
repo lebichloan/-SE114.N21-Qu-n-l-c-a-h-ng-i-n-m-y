@@ -67,10 +67,10 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.admin_QLHoaDon"
+            android:name=".ViewModels.AddSale"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.AddSale"
+            android:name=".ViewModels.QLHoaDon"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -139,9 +139,6 @@
             android:exported="false" />
         <activity
             android:name=".ViewModels.ListProductType"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.Login"
             android:exported="false" />
     </application>
 
