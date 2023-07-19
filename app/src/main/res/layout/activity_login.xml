@@ -12,7 +12,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="15dp" />
+        android:layout_height="15sp" />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -40,7 +40,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="60dp" />
+        android:layout_height="90dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/txtEmail"
@@ -114,7 +116,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="20dp" />
+        android:layout_height="30dp" />
 
     <Button
         android:id="@+id/butLogin"
@@ -125,45 +127,11 @@
         android:text="ĐĂNG NHẬP"
         android:textColor="@color/white"
         android:textSize="20dp"
+        android:gravity="center"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="right"
-        android:paddingTop="10dp">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Bạn chưa có tài khoản? "
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            android:layout_marginVertical="10dp"
-            android:layout_gravity="end"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
-
-
-        <TextView
-            android:id="@+id/textViewSignUp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text="Đăng ký"
-            android:textSize="18dp"
-            android:textColor="@color/black"
-            android:layout_marginVertical="10dp"
-            android:layout_gravity="end"
-            android:clickable="true"
-            android:foreground="?android:attr/selectableItemBackground"/>
-
-    </LinearLayout>
-
 
 </LinearLayout>

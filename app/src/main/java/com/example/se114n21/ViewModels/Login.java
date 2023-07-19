@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,13 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,7 +34,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.HashMap;
 
 public class Login extends AppCompatActivity {
     ImageButton butBack;
@@ -36,7 +50,8 @@ public class Login extends AppCompatActivity {
     ImageButton eyeButton;
     Button butLogin;
     FirebaseAuth auth;
-    TextView textViewForgotPassword, textViewSignUp;
+    FirebaseDatabase database;
+    TextView textViewForgotPassword;
     ProgressDialog progressDialog;
 
     @Override
@@ -44,19 +59,15 @@ public class Login extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        getSupportActionBar().hide();
+
         auth = FirebaseAuth.getInstance();
+        database = FirebaseDatabase.getInstance();
         initUI();
         progressDialog = new ProgressDialog(this);
         progressDialog.setTitle("Please wait");
         progressDialog.setCanceledOnTouchOutside(false);
 
-
-        // Ki?m tra user ?? ??ng nh?p hay ch?a
-        // ??nh d?u ch? c?a h?ng v?i nh?n vi?n b?ng vi?c verified email
-//        FirebaseUser user = auth.getCurrentUser();
-//        if (user != null) {
-//            startActivity(new Intent(Login.this, MainActivity.class));
-//        }
         butBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,64 +79,42 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String email, password;
-                email = String.valueOf(txtEmail.getText());
-                password = String.valueOf(txtPassword.getText());
+                email = txtEmail.getText().toString().trim();
+                password = txtPassword.getText().toString().trim();
 
                 if (! email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
                     if (! password.isEmpty()) {
-                        auth.signInWithEmailAndPassword(email, password)
-                                .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
-                                    @Override
-                                    public void onSuccess(AuthResult authResult) {
-                                        Toast.makeText(Login.this, "??ng nh?p th?nh c?ng", Toast.LENGTH_SHORT).show();
-                                        FirebaseUser firebaseUser = auth.getCurrentUser();
-                                        boolean emailVerified = false;
-                                        if (firebaseUser != null ) {
-                                            emailVerified = firebaseUser.isEmailVerified();
-                                        }
-                                        if (emailVerified) {
-                                            startActivity(new Intent(Login.this, AdminMain.class));
-                                        }  else {
-                                            startActivity(new Intent(Login.this, NVMain.class));
-                                        }
+                        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) {
+                                progressDialog.dismiss();
+                                if(task.isSuccessful()){
+                                    showDialogLoginSucess();
+                                }
 
-//                                        startActivity(new Intent(Login.this, Account.class));
-                                        finish();
-                                    }
-                                }).addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        Toast.makeText(Login.this, "Login Failed", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
+                            }
+                        });
                     } else {
-                        Toast.makeText(Login.this, "Vui l?ng nh?p v?o m?t kh?u", Toast.LENGTH_SHORT).show();
+                        showCustomDialogFail("Vui lòng nhập vào mật khẩu");
                         txtPassword.setError("Password canot be empty");
                         txtPassword.requestFocus();
                     }
                 } else if (email.isEmpty()) {
-                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email");
                     txtEmail.setError("Email cannot be empty");
                     txtEmail.requestFocus();
                 } else {
-                    Toast.makeText(Login.this, "Vui l?ng nh?p v?o ??a ch? email h?p l?", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email hợp lệ");
                     txtEmail.setError("Please enter valid email");
                     txtEmail.requestFocus();
                 }
             }
         });
+
         textViewForgotPassword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, ForgotPassword.class));
-                finish();
-            }
-        });
-
-        textViewSignUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(Login.this, SignUp.class));
                 finish();
             }
         });
@@ -164,6 +153,85 @@ public class Login extends AppCompatActivity {
 
     }
 
+    private void showDialogLoginSucess() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText("Đăng nhập thành công");
+//        Button butOK = dialogView.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+        FirebaseUser user = auth.getCurrentUser();
+        DatabaseReference reference;
+
+        reference = FirebaseDatabase.getInstance().
+                getReference("NhanVien").child(user.getUid());
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+                    if(usertype.equals("admin")){
+                        startActivity(new
+                                Intent(getApplicationContext(),BottomNavigation.class));
+                        finish();
+                    }else if (usertype.equals("staff")) {
+                        startActivity(new
+                                Intent(getApplicationContext(),BottomNavigationNhanVien.class));
+                        finish();
+                    }
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
@@ -171,8 +239,6 @@ public class Login extends AppCompatActivity {
         eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
-        textViewSignUp = findViewById(R.id.textViewSignUp);
     }
 
 }
-

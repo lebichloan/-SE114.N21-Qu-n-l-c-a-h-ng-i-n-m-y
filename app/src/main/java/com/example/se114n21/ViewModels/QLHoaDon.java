@@ -17,6 +17,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -66,6 +67,11 @@ public class QLHoaDon extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         searchView = findViewById(R.id.search_hd);
+
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Quản lý hóa đơn");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
         searchView.clearFocus();
 
@@ -189,4 +195,15 @@ public class QLHoaDon extends AppCompatActivity {
             }
         });
     }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

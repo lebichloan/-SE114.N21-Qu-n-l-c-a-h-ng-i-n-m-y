@@ -13,12 +13,12 @@ import com.example.se114n21.R;
 public class SendEmailSucess extends AppCompatActivity {
 
     Button butBack;
-    ProgressBar processBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_email_sucess);
+        getSupportActionBar().hide();
 
         butBack = findViewById(R.id.butBack);
 

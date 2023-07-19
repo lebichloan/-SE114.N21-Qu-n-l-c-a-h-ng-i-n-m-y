@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/baocao_nav"
+        android:title="Báo cáo"
+        android:icon="@drawable/icon_baocao"
+        ></item>
+    <item android:id="@+id/donhang_nav"
+        android:title="Đơn hàng"
+        android:icon="@drawable/icon_donhang"
+        ></item>
+    <item android:id="@+id/sanpham_nav"
+        android:title="Sản phẩm"
+        android:icon="@drawable/icon_sanpham"
+        ></item>
+    <item android:id="@+id/account_nav"
+        android:title="Tài khoản"
+        android:icon="@drawable/icon_account"
+        ></item>
+</menu>

@@ -1,19 +1,26 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Patterns;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.example.se114n21.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -31,6 +38,7 @@ public class ForgotPassword extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
+        getSupportActionBar().hide();
 
         auth = FirebaseAuth.getInstance();
         butBack = findViewById(R.id.butBack);
@@ -47,24 +55,27 @@ public class ForgotPassword extends AppCompatActivity {
         butNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                String email;
-//                email = String.valueOf(txtForgotPasswordEmail.getText());
                 String userEmail = txtForgotPasswordEmail.getText().toString();
 
-                if (TextUtils.isEmpty(userEmail) && !Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()) {
-                    Toast.makeText(ForgotPassword.this, "Enter your email", Toast.LENGTH_SHORT).show();
+                if (TextUtils.isEmpty(userEmail)) {
+                    showCustomDialog("Vui lòng nhập vào địa chỉ email");
                     return;
                 }
+
+                if (!Patterns.EMAIL_ADDRESS.matcher(userEmail).matches()){
+                    showCustomDialog("Vui lòng nhập vào địa chỉ email hợp lệ");
+                    return;
+                }
+
                 auth.sendPasswordResetEmail(userEmail).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             startActivity(new Intent(ForgotPassword.this, SendEmailSucess.class));
                             finish();
-//                            Toast.makeText(ForgotPassword.this, "Check your email", Toast.LENGTH_SHORT).show();
-//                            dialog.dismiss();
                         } else {
-                            Toast.makeText(ForgotPassword.this, "Unable to send email", Toast.LENGTH_SHORT).show();
+                            showCustomDialog("Vui lòng thử lại");
+                            return;
                         }
                     }
                 });
@@ -72,4 +83,32 @@ public class ForgotPassword extends AppCompatActivity {
             }
         });
     }
+
+    private void showCustomDialog(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtAlert);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
+
 }

@@ -5,13 +5,22 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -19,6 +28,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -28,6 +39,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.squareup.picasso.Picasso;
 
 public class Account extends AppCompatActivity {
 
@@ -35,9 +50,9 @@ public class Account extends AppCompatActivity {
     Uri uri;
     TextView txtProfile, txtEmail, txtPassword;
     ImageButton butProfileNext, butEmailNext, butPasswordNext;
-    ImageButton butBack;
     Button butLogout;
     FirebaseAuth auth;
+    FirebaseStorage storage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,15 +60,10 @@ public class Account extends AppCompatActivity {
         setContentView(R.layout.activity_account);
 
         auth = FirebaseAuth.getInstance();
+        storage = FirebaseStorage.getInstance();
         initUI();
-        getUserProfile();
-
-        butBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        getData();
+        getAvata();
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -64,8 +74,10 @@ public class Account extends AppCompatActivity {
                             Intent data = result.getData();
                             uri = data.getData();
                             avata.setImageURI(uri);
+                            updateAvata(uri);
                         } else {
-                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
+                            showCustomDialogFail("Vui lòng chọn hình ảnh");
+//                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -79,20 +91,34 @@ public class Account extends AppCompatActivity {
                 activityResultLauncher.launch(photoPicker);
             }
         });
-
         butProfileNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseUser firebaseUser = auth.getCurrentUser();
-                boolean emailVerified = false;
-                if (firebaseUser != null ) {
-                    emailVerified = firebaseUser.isEmailVerified();
-                }
-                if (emailVerified) {
-                    startActivity(new Intent(Account.this, AdminProfile.class));
-                }  else {
-                    startActivity(new Intent(Account.this, NVProfile.class));
-                }
+                FirebaseUser user = auth.getCurrentUser();
+                DatabaseReference reference;
+                reference = FirebaseDatabase.getInstance().
+                        getReference("NhanVien").child(user.getUid());
+
+                reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()){
+                            String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
+                            if(usertype.equals("admin")){
+                                startActivity(new
+                                        Intent(getApplicationContext(),AdminProfile.class));
+                                finish();
+                            }else if (usertype.equals("staff")) {
+                                startActivity(new
+                                        Intent(getApplicationContext(),NVProfile.class));
+                                finish();
+                            }
+                        }
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                    }
+                });
             }
         });
         butEmailNext.setOnClickListener(new View.OnClickListener() {
@@ -110,93 +136,163 @@ public class Account extends AppCompatActivity {
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                auth.signOut();
-                startActivity(new Intent(Account.this, Login.class));
+                showCustomDialogConfirm("Bạn chắc chắn muốn đăng xuất");
             }
         });
     }
 
-    private void getUserProfile() {
-        FirebaseUser firebaseUser = auth.getCurrentUser();
-        if (firebaseUser != null ) {
-            String name = firebaseUser.getDisplayName();
-            String email = firebaseUser.getEmail();
-            Uri photoUrl = firebaseUser.getPhotoUrl();
-            String uid = firebaseUser.getUid();
-            boolean emailVerified = firebaseUser.isEmailVerified();
+    private void updateAvata(Uri uri){
+        StorageReference storageRef = storage.getReference().child("NhanVien").child(auth.getCurrentUser().getUid());
+        storageRef.putFile(uri)
+                .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                            @Override
+                            public void onSuccess(Uri uri) {
+                                String avataUrl = uri.toString();
+                                // update link avata to firebase
+                                DatabaseReference reference = FirebaseDatabase.getInstance().getReference("NhanVien").child(auth.getCurrentUser().getUid()).child("linkAvt");
+                                reference.setValue(avataUrl, new DatabaseReference.CompletionListener() {
+                                    @Override
+                                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                        if (error == null){
+                                            // khong co loi
 
-            txtProfile.setText(name);
-            txtEmail.setText(email);
-        }
+                                        }
+                                        else {
+                                            // co loi
+                                            showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+                                        }
+                                    }
+                                });
+                            }
+                        });
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+                    }
+                });
     }
+    private void getAvata(){
+//        DatabaseReference avataRef = FirebaseDatabase.getInstance().getReference().child("NhanVien").child(auth.getCurrentUser().getUid()).child("linkAvt");
+//        avataRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+////                String avataUrl = "";
+//                if (snapshot.exists()){
+//                    String avataUrl = snapshot.getValue(String.class);
+////                    if (avataUrl != null){
+//                        Picasso.get().load(avataUrl).into(avata);
+////                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+        StorageReference storageRef = storage.getReference().child("NhanVien").child(auth.getCurrentUser().getUid());
+        storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(avata);
+            }
+        });
+    }
+    private void showCustomDialogConfirm(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                auth.signOut();
+                startActivity(new Intent(Account.this, Login.class));
+            }
+        });
 
-//    private void getAccountData() {
-//        String userId = auth.getUid();
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
-//        Query checkUserDatabase = reference.orderByChild("userId").equalTo(userId);
-//
-//        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    String hoTen = snapshot.child(userId).child("hoTen").getValue(String.class);
-//                    String email = snapshot.child(userId).child("email").getValue(String.class);
-//                    txtProfile.setText(hoTen);
-//                    txtEmail.setText(email);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-//    private void showUserData() {
-//        Intent intent = getIntent();
-//
-//        String hoTen = intent.getStringExtra("hoTen");
-//        String email = intent.getStringExtra("email");
-////        String password = intent.getStringExtra("Password");
-//
-//        txtProfile.setText(hoTen);
-//        txtEmail.setText(email);
-////        txtPassword.setText(password);
-//    }
-//
-//    public void passUserData() {
-//        String email = txtEmail.getText().toString().trim();
-//
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("Account");
-//        Query checkUserDatabase = reference.orderByChild("Email").equalTo(email);
-//
-//        checkUserDatabase.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()) {
-//                    String hotenFromDB = snapshot.child(email).child("HoTen").getValue(String.class);
-//                    String emailFromDB = snapshot.child(email).child("Email").getValue(String.class);
-//                    String passwordFromDB = snapshot.child(email).child("Password").getValue(String.class);
-//
-//                    Intent intent = new Intent(Account.this, AdminProfile.class);
-//
-//                    intent.putExtra("HoTen", hotenFromDB);
-//                    intent.putExtra("Email", emailFromDB);
-//                    intent.putExtra("Password", passwordFromDB);
-//
-//                    startActivity(intent);
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-//    }
-//
+        Button butCancel = dialogView.findViewById(R.id.butCancel);
+        butCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+    private void getData(){
+        FirebaseUser user = auth.getCurrentUser();
+        DatabaseReference reference;
+        reference = FirebaseDatabase.getInstance().
+                getReference("NhanVien").child(user.getUid());
+
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                if (dataSnapshot.exists()){
+                    String hoTen = dataSnapshot.child("hoTen").getValue().toString();
+                    String email = dataSnapshot.child("email").getValue().toString();
+                    txtProfile.setText(hoTen);
+                    txtEmail.setText(email);
+                }
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
+
+    }
     private void initUI() {
-        butBack = findViewById(R.id.butBack);
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Thông tin tài khoản");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
         avata = findViewById(R.id.avata);
         txtProfile = findViewById(R.id.txtProfile);
         txtEmail = findViewById(R.id.txtEmail);
@@ -206,4 +302,13 @@ public class Account extends AppCompatActivity {
         butPasswordNext = findViewById(R.id.butPasswordNext);
         butLogout = findViewById(R.id.butLogout);
     }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
