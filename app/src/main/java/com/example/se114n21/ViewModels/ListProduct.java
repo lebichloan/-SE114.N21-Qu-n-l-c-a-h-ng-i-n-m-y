@@ -76,7 +76,7 @@ public class ListProduct extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Danh sách sản phẩm");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //        BUTTON ADD
         btnAddProduct = findViewById(R.id.btn_add_product);
