@@ -67,10 +67,10 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.AddSale"
+            android:name=".ViewModels.QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLHoaDon"
+            android:name=".ViewModels.AddSale"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
