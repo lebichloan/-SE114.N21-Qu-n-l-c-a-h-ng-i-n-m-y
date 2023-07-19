@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ViewModels.SanPhamFragment"
+    android:background="#f5f5f5">
+
+    <!-- TODO: Update blank fragment layout -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="57dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/textview_line"
+                android:padding="15dp"
+                android:text="Sản phẩm"
+                android:textAlignment="center"
+                android:textAllCaps="false"
+                android:textSize="16dp"
+                android:textStyle="bold"
+                android:textColor="@color/textColor"
+                android:alpha="0.8"
+                android:backgroundTint="@color/white"
+                android:backgroundTintMode="multiply"
+                >
+
+            </TextView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="5dp"
+                    >
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_list_product"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Danh sách sản phẩm"
+                        android:textAllCaps="false"
+                        android:textSize="16sp"
+                        app:icon="@drawable/baseline_view_list_24"
+                        app:iconSize="40dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/textColor"
+                        app:iconTint="@color/orange"
+                        app:iconPadding="10dp"
+                        >
+
+                    </com.google.android.material.button.MaterialButton>
+
+                    <com.google.android.material.divider.MaterialDivider
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginStart="60dp"
+                        >
+
+                    </com.google.android.material.divider.MaterialDivider>
+
+                    <com.google.android.material.button.MaterialButton
+                        android:id="@+id/btn_nhaphang"
+                        style="@style/Widget.MaterialComponents.Button.TextButton"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:paddingTop="5dp"
+                        android:paddingBottom="5dp"
+                        android:text="Nhập hàng"
+                        android:textAllCaps="false"
+                        android:textSize="16sp"
+                        app:icon="@drawable/baseline_checklist_24"
+                        app:iconSize="40dp"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/textColor"
+                        app:iconTint="@color/blue"
+                        app:iconPadding="10dp"
+                        >
+
+                    </com.google.android.material.button.MaterialButton>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>

@@ -24,4 +24,10 @@
     <color name="blue">#39AAFC</color>
     <color name="gray_light">#F5F5F5</color>
 
+
+    <color name="colorPrimary">#FC5353</color>
+    <color name="textColorSecondary">#6D6E70</color>
+    <color name="textColorPrimary">#121315</color>
+
+
 </resources>

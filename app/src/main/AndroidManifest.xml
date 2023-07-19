@@ -16,7 +16,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/avata"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
@@ -29,6 +29,30 @@
             android:exported="false" />
         <activity
             android:name=".ViewModels.ChonSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.EditSale"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Login"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLKhuyenMai"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.EditStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BottomNavigationNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BottomNavigation"
             android:exported="false" />
         <activity
             android:name=".ViewModels.EditProduct"
@@ -46,8 +70,13 @@
             android:name=".ViewModels.admin_QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.admin_QLNhanVien"
-            android:exported="false" />
+            android:name=".ViewModels.AddSale"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ViewModels.admin_QLSanPham"
             android:exported="false" />
@@ -105,15 +134,6 @@
         <activity
             android:name=".ViewModels.ThemHoaDon"
             android:exported="false" />
-        <activity
-            android:name=".ViewModels.QLHoaDon"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ViewModels.AddCustomerActivity"
             android:exported="false" />
