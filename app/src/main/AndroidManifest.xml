@@ -135,6 +135,9 @@
             android:name=".ViewModels.ThemHoaDon"
             android:exported="false" />
         <activity
+            android:name=".ViewModels.HoaDonActivity"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.AddCustomerActivity"
             android:exported="false" />
         <activity
