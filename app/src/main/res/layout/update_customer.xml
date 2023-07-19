@@ -33,11 +33,11 @@
         android:layout_height="48dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
+        android:background="#DDDDFF"
+        android:textColor="#333333"
         android:hint="Nhập họ và tên"
         android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
+        android:textColorHint="#333333"
         android:textStyle="bold"/>
     <TextView
         android:layout_width="wrap_content"
@@ -56,11 +56,11 @@
         android:layout_height="48dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
+        android:background="#DDDDFF"
+        android:textColor="#333333"
         android:hint="Nhập số điện thoại"
         android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
+        android:textColorHint="#333333"
         android:textStyle="bold"></EditText>
     <TextView
         android:layout_width="wrap_content"
@@ -80,10 +80,10 @@
         android:layout_height="70dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:background="#EE786C"
+        android:background="#DDDDFF"
         android:hint="Nhập địa chỉ"
-        android:textColor="@color/white"
-        android:textColorHint="#44FDFDFD"
+        android:textColor="#333333"
+        android:textColorHint="#333333"
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="top"></EditText>
@@ -105,11 +105,11 @@
         android:layout_height="48dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
+        android:background="#DDDDFF"
+        android:textColor="#333333"
         android:hint="Nhập email"
         android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
+        android:textColorHint="#333333"
         android:textStyle="bold"/>
     <TextView
         android:layout_width="wrap_content"
@@ -129,11 +129,11 @@
         android:layout_height="48dp"
         android:layout_marginLeft="15dp"
         android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
+        android:background="#DDDDFF"
+        android:textColor="#333333"
         android:hint="Nhập loại khách hàng"
         android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
+        android:textColorHint="#333333"
         android:textStyle="bold"/>
     <RelativeLayout
         android:layout_width="match_parent"
