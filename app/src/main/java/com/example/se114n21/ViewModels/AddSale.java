@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +22,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.se114n21.Models.HoaDon;
+import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;
@@ -33,7 +38,10 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddSale extends AppCompatActivity {
 
@@ -81,50 +89,164 @@ public class AddSale extends AppCompatActivity {
             }
         });
     }
-    private void addSale() {
-        String tenCT = txtTenCT.getText().toString().trim();
-        String mota = txtMoTa.getText().toString().trim();
-        String ngayBD = txtNgayBD.getText().toString();
-        String ngayKT = txtNgayKT.getText().toString();
-//        String textDonToiThieu = txtDonToiThieu.getText().toString();
-//        String textKhuyenMai = txtKhuyenMai.getText().toString();
-//        String textGiamToiDa = txtGiamToiDa.getText().toString();
-//        int donToiThieu = Integer.parseInt(textDonToiThieu);
-//        double giaTriKhuyenMai  = Double.parseDouble(textKhuyenMai);
-//        int giamToiDa = Integer.parseInt(textGiamToiDa);
+//    private void addSale(KhuyenMai khuyenMai) {
+//        DatabaseReference myRef = database.getReference("KhuyenMai");
+//        myRef.child(khuyenMai.getMaKM()).setValue(khuyenMai, new DatabaseReference.CompletionListener() {
+//            @Override
+//            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                updateMaxId(khuyenMai);
+//            }
+//        });
+//
+////        String tenCT = txtTenCT.getText().toString().trim();
+////        String mota = txtMoTa.getText().toString().trim();
+////        String ngayBD = txtNgayBD.getText().toString();
+////        String ngayKT = txtNgayKT.getText().toString();
+////
+////        int donToiThieu = 0;
+////        try {
+////            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+////        } catch (NumberFormatException e) {}
+////
+////        double giaTriKhuyenMai = 0;
+////        try {
+////            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+////        } catch (NumberFormatException e) {}
+////
+////        int giamToiDa = 0;
+////        try {
+////            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+////        } catch (NumberFormatException e) {}
+////
+////
+////        String maKM = "";
+////        getLastCounter();
+////        maKM = generateId(lastCounter);
+////        lastCounter++;
+////        updateLastCounter(lastCounter);
+////
+////        KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
+////        reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+////        reference.child(maKM).setValue(khuyenMai);
+////        showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
+////        startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
+//    }
 
-        int donToiThieu = 0;
-        try {
-            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        double giaTriKhuyenMai = 0;
-        try {
-            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        int giamToiDa = 0;
-        try {
-            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
-        } catch (NumberFormatException e) {}
-
-
-        String maKM = "";
-        getLastCounter();
-        maKM = generateId(lastCounter);
-        lastCounter++;
-        updateLastCounter(lastCounter);
-
-        KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
-        reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
-        reference.child(maKM).setValue(khuyenMai);
-        showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
-        startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
-    }
+//    boolean save = false;
+//    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+//    private void getMaxId() {
+//        save = false;
+//        DatabaseReference myRef = database.getReference("maxKhuyenMai");
+//        myRef.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (save == false) {
+//                    String maKM = snapshot.getValue(String.class);
+//                    Integer maxId = Integer.parseInt(maKM.substring(3));
+//                    PrepareSale(maxId);
+//                    save = true;
+//                }
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                Toast.makeText(AddSale.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//    }
+//
+//    private void PrepareSale(Integer maxId) {
+//        KhuyenMai khuyenMai = new KhuyenMai();
+//        khuyenMai.setMaKM(createID(maxId));
+//
+//        String tenCT = txtTenCT.getText().toString().trim();
+//        String mota = txtMoTa.getText().toString().trim();
+//        String ngayBD = txtNgayBD.getText().toString();
+//        String ngayKT = txtNgayKT.getText().toString();
+//
+//        int donToiThieu = 0;
+//        try {
+//            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+//        } catch (NumberFormatException e) {}
+//
+//        double giaTriKhuyenMai = 0;
+//        try {
+//            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+//        } catch (NumberFormatException e) {}
+//
+//        int giamToiDa = 0;
+//        try {
+//            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+//        } catch (NumberFormatException e) {}
+//
+//        khuyenMai.setTenKM(tenCT);
+//        khuyenMai.setMoTa(mota);
+//        khuyenMai.setNgayBD(ngayBD);
+//        khuyenMai.setNgayKT(ngayKT);
+//        khuyenMai.setDonToiThieu(donToiThieu);
+//        khuyenMai.setKhuyenMai(giaTriKhuyenMai);
+//        khuyenMai.setGiamToiDa(giamToiDa);
+//
+//        addSale(khuyenMai);
+//    }
+//
+//    private void updateMaxId(KhuyenMai khuyenMai) {
+//        DatabaseReference myRef = database.getReference("maxKhuyenMai");
+//        myRef.setValue()
+//    }
+//
+//    private String createID(Integer maxId) {
+//        IdGenerator generator = new IdGenerator();
+//        generator.init("KM", "", maxId, "%04d");
+//        return generator.generate();
+//    }
 
     private static int lastCounter;
+    private void addSale(){
+        reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int lastID = snapshot.getValue(Integer.class);
+                String maKM = generateId(lastID);
+                String tenCT = txtTenCT.getText().toString().trim();
+                String mota = txtMoTa.getText().toString().trim();
+                String ngayBD = txtNgayBD.getText().toString();
+                String ngayKT = txtNgayKT.getText().toString();
+
+                int donToiThieu = 0;
+                try {
+                    donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                double giaTriKhuyenMai = 0;
+                try {
+                    giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                int giamToiDa = 0;
+                try {
+                    giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
+//                reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+//                reference.child(maKM).setValue(khuyenMai);
+                FirebaseDatabase.getInstance().getReference("KhuyenMai").child(maKM).setValue(khuyenMai);
+                showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
+                startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
+
+                reference.setValue(lastID+1);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
     private void getLastCounter() {
-        reference = FirebaseDatabase.getInstance().getReference().child("maxKhuyenMai");
+        reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
