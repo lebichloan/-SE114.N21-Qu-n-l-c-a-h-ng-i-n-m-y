@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -22,6 +23,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
@@ -51,7 +53,7 @@ public class EditSale extends AppCompatActivity {
     EditText txtKhuyenMai;
     EditText txtGiamToiDa;
     Button butSaveSale;
-    DatabaseReference reference;
+    KhuyenMai km;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +62,19 @@ public class EditSale extends AppCompatActivity {
 
         initUI();
 
-//        String maKM = null;
-//        Intent intent = getIntent();
-//        if (intent != null){
-//            maKM = intent.getStringExtra("maKM");
-//            Log.d("Edit sale maKM: ", maKM);
-////            getData(maKM);
-//        }
+        String maKM = null;
+        Intent intent = getIntent();
+        if (intent != null){
+            maKM = intent.getStringExtra("maKM");
+            Log.d("Edit sale maKM: ", maKM);
+            getData(maKM);
+        }
 //        setDataSale(maKM);
 
         butSaveSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                editSale();
+                editSale(km);
             }
         });
 
@@ -91,35 +93,93 @@ public class EditSale extends AppCompatActivity {
         });
     }
 
-    private void editSale() {
+    private void editSale(KhuyenMai khuyenMai) {
+        String tenCT = txtTenCT.getText().toString().trim();
+        String mota = txtMoTa.getText().toString().trim();
+        String ngayBD = txtNgayBD.getText().toString();
+        String ngayKT = txtNgayKT.getText().toString();
+
+        int donToiThieu = 0;
+        try {
+            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+        } catch (NumberFormatException e) {}
+
+        double giaTriKhuyenMai = 0;
+        try {
+            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+        } catch (NumberFormatException e) {}
+
+        int giamToiDa = 0;
+        try {
+            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+        } catch (NumberFormatException e) {}
+
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference = database.getReference("KhuyenMai");
+
+        km.setTenKM(tenCT);
+        km.setMoTa(mota);
+        km.setNgayBD(ngayBD);
+        km.setNgayKT(ngayKT);
+        km.setDonToiThieu(donToiThieu);
+        km.setKhuyenMai(giaTriKhuyenMai);
+        km.setGiamToiDa(giamToiDa);
+
+        reference.child(String.valueOf(km.getMaKM())).updateChildren(km.toMap(), new DatabaseReference.CompletionListener() {
+            @Override
+            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                showCustomDialogSucess("Cập nhật thông tin chương trình thành công");
+                startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
+            }
+        });
+
     }
 
     private void getData(String maKM){
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("KhuyenMai/" + maKM);
 
-        Query query = reference.orderByChild("MaKM").equalTo(maKM);
-
-        query.addValueEventListener(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    DataSnapshot dataSnapshot = snapshot.getChildren().iterator().next();
-                    KhuyenMai khuyenMai = dataSnapshot.getValue(KhuyenMai.class);
-                    if (khuyenMai != null){
-                        Log.d("get data edit sale", khuyenMai.getTenKM());
-                        setData(khuyenMai);
-                    } else {
-//                    // No data found
-                    }
-                }
+                KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
+                km = khuyenMai;
+                setData(khuyenMai);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                // error
-
+                Log.d("Edit Sale", "Get data erorr");
+//                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
+
+//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+//
+//        Query query = reference.orderByChild("MaKM").equalTo(maKM);
+//
+//        query.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()){
+//                    DataSnapshot dataSnapshot = snapshot.getChildren().iterator().next();
+//                    KhuyenMai khuyenMai = dataSnapshot.getValue(KhuyenMai.class);
+//                    if (khuyenMai != null){
+//                        Log.d("get data edit sale", khuyenMai.getTenKM());
+//                        setData(khuyenMai);
+//                    } else {
+////                    // No data found
+//                    }
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+////                // error
+//
+//            }
+//        });
+//
+
 //        query.addListenerForSingleValueEvent(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -180,9 +240,9 @@ public class EditSale extends AppCompatActivity {
         txtMoTa.setText(khuyenMai.getMoTa());
         txtNgayBD.setText(khuyenMai.getNgayBD());
         txtNgayKT.setText(khuyenMai.getNgayKT());
-        txtDonToiThieu.setText(khuyenMai.getDonToiThieu());
-        txtKhuyenMai.setText(khuyenMai.getDonToiThieu());
-        txtGiamToiDa.setText(khuyenMai.getGiamToiDa());
+        txtDonToiThieu.setText(String.valueOf(khuyenMai.getDonToiThieu()));
+        txtKhuyenMai.setText(String.valueOf(khuyenMai.getDonToiThieu()));
+        txtGiamToiDa.setText(String.valueOf(khuyenMai.getGiamToiDa()));
     }
 
     private boolean isValidForm(){
@@ -381,7 +441,7 @@ public class EditSale extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
-        image_sale = findViewById(R.id.image_sale);
+//        image_sale = findViewById(R.id.image_sale);
         txtTenCT = findViewById(R.id.txtTenCT);
         txtMoTa = findViewById(R.id.txtMoTa);
         txtNgayBD = findViewById(R.id.txtNgayBD);

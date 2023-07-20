@@ -1,6 +1,8 @@
 package com.example.se114n21.Models;
 
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class KhuyenMai {
     private String MaKM;
@@ -88,6 +90,19 @@ public class KhuyenMai {
 
     public void setGiamToiDa(int giamToiDa) {
         GiamToiDa = giamToiDa;
+    }
+
+    public Map<String, Object> toMap()
+    {
+        HashMap<String,Object> result = new HashMap<>();
+        result.put("tenKM", TenKM);
+        result.put("moTa",MoTa);
+        result.put("ngayBD",NgayBD);
+        result.put("ngayKT",NgayKT);
+        result.put("donToiThieu",DonToiThieu);
+        result.put("khuyenMai",KhuyenMai);
+        result.put("giamToiDa",GiamToiDa);
+        return result;
     }
 
 }
