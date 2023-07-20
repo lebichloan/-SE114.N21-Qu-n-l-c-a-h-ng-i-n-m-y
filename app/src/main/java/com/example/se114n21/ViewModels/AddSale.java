@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,19 +22,29 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.se114n21.Models.HoaDon;
+import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class AddSale extends AppCompatActivity {
 
@@ -56,7 +67,7 @@ public class AddSale extends AppCompatActivity {
         setContentView(R.layout.activity_add_sale);
 
         initUI();
-        dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
+        dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
 
         txtNgayBD.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,6 +80,13 @@ public class AddSale extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(txtNgayKT);
+//                String ngayBD = txtNgayBD.getText().toString();
+//                String ngayKT = txtNgayKT.getText().toString();
+//                if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())) {
+//                    showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
+//                    txtNgayKT.setError("Please fill information valid before next");
+//                    txtNgayKT.requestFocus();
+//                }
             }
         });
 
@@ -81,78 +99,58 @@ public class AddSale extends AppCompatActivity {
             }
         });
     }
-    private void addSale() {
-        String tenCT = txtTenCT.getText().toString().trim();
-        String mota = txtMoTa.getText().toString().trim();
-        String ngayBD = txtNgayBD.getText().toString();
-        String ngayKT = txtNgayKT.getText().toString();
-//        String textDonToiThieu = txtDonToiThieu.getText().toString();
-//        String textKhuyenMai = txtKhuyenMai.getText().toString();
-//        String textGiamToiDa = txtGiamToiDa.getText().toString();
-//        int donToiThieu = Integer.parseInt(textDonToiThieu);
-//        double giaTriKhuyenMai  = Double.parseDouble(textKhuyenMai);
-//        int giamToiDa = Integer.parseInt(textGiamToiDa);
 
-        int donToiThieu = 0;
-        try {
-            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        double giaTriKhuyenMai = 0;
-        try {
-            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        int giamToiDa = 0;
-        try {
-            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
-        } catch (NumberFormatException e) {}
-
-
-        String maKM = "";
-        getLastCounter();
-        maKM = generateId(lastCounter);
-        lastCounter++;
-        updateLastCounter(lastCounter);
-
-        KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
-        reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
-        reference.child(maKM).setValue(khuyenMai);
-        showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
-        startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
-    }
-
-    private static int lastCounter;
-    private void getLastCounter() {
-        reference = FirebaseDatabase.getInstance().getReference().child("maxKhuyenMai");
-        reference.addValueEventListener(new ValueEventListener() {
+    private void addSale(){
+        reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
+        reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()){
-                    int maxKhuyenMai = snapshot.getValue(Integer.class);
-                    lastCounter = maxKhuyenMai;
-                    Log.d("Add Sale", "maxKhuyenMai: " + maxKhuyenMai);
-                } else {
-                    Log.d("Add Sale", "maxKhuyenMai does not exits");
-                }
+                int lastID = snapshot.getValue(Integer.class);
+                String maKM = generateId(lastID);
+                String tenCT = txtTenCT.getText().toString().trim();
+                String mota = txtMoTa.getText().toString().trim();
+                String ngayBD = txtNgayBD.getText().toString();
+                String ngayKT = txtNgayKT.getText().toString();
+
+                int donToiThieu = 0;
+                try {
+                    donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                double giaTriKhuyenMai = 0;
+                try {
+                    giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                int giamToiDa = 0;
+                try {
+                    giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
+                } catch (NumberFormatException e) {}
+
+                KhuyenMai khuyenMai = new KhuyenMai(maKM, tenCT, mota, ngayBD, ngayKT, donToiThieu, giaTriKhuyenMai, giamToiDa);
+                FirebaseDatabase.getInstance().getReference("KhuyenMai").child(maKM).setValue(khuyenMai).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        showCustomDialogSucess("Thêm chương trình khuyến mãi thành công");
+                        startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
+                        reference.setValue(lastID+1);
+                    }
+                });
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Add Sale", "Error: " + error.getMessage());
+
             }
         });
+
     }
+
     private String generateId(int lastCounter) {
         String prefix = "KM";
         String formattedCounter = String.format(Locale.ENGLISH, "%04d", lastCounter);
         String generatedId = prefix + formattedCounter;
         return generatedId;
-    }
-
-    private void updateLastCounter(int newCounter){
-        reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
-        reference.setValue(newCounter);
     }
 
     private boolean isValidForm(){
@@ -174,6 +172,11 @@ public class AddSale extends AppCompatActivity {
         } else if (isNgayKTEmpty()) {
             showCustomDialogFail("Vui lòng chọn ngày kết thúc");
             txtNgayKT.setError("Please fill information before next");
+            txtNgayKT.requestFocus();
+            return false;
+        } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
+            showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
+            txtNgayKT.setError("Please fill information valid before next");
             txtNgayKT.requestFocus();
             return false;
         } else if (isDonToiThieuEmpty()){
@@ -198,21 +201,44 @@ public class AddSale extends AppCompatActivity {
     private boolean isTenCTEmpty(){
         return txtTenCT.getText().toString().isEmpty();
     }
+
     private boolean isMoTaEmpty(){
         return txtMoTa.getText().toString().isEmpty();
     }
+
     private boolean isNgayBDEmpty(){
         return txtNgayBD.getText().toString().isEmpty();
     }
+
     private boolean isNgayKTEmpty(){
         return txtNgayKT.getText().toString().isEmpty();
     }
+
+    private boolean isNgayHopLe(String ngayBD, String ngayKT) {
+        try {
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date1 = dateFormat.parse(ngayBD);
+            Date date2 = dateFormat.parse(ngayKT);
+
+            if (date1.compareTo(date2) < 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
+    }
+
     private boolean isDonToiThieuEmpty(){
         return txtDonToiThieu.getText().toString().isEmpty();
     }
+
     private boolean isKhuyenMaiEmpty(){
         return txtKhuyenMai.getText().toString().isEmpty();
     }
+
     private boolean isGiamToiDaEmpty(){
         return txtGiamToiDa.getText().toString().isEmpty();
     }
@@ -268,6 +294,7 @@ public class AddSale extends AppCompatActivity {
         dialog.show();
 
     }
+
     private void showCustomDialogFail(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -314,13 +341,14 @@ public class AddSale extends AppCompatActivity {
         }
         dialog.show();
     }
+
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Thêm chương trình mới");
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
-        image_sale = findViewById(R.id.image_sale);
+//        image_sale = findViewById(R.id.image_sale);
         txtTenCT = findViewById(R.id.txtTenCT);
         txtMoTa = findViewById(R.id.txtMoTa);
         txtNgayBD = findViewById(R.id.txtNgayBD);
@@ -330,6 +358,7 @@ public class AddSale extends AppCompatActivity {
         txtGiamToiDa = findViewById(R.id.txtGiamToiDa);
         butAddSale = findViewById(R.id.butAddSale);
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

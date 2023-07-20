@@ -18,34 +18,34 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="10dp" />
+<!--            <View-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="10dp" />-->
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent">
+<!--            <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent">-->
 
-                <FrameLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/border_edit_text"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+<!--                <FrameLayout-->
+<!--                    android:layout_width="wrap_content"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:background="@drawable/border_edit_text"-->
+<!--                    app:layout_constraintEnd_toEndOf="parent"-->
+<!--                    app:layout_constraintStart_toStartOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent">-->
 
-                    <ImageView
-                        android:id="@+id/image_sale"
-                        android:layout_width="150dp"
-                        android:layout_height="150dp"
-                        android:padding="2dp"
-                        android:background="@drawable/ic_add"
-                        app:shapeAppearanceOverlay="@style/circleImageView" />
+<!--                    <ImageView-->
+<!--                        android:id="@+id/image_sale"-->
+<!--                        android:layout_width="150dp"-->
+<!--                        android:layout_height="150dp"-->
+<!--                        android:padding="2dp"-->
+<!--                        android:background="@drawable/ic_add"-->
+<!--                        app:shapeAppearanceOverlay="@style/circleImageView" />-->
 
-                </FrameLayout>
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                </FrameLayout>-->
+<!--            </androidx.constraintlayout.widget.ConstraintLayout>-->
 
             <View
                 android:layout_width="match_parent"
@@ -70,6 +70,15 @@
                         android:textStyle="bold"
                         android:layout_margin="10dp"/>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Tên chương trình"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
+
                     <EditText
                         android:id="@+id/txtTenCT"
                         android:layout_width="match_parent"
@@ -86,6 +95,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Mô tả"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
 
                     <EditText
                         android:id="@+id/txtMoTa"
@@ -126,6 +144,15 @@
                         android:textStyle="bold"
                         android:layout_margin="10dp"/>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày bắt đầu"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
+
                     <EditText
                         android:id="@+id/txtNgayBD"
                         android:layout_width="match_parent"
@@ -141,6 +168,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Ngày kết thúc"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
 
                     <EditText
                         android:id="@+id/txtNgayKT"
@@ -180,6 +216,15 @@
                         android:textStyle="bold"
                         android:layout_margin="10dp"/>
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Giá trị tối thiểu"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
+
                     <EditText
                         android:id="@+id/txtDonToiThieu"
                         android:layout_width="match_parent"
@@ -196,6 +241,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="15dp" />
 
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Giá trị khuyến mãi"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
+
                     <EditText
                         android:id="@+id/txtKhuyenMai"
                         android:layout_width="match_parent"
@@ -211,6 +265,15 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="15dp" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Khuyến mãi tối đa"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:textStyle="italic"
+                        android:layout_marginLeft="10dp"/>
 
                     <EditText
                         android:id="@+id/txtGiamToiDa"

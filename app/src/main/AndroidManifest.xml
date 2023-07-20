@@ -37,7 +37,7 @@
             android:name=".ViewModels.Login"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLKhuyenMai"
+            android:name=".ViewModels.AddSale"
             android:exported="false" />
         <activity
             android:name=".ViewModels.AddStaff"
@@ -58,7 +58,7 @@
             android:name=".ViewModels.EditProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.ListProduct"
+            android:name=".ViewModels.QLSanPham"
             android:exported="false" />
         <activity
             android:name=".ViewModels.AddProductActivity"
@@ -67,16 +67,16 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.AddSale"
+            android:name=".ViewModels.QLHoaDon"
             android:exported="false" />
         <activity
             android:name=".ViewModels.HoaDonDetail"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLHoaDon"
-            android:exported="false" />
-        <activity
             android:name=".ViewModels.HoaDonActivity"
+            android:exported="false" />
+         <activity
+            android:name=".ViewModels.QLKhuyenMai"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -96,7 +96,7 @@
             android:name=".ViewModels.NVMain"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLSanPham"
+            android:name=".ViewModels.ListProduct"
             android:exported="false" />
         <activity
             android:name=".ViewModels.QLKhachHang"

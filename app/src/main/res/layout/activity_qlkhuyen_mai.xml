@@ -15,14 +15,14 @@
             android:id="@+id/search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:queryHint="Tìm kiếm"
-            android:background="@drawable/search_view_style"
             android:layout_margin="10dp"
+            android:background="@drawable/search_view_style"
             app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"/>
+            app:queryBackground="@android:color/transparent"
+            app:queryHint="Tìm kiếm" />
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/list_sale"
+            android:id="@+id/recyclerViewKhuyenMai"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="10dp"
@@ -30,8 +30,8 @@
             android:layout_weight="1"/>
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/but_add"
+    <Button
+        android:id="@+id/but_add_sale"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
