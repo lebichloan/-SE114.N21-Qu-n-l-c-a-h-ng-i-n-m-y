@@ -18,12 +18,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.AdapterCustomer;
 import com.example.se114n21.Models.KhachHang;
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -39,6 +41,7 @@ public class CustomerActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     AdapterCustomer adapterCustomer;
     List<KhachHang> listkhachhang;
+    SearchView searchView;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,15 +56,43 @@ public class CustomerActivity extends AppCompatActivity {
         });
         GetListCustomerfromDatabase();
     }
+    private void filterlist(String newText) {
+        List<KhachHang> filteredList = new ArrayList<>();
+        for (KhachHang item : listkhachhang)
+        {
+            if ((item.getMaKH().toLowerCase().contains(newText.toLowerCase()))||(item.getTen().toLowerCase().contains(newText.toLowerCase()))||(item.getDienThoai().toLowerCase().contains(newText.toLowerCase()))){
+                filteredList.add(item);
+            }
+        }
+        if (filteredList.isEmpty() == false)
+        {
+            adapterCustomer.setFilteredList(filteredList);
+        }
+    }
 
     private void initUI() {
         addcustomer = findViewById(R.id.new_customer);
         recyclerView = findViewById(R.id.recycleview_customer);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
+        searchView = findViewById(R.id.search_customer);
+        searchView.clearFocus();
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterlist(newText);
+                return false;
+            }
+        });
 
         listkhachhang = new ArrayList<>();
         adapterCustomer = new AdapterCustomer(listkhachhang, new AdapterCustomer.IclickListener() {

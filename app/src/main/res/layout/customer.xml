@@ -10,7 +10,7 @@
         android:layout_height="70dp"
         >
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_bar"
+            android:id="@+id/search_customer"
             android:layout_width="330dp"
             android:layout_height="wrap_content"
             />

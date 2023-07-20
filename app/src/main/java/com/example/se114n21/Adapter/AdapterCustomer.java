@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Models.KhachHang;
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 
 import java.util.List;
@@ -22,6 +23,11 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
         void OnClickUpdateitem(KhachHang kh);
         void OnClickDeleteitem(KhachHang kh);
         void OnClickGetitem(KhachHang kh);
+    }
+    public void setFilteredList(List<KhachHang> filteredList)
+    {
+        this.listcustomer = filteredList;
+        notifyDataSetChanged();
     }
     public AdapterCustomer(List<KhachHang> listcustomer, IclickListener iclickListener) {
         this.listcustomer = listcustomer;
