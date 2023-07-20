@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -39,6 +40,10 @@ public class EditSale extends AppCompatActivity {
         setContentView(R.layout.activity_edit_sale);
 
         initUI();
+        Intent intent = getIntent();
+        if (intent != null){
+            String maKM = intent.getStringExtra("maKM");
+        }
         
         butSaveSale.setOnClickListener(new View.OnClickListener() {
             @Override
