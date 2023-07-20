@@ -28,6 +28,7 @@ public class AdapterHoaDon extends RecyclerView.Adapter<AdapterHoaDon.HoaDonView
     }
     public interface IclickListener{
         void OnClickDeleteitem(HoaDon hd);
+        void OnClickGetitemHoaDon(HoaDon hd);
     }
     public AdapterHoaDon (List<HoaDon> listhoadon, IclickListener iclickListener) {
         this.listhoadon = listhoadon;
@@ -52,6 +53,12 @@ public class AdapterHoaDon extends RecyclerView.Adapter<AdapterHoaDon.HoaDonView
         holder.tvngayhd.setText(hd.getNgayHD());
         holder.tvtinhtrang.setText("Đã hoàn thành!");
         holder.tvthanhtien.setText(hd.getTongTienPhaiTra().toString());
+        holder.itemhoadon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iclickListener.OnClickGetitemHoaDon(hd);
+            }
+        });
         holder.delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,7 +98,7 @@ public class AdapterHoaDon extends RecyclerView.Adapter<AdapterHoaDon.HoaDonView
             tvtinhtrang = itemView.findViewById(R.id.tv_tinhtrang);
             tvthanhtien = itemView.findViewById(R.id.tv_tongtien);
             delete = itemView.findViewById(R.id.button_del_hd);
-            itemhoadon = itemView.findViewById(R.id.item_hoadon);
+            itemhoadon = itemView.findViewById(R.id.itemhoadon);
         }
     }
 }
