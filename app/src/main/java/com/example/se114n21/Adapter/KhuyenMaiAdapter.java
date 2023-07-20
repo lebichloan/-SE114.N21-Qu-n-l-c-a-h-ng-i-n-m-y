@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.se114n21.Models.HoaDon;
 import com.example.se114n21.Models.KhachHang;
 import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
@@ -27,7 +28,11 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
         void OnClickUpdateitem(KhuyenMai khuyenMai);
         void OnClickDeleteitem(KhuyenMai khuyenMai);
     }
-
+    public void setFilteredList(List<KhuyenMai> filteredList)
+    {
+        this.khuyenMaiList = filteredList;
+        notifyDataSetChanged();
+    }
     public KhuyenMaiAdapter(List<KhuyenMai> khuyenMaiList, KhuyenMaiAdapter.IclickListener iclickListener) {
         this.khuyenMaiList = khuyenMaiList;
         this.iclickListener = iclickListener;

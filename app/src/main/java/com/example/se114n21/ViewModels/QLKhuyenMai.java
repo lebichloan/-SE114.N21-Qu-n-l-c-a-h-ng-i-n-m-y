@@ -26,6 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.KhuyenMaiAdapter;
+import com.example.se114n21.Models.HoaDon;
 import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
@@ -54,7 +55,6 @@ public class QLKhuyenMai extends AppCompatActivity {
 
         initUI();
         getData();
-
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,10 +62,36 @@ public class QLKhuyenMai extends AppCompatActivity {
             }
         });
     }
-
+    private void filterlist(String newText) {
+        List<KhuyenMai> filteredList = new ArrayList<>();
+        for (KhuyenMai item : khuyenMaiList)
+        {
+            if ((item.getNgayBD().toLowerCase().contains(newText.toLowerCase()))||(item.getNgayKT().toLowerCase().contains(newText.toLowerCase()))||(item.getTenKM().toLowerCase().contains(newText.toLowerCase()))||(item.getMaKM().toString().toLowerCase().contains(newText.toLowerCase()))){
+                filteredList.add(item);
+            }
+        }
+        if (filteredList.isEmpty() == false)
+        {
+            adapter.setFilteredList(filteredList);
+        }
+    }
     private void getData() {
         khuyenMaiList = new ArrayList<>();
         recyclerViewKhuyenMai.setLayoutManager(new LinearLayoutManager(this));
+        search_view.clearFocus();
+
+        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                filterlist(newText);
+                return false;
+            }
+        });
 //        adapter = new KhuyenMaiAdapter(this, khuyenMaiList);
         adapter = new KhuyenMaiAdapter(khuyenMaiList, new KhuyenMaiAdapter.IclickListener() {
             @Override
