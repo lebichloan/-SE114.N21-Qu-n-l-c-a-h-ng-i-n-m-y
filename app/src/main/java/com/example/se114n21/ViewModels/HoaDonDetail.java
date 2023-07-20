@@ -60,25 +60,12 @@ public class HoaDonDetail extends AppCompatActivity {
         listchitiet = new ArrayList<>();
         DatabaseReference ref1 = database.getReference("listHoaDon/"+getIntent().getStringExtra("detailsohd")+"/chiTietHD");
         DatabaseReference ref2 = database.getReference("listHoaDon");
-        ref3.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                texttongtien = snapshot.getValue(String.class);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
         ref1.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 chiTietHoaDon = snapshot.getValue(ChiTietHoaDon.class);
                 if (chiTietHoaDon != null)
                 {
-                    tongtiensanpham = chiTietHoaDon.getSoLuong() * chiTietHoaDon.getSanPham().getGiaBan();
-                    ref3.setValue(tongtiensanpham.toString());
                     listchitiet.add(chiTietHoaDon);
                     adapterChitietHD.notifyDataSetChanged();
                 }
@@ -127,7 +114,7 @@ public class HoaDonDetail extends AppCompatActivity {
         sdt.setText(getIntent().getStringExtra("detailsdt"));
         thanhtien.setText(getIntent().getStringExtra("detailtonggiatri"));
         phuongthuc.setText(getIntent().getStringExtra("detailphuongthuc"));
-        tongtienhang.setText(texttongtien);
+        tongtienhang.setText(getIntent().getStringExtra("detailtongtienhang"));
     }
 
     private void InitUI() {

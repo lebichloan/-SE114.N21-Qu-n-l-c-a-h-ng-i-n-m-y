@@ -118,6 +118,9 @@ public class QLHoaDon extends AppCompatActivity {
                 String getphivanchuyen = hd.getPhiVanChuyen().toString();
                 String getghichu = hd.getGhiChu();
                 String getphuongthuc = hd.getPhuongThucThanhToan();
+                Integer tongtien = hd.getTongTienPhaiTra() - hd.getChietKhau() - hd.getPhiVanChuyen() - hd.getPhiLapDat();
+                String gettongtien = String.valueOf(tongtien);
+                intent.putExtra("detailtongtienhang",gettongtien);
                 intent.putExtra("detailsohd", getsohd);
                 intent.putExtra("detailngayhd", getngayhd);
                 intent.putExtra("detailmakh", getmakh);
