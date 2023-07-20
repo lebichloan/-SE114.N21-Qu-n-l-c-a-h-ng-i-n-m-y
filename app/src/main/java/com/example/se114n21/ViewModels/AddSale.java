@@ -348,7 +348,7 @@ public class AddSale extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
-        image_sale = findViewById(R.id.image_sale);
+//        image_sale = findViewById(R.id.image_sale);
         txtTenCT = findViewById(R.id.txtTenCT);
         txtMoTa = findViewById(R.id.txtMoTa);
         txtNgayBD = findViewById(R.id.txtNgayBD);
