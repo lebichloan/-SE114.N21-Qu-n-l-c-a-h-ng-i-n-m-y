@@ -35,6 +35,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
@@ -98,6 +99,7 @@ public class AddSale extends AppCompatActivity {
             }
         });
     }
+
     private void addSale(){
         reference = FirebaseDatabase.getInstance().getReference("maxKhuyenMai");
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -143,6 +145,7 @@ public class AddSale extends AppCompatActivity {
         });
 
     }
+
     private String generateId(int lastCounter) {
         String prefix = "KM";
         String formattedCounter = String.format(Locale.ENGLISH, "%04d", lastCounter);
@@ -198,15 +201,19 @@ public class AddSale extends AppCompatActivity {
     private boolean isTenCTEmpty(){
         return txtTenCT.getText().toString().isEmpty();
     }
+
     private boolean isMoTaEmpty(){
         return txtMoTa.getText().toString().isEmpty();
     }
+
     private boolean isNgayBDEmpty(){
         return txtNgayBD.getText().toString().isEmpty();
     }
+
     private boolean isNgayKTEmpty(){
         return txtNgayKT.getText().toString().isEmpty();
     }
+
     private boolean isNgayHopLe(String ngayBD, String ngayKT) {
         try {
             dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -223,12 +230,15 @@ public class AddSale extends AppCompatActivity {
         }
         return true;
     }
+
     private boolean isDonToiThieuEmpty(){
         return txtDonToiThieu.getText().toString().isEmpty();
     }
+
     private boolean isKhuyenMaiEmpty(){
         return txtKhuyenMai.getText().toString().isEmpty();
     }
+
     private boolean isGiamToiDaEmpty(){
         return txtGiamToiDa.getText().toString().isEmpty();
     }
@@ -284,6 +294,7 @@ public class AddSale extends AppCompatActivity {
         dialog.show();
 
     }
+
     private void showCustomDialogFail(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -330,6 +341,7 @@ public class AddSale extends AppCompatActivity {
         }
         dialog.show();
     }
+
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Thêm chương trình mới");
@@ -346,6 +358,7 @@ public class AddSale extends AppCompatActivity {
         txtGiamToiDa = findViewById(R.id.txtGiamToiDa);
         butAddSale = findViewById(R.id.butAddSale);
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
