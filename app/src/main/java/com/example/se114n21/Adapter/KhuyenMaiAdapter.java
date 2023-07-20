@@ -20,7 +20,9 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
 
     //    private Context context;
     private List<KhuyenMai> khuyenMaiList;
+
     IclickListener iclickListener;
+  
     public interface IclickListener{
         void OnClickUpdateitem(KhuyenMai khuyenMai);
         void OnClickDeleteitem(KhuyenMai khuyenMai);
@@ -86,6 +88,7 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
         public TextView txtNgayKT;
         public Button ic_edit_sale;
         public Button ic_delete_sale;
+
 
         public ViewHolder(View itemView){
             super(itemView);
