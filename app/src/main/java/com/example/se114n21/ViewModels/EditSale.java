@@ -1,13 +1,16 @@
 package com.example.se114n21.ViewModels;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -15,14 +18,23 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -39,6 +51,7 @@ public class EditSale extends AppCompatActivity {
     EditText txtKhuyenMai;
     EditText txtGiamToiDa;
     Button butSaveSale;
+    DatabaseReference reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +60,129 @@ public class EditSale extends AppCompatActivity {
 
         initUI();
 
-        Intent intent = getIntent();
-        if (intent != null){
-            String maKM = intent.getStringExtra("maKM");
-        }
+//        String maKM = null;
+//        Intent intent = getIntent();
+//        if (intent != null){
+//            maKM = intent.getStringExtra("maKM");
+//            Log.d("Edit sale maKM: ", maKM);
+////            getData(maKM);
+//        }
+//        setDataSale(maKM);
 
         butSaveSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!isValidForm()){
-                    editSale();
-                }
+                editSale();
             }
         });
 
+        txtNgayBD.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(txtNgayBD);
+            }
+        });
+
+        txtNgayKT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(txtNgayKT);
+            }
+        });
     }
 
     private void editSale() {
+    }
 
+    private void getData(String maKM){
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+
+        Query query = reference.orderByChild("MaKM").equalTo(maKM);
+
+        query.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()){
+                    DataSnapshot dataSnapshot = snapshot.getChildren().iterator().next();
+                    KhuyenMai khuyenMai = dataSnapshot.getValue(KhuyenMai.class);
+                    if (khuyenMai != null){
+                        Log.d("get data edit sale", khuyenMai.getTenKM());
+                        setData(khuyenMai);
+                    } else {
+//                    // No data found
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+//                // error
+
+            }
+        });
+//        query.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (snapshot.exists()){
+//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+//                        KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
+//                        setData(khuyenMai);
+//                    }
+//                } else {
+//                    // No data found
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // error
+//            }
+//        });
+    }
+
+    private void setDataSale(String maKM) {
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
+        reference.child(maKM).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    String tenCT = snapshot.child("TenKM").getValue(String.class);
+                    String moTa = snapshot.child("MoTa").getValue(String.class);
+                    String ngayBD = snapshot.child("NgayBD").getValue(String.class);
+                    String ngayKT = snapshot.child("NgayKT").getValue(String.class);
+                    Integer donToiThieu = snapshot.child("DonToiThieu").getValue(Integer.class);
+                    Double giaTriKhuyenMai = snapshot.child("KhuyenMai").getValue(Double.class);
+                    Integer giamToiDa = snapshot.child("GiamToiDa").getValue(Integer.class);
+
+                    txtTenCT.setText(tenCT);
+                    txtTenCT.setEnabled(false);
+
+                    txtMoTa.setText(moTa);
+                    txtNgayBD.setText(ngayBD);
+                    txtNgayKT.setText(ngayKT);
+                    txtDonToiThieu.setText(String.valueOf(donToiThieu));
+                    txtKhuyenMai.setText(String.valueOf(giaTriKhuyenMai));
+                    txtGiamToiDa.setText(String.valueOf(giamToiDa));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
+
+    private void setData(KhuyenMai khuyenMai) {
+        txtTenCT.setText(khuyenMai.getTenKM());
+        txtTenCT.setEnabled(false);
+
+        txtMoTa.setText(khuyenMai.getMoTa());
+        txtNgayBD.setText(khuyenMai.getNgayBD());
+        txtNgayKT.setText(khuyenMai.getNgayKT());
+        txtDonToiThieu.setText(khuyenMai.getDonToiThieu());
+        txtKhuyenMai.setText(khuyenMai.getDonToiThieu());
+        txtGiamToiDa.setText(khuyenMai.getGiamToiDa());
     }
 
     private boolean isValidForm(){
@@ -115,15 +233,19 @@ public class EditSale extends AppCompatActivity {
     private boolean isTenCTEmpty(){
         return txtTenCT.getText().toString().isEmpty();
     }
+
     private boolean isMoTaEmpty(){
         return txtMoTa.getText().toString().isEmpty();
     }
+
     private boolean isNgayBDEmpty(){
         return txtNgayBD.getText().toString().isEmpty();
     }
+
     private boolean isNgayKTEmpty(){
         return txtNgayKT.getText().toString().isEmpty();
     }
+
     private boolean isNgayHopLe(String ngayBD, String ngayKT) {
         try {
             dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
@@ -140,14 +262,35 @@ public class EditSale extends AppCompatActivity {
         }
         return true;
     }
+
     private boolean isDonToiThieuEmpty(){
         return txtDonToiThieu.getText().toString().isEmpty();
     }
+
     private boolean isKhuyenMaiEmpty(){
         return txtKhuyenMai.getText().toString().isEmpty();
     }
+
     private boolean isGiamToiDaEmpty(){
         return txtGiamToiDa.getText().toString().isEmpty();
+    }
+
+    private void showDatePickerDialog(final EditText editText) {
+        Calendar calendar = Calendar.getInstance();
+        int year = calendar.get(Calendar.YEAR);
+        int month = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        DatePickerDialog datePickerDialog = new DatePickerDialog(EditSale.this,
+                new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        Calendar selectedCalendar = Calendar.getInstance();
+                        selectedCalendar.set(year, month, dayOfMonth);
+                        String selectedDate = dateFormat.format(selectedCalendar.getTime());
+                        editText.setText(selectedDate);
+                    }
+                }, year, month, dayOfMonth);
+        datePickerDialog.show();
     }
 
     private void showCustomDialogConfirm(String data){
@@ -183,6 +326,7 @@ public class EditSale extends AppCompatActivity {
         dialog.show();
 
     }
+
     private void showCustomDialogFail(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         LayoutInflater inflater = getLayoutInflater();
@@ -210,6 +354,27 @@ public class EditSale extends AppCompatActivity {
         dialog.show();
     }
 
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+
     private void initUI() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Cập nhật chương trình");
@@ -226,6 +391,7 @@ public class EditSale extends AppCompatActivity {
         txtGiamToiDa = findViewById(R.id.txtGiamToiDa);
         butSaveSale = findViewById(R.id.butSaveSale);
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:

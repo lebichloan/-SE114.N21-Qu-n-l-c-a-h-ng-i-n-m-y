@@ -70,12 +70,14 @@ public class QLKhuyenMai extends AppCompatActivity {
         adapter = new KhuyenMaiAdapter(khuyenMaiList, new KhuyenMaiAdapter.IclickListener() {
             @Override
             public void OnClickUpdateitem(KhuyenMai khuyenMai) {
-
+                Intent intent = new Intent(getApplicationContext(), EditSale.class);
+                intent.putExtra("maKM", khuyenMai.getMaKM());
+                startActivity(intent);
             }
 
             @Override
             public void OnClickDeleteitem(KhuyenMai khuyenMai) {
-                showCustomDialogConfirm("Bạn có chắc chắn muốn xóa chương trình khuyến mãi đã chọn ?", khuyenMai);
+                showCustomDialogConfirm("Bạn muốn xóa chương trình khuyến mãi đã chọn ?", khuyenMai);
             }
 
         });
