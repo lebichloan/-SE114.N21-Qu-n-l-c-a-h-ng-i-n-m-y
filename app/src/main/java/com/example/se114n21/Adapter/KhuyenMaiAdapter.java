@@ -20,10 +20,17 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
     private Context context;
     private List<KhuyenMai> khuyenMaiList;
     private ItemClickListener itemClickListener;
+    private LayoutInflater inflater;
 
-    public KhuyenMaiAdapter(Context context, List<KhuyenMai> khuyenMaiList) {
-        this.context = context;
+    public KhuyenMaiAdapter(Context context, List<KhuyenMai> khuyenMaiList){
+        this.inflater = LayoutInflater.from(context);
         this.khuyenMaiList = khuyenMaiList;
+    }
+
+    public KhuyenMaiAdapter(List<KhuyenMai> khuyenMaiList, ItemClickListener itemClickListener) {
+//        this.context = context;
+        this.khuyenMaiList = khuyenMaiList;
+        this.itemClickListener = itemClickListener;
     }
 
     @NonNull
@@ -37,29 +44,45 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
     public void onBindViewHolder(@NonNull KhuyenMaiAdapter.ViewHolder holder, int position) {
         KhuyenMai khuyenMai = khuyenMaiList.get(position);
 
+        if (khuyenMai == null){
+            return;
+        }
+
         holder.txtTenCT.setText(khuyenMai.getTenKM());
         holder.txtKhuyenMai.setText(String.valueOf(khuyenMai.getKhuyenMai()));
         holder.txtNgayBD.setText(khuyenMai.getNgayBD());
         holder.txtNgayKT.setText(khuyenMai.getNgayKT());
 
+        holder.ic_edit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onEditButtonClick(khuyenMai);
+            }
+        });
         holder.ic_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int adapterPosition = holder.getAdapterPosition();
-                if (itemClickListener != null && adapterPosition != RecyclerView.NO_POSITION) {
-                    itemClickListener.onDeleteButtonClick(adapterPosition);
-                }
+//                int adapterPosition = holder.getAdapterPosition();
+//                if (itemClickListener != null && adapterPosition != RecyclerView.NO_POSITION) {
+//                    itemClickListener.onDeleteButtonClick(adapterPosition);
+//                }
+                itemClickListener.onDeleteButtonClick(khuyenMai);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return khuyenMaiList.size();
+        if (khuyenMaiList != null) {
+            return khuyenMaiList.size();
+        }
+        return 0;
     }
 
     public interface ItemClickListener{
-        void onDeleteButtonClick(int position);
+//        void onDeleteButtonClick(int position);
+        void onDeleteButtonClick(KhuyenMai khuyenMai);
+        void onEditButtonClick(KhuyenMai khuyenMai);
     }
 
     public void setItemClickListener(QLKhuyenMai itemClickListener) {

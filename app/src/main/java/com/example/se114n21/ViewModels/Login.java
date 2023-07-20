@@ -232,6 +232,7 @@ public class Login extends AppCompatActivity {
         }
         dialog.show();
     }
+
     private void initUI() {
         butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
