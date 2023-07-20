@@ -164,7 +164,7 @@ public class AddSale extends AppCompatActivity {
             txtNgayKT.setError("Please fill information before next");
             txtNgayKT.requestFocus();
             return false;
-        } else if (isNgayHopLe(txtNgayBD.getText().toString(), txtNgayKT.getText().toString())){
+        } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
             showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
             txtNgayKT.setError("Please fill information valid before next");
             txtNgayKT.requestFocus();
