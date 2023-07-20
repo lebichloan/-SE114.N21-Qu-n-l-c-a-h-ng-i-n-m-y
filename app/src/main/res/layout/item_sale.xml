@@ -84,15 +84,15 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp">
 
-            <ImageView
-                android:id="@+id/ic_edit"
+            <ImageButton
+                android:id="@+id/ic_edit_sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/define_dimen_5"
                 android:src="@drawable/ic_edit" />
 
-            <ImageView
-                android:id="@+id/ic_delete"
+            <ImageButton
+                android:id="@+id/ic_delete_sale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/define_dimen_5"

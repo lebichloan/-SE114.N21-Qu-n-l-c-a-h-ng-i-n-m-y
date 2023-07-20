@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,7 +21,7 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
     private Context context;
     private List<KhuyenMai> khuyenMaiList;
     private IclickListener iclickListener;
-    private LayoutInflater inflater;
+//    private LayoutInflater inflater;
 
     public interface IclickListener{
         void OnClickUpdateitem(KhuyenMai khuyenMai);
@@ -41,6 +42,7 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 //        View view = LayoutInflater.from(context).inflate(R.layout.item_sale, parent, false);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_sale, parent, false);
         return new ViewHolder(view);
     }
@@ -58,14 +60,14 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
         holder.txtNgayBD.setText(khuyenMai.getNgayBD());
         holder.txtNgayKT.setText(khuyenMai.getNgayKT());
 
-        holder.ic_edit.setOnClickListener(new View.OnClickListener() {
+        holder.ic_edit_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iclickListener.OnClickUpdateitem(khuyenMai);
             }
         });
 
-        holder.ic_delete.setOnClickListener(new View.OnClickListener() {
+        holder.ic_delete_sale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 iclickListener.OnClickDeleteitem(khuyenMai);
@@ -86,8 +88,8 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
         public TextView txtKhuyenMai;
         public TextView txtNgayBD;
         public TextView txtNgayKT;
-        public ImageView ic_edit;
-        public ImageView ic_delete;
+        public ImageButton ic_edit_sale;
+        public ImageButton ic_delete_sale;
 
         public ViewHolder(View itemView){
             super(itemView);
@@ -95,8 +97,8 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
             txtKhuyenMai = itemView.findViewById(R.id.txtKhuyenMai);
             txtNgayBD = itemView.findViewById(R.id.txtNgayBD);
             txtNgayKT = itemView.findViewById(R.id.txtNgayKT);
-            ic_edit = itemView.findViewById(R.id.ic_edit);
-            ic_delete = itemView.findViewById(R.id.ic_delete);
+            ic_edit_sale = itemView.findViewById(R.id.ic_edit_sale);
+            ic_delete_sale = itemView.findViewById(R.id.ic_delete_sale);
         }
     }
 
