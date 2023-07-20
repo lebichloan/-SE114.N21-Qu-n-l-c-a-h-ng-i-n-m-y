@@ -75,7 +75,7 @@ public class CustomerActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycleview_customer);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
-        searchView = findViewById(R.id.search_customer);
+        searchView = findViewById(R.id.search_bar);
         searchView.clearFocus();
 
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
