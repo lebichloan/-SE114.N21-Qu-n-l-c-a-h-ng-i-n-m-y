@@ -21,6 +21,11 @@ import android.widget.TextView;
 
 import com.example.se114n21.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class EditSale extends AppCompatActivity {
 
     ImageView image_sale;
@@ -29,6 +34,7 @@ public class EditSale extends AppCompatActivity {
     EditText txtMoTa;
     EditText txtNgayBD;
     EditText txtNgayKT;
+    SimpleDateFormat dateFormat;
     EditText txtDonToiThieu;
     EditText txtKhuyenMai;
     EditText txtGiamToiDa;
@@ -82,7 +88,7 @@ public class EditSale extends AppCompatActivity {
             txtNgayKT.setError("Please fill information before next");
             txtNgayKT.requestFocus();
             return false;
-         } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
+        } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
             showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
             txtNgayKT.setError("Please fill information valid before next");
             txtNgayKT.requestFocus();

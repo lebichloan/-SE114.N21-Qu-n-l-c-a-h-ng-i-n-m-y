@@ -153,7 +153,6 @@ public class QLKhuyenMai extends AppCompatActivity {
         });
     }
 
-    }
 
     private void onClickDeleteData(KhuyenMai khuyenMai) {
         FirebaseDatabase database = FirebaseDatabase.getInstance();
