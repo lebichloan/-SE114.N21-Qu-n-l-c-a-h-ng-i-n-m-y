@@ -4,8 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,32 +17,31 @@ import com.example.se114n21.R;
 import java.util.List;
 
 public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.ViewHolder> {
-    private Context context;
-    private List<KhuyenMai> khuyenMaiList;
-    private IclickListener iclickListener;
-//    private LayoutInflater inflater;
 
+    //    private Context context;
+    private List<KhuyenMai> khuyenMaiList;
+
+    IclickListener iclickListener;
+  
     public interface IclickListener{
         void OnClickUpdateitem(KhuyenMai khuyenMai);
         void OnClickDeleteitem(KhuyenMai khuyenMai);
     }
 
-    public KhuyenMaiAdapter(List<KhuyenMai> khuyenMaiList, IclickListener iclickListener){
+    public KhuyenMaiAdapter(List<KhuyenMai> khuyenMaiList, KhuyenMaiAdapter.IclickListener iclickListener) {
         this.khuyenMaiList = khuyenMaiList;
         this.iclickListener = iclickListener;
     }
 
-    public KhuyenMaiAdapter(Context context, List<KhuyenMai> khuyenMaiList) {
-        this.context = context;
-        this.khuyenMaiList = khuyenMaiList;
-    }
+//    public KhuyenMaiAdapter(Context context, List<KhuyenMai> khuyenMaiList) {
+//        this.context = context;
+//        this.khuyenMaiList = khuyenMaiList;
+//    }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-//        View view = LayoutInflater.from(context).inflate(R.layout.item_sale, parent, false);
-        LayoutInflater inflater = LayoutInflater.from(context);
-        View view = inflater.inflate(R.layout.item_sale, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sale, parent, false);
         return new ViewHolder(view);
     }
 
@@ -88,8 +86,9 @@ public class KhuyenMaiAdapter extends RecyclerView.Adapter<KhuyenMaiAdapter.View
         public TextView txtKhuyenMai;
         public TextView txtNgayBD;
         public TextView txtNgayKT;
-        public ImageButton ic_edit_sale;
-        public ImageButton ic_delete_sale;
+        public Button ic_edit_sale;
+        public Button ic_delete_sale;
+
 
         public ViewHolder(View itemView){
             super(itemView);

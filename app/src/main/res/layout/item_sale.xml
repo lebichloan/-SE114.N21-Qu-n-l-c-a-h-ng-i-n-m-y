@@ -84,23 +84,40 @@
             android:layout_gravity="center"
             android:layout_marginRight="10dp">
 
-            <ImageButton
-                android:id="@+id/ic_edit_sale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/define_dimen_5"
-                android:src="@drawable/ic_edit" />
+<!--            <ImageButton-->
+<!--                android:id="@+id/ic_edit_sale"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/define_dimen_5"-->
+<!--                android:src="@drawable/ic_edit" />-->
 
-            <ImageButton
+<!--            <ImageButton-->
+<!--                android:id="@+id/ic_delete_sale"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:padding="@dimen/define_dimen_5"-->
+<!--                android:src="@drawable/ic_delete" />-->
+
+            <Button
+                android:id="@+id/ic_edit_sale"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:background="@drawable/ic_edit" />
+            <Button
                 android:id="@+id/ic_delete_sale"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/define_dimen_5"
-                android:src="@drawable/ic_delete" />
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:padding="5dp"
+                android:background="@drawable/ic_delete" />
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
 
     <View
         android:layout_width="match_parent"

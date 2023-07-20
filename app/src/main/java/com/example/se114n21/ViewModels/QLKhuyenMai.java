@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -53,6 +54,7 @@ public class QLKhuyenMai extends AppCompatActivity {
 
         initUI();
         getData();
+
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,9 +70,7 @@ public class QLKhuyenMai extends AppCompatActivity {
         adapter = new KhuyenMaiAdapter(khuyenMaiList, new KhuyenMaiAdapter.IclickListener() {
             @Override
             public void OnClickUpdateitem(KhuyenMai khuyenMai) {
-                Intent intent = new Intent(getApplicationContext(), EditSale.class);
-                intent.putExtra("maKM", khuyenMai.getMaKM());
-                startActivity(intent);
+
             }
 
             @Override
@@ -79,6 +79,7 @@ public class QLKhuyenMai extends AppCompatActivity {
             }
 
         });
+
         recyclerViewKhuyenMai.setAdapter(adapter);
 
         khuyenMaiRef = FirebaseDatabase.getInstance().getReference("KhuyenMai");
@@ -152,13 +153,15 @@ public class QLKhuyenMai extends AppCompatActivity {
         });
     }
 
-    private void deleteItemKhuyenMai(KhuyenMai khuyenMai){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("KhuyenMai");
 
-        reference.child(String.valueOf(khuyenMai.getMaKM())).removeValue(new DatabaseReference.CompletionListener() {
+    private void onClickDeleteData(KhuyenMai khuyenMai) {
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myref = database.getReference("KhuyenMai");
+
+        myref.child(String.valueOf(khuyenMai.getMaKM())).removeValue(new DatabaseReference.CompletionListener() {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                Toast.makeText(getApplicationContext(), "Delete Successfull",Toast.LENGTH_SHORT).show();
                 showCustomDialogSucess("Xóa chương trình khuyến mãi thành công");
             }
         });
@@ -177,7 +180,7 @@ public class QLKhuyenMai extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dialog.dismiss();
-                deleteItemKhuyenMai(khuyenMai);
+                onClickDeleteData(khuyenMai);
             }
         });
 
@@ -188,6 +191,7 @@ public class QLKhuyenMai extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
             WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();

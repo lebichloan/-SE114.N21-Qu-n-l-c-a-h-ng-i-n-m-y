@@ -21,6 +21,11 @@ import android.widget.TextView;
 
 import com.example.se114n21.R;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class EditSale extends AppCompatActivity {
 
     ImageView image_sale;
@@ -29,6 +34,7 @@ public class EditSale extends AppCompatActivity {
     EditText txtMoTa;
     EditText txtNgayBD;
     EditText txtNgayKT;
+    SimpleDateFormat dateFormat;
     EditText txtDonToiThieu;
     EditText txtKhuyenMai;
     EditText txtGiamToiDa;
@@ -40,11 +46,12 @@ public class EditSale extends AppCompatActivity {
         setContentView(R.layout.activity_edit_sale);
 
         initUI();
+
         Intent intent = getIntent();
         if (intent != null){
             String maKM = intent.getStringExtra("maKM");
         }
-        
+
         butSaveSale.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -81,6 +88,11 @@ public class EditSale extends AppCompatActivity {
             txtNgayKT.setError("Please fill information before next");
             txtNgayKT.requestFocus();
             return false;
+        } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
+            showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
+            txtNgayKT.setError("Please fill information valid before next");
+            txtNgayKT.requestFocus();
+            return false;
         } else if (isDonToiThieuEmpty()){
             showCustomDialogFail("Vui lòng nhập vào giá trị đơn hàng được áp dụng tối thiểu");
             txtDonToiThieu.setError("Please fill information before next");
@@ -111,6 +123,22 @@ public class EditSale extends AppCompatActivity {
     }
     private boolean isNgayKTEmpty(){
         return txtNgayKT.getText().toString().isEmpty();
+    }
+    private boolean isNgayHopLe(String ngayBD, String ngayKT) {
+        try {
+            dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
+            Date date1 = dateFormat.parse(ngayBD);
+            Date date2 = dateFormat.parse(ngayKT);
+
+            if (date1.compareTo(date2) < 0) {
+                return true;
+            } else {
+                return false;
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return true;
     }
     private boolean isDonToiThieuEmpty(){
         return txtDonToiThieu.getText().toString().isEmpty();
