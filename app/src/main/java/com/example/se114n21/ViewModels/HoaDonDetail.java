@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
@@ -118,6 +119,11 @@ public class HoaDonDetail extends AppCompatActivity {
     }
 
     private void InitUI() {
+        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Thông tin hóa đơn");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
         sohd = findViewById(R.id.detail_mahd);
         ngayhd = findViewById(R.id.detail_ngayhd);
         makh = findViewById(R.id.detail_makh);
@@ -134,4 +140,15 @@ public class HoaDonDetail extends AppCompatActivity {
         tongtienhang = findViewById(R.id.detail_tongtienhang);
         recyclerView = findViewById(R.id.recycle_detai_chitiethd);
     }
+
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId())
+        {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }

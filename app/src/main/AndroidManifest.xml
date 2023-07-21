@@ -25,6 +25,14 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ViewModels.QLHoaDon"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".ViewModels.SelectCustomer"
             android:exported="false" />
         <activity
@@ -67,7 +75,7 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLHoaDon"
+            android:name=".ViewModels.CustomerActivity"
             android:exported="false" />
         <activity
             android:name=".ViewModels.HoaDonDetail"
@@ -75,14 +83,6 @@
         <activity
             android:name=".ViewModels.HoaDonActivity"
             android:exported="false" />
-         <activity
-            android:name=".ViewModels.CustomerActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
         <activity
             android:name=".ViewModels.admin_QLSanPham"
             android:exported="false" />
