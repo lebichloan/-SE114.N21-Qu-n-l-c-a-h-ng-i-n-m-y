@@ -159,11 +159,11 @@ public class AddSale extends AppCompatActivity {
             txtTenCT.setError("Please fill information before next");
             txtTenCT.requestFocus();
             return false;
-        } else if (isMoTaEmpty()) {
-            showCustomDialogFail("Vui lòng nhập vào mô tả");
-            txtMoTa.setError("Please fill information before next");
-            txtMoTa.requestFocus();
-            return false;
+//        } else if (isMoTaEmpty()) {
+//            showCustomDialogFail("Vui lòng nhập vào mô tả");
+//            txtMoTa.setError("Please fill information before next");
+//            txtMoTa.requestFocus();
+//            return false;
         } else if (isNgayBDEmpty()) {
             showCustomDialogFail("Vui lòng chọn ngày bắt đầu");
             txtNgayBD.setError("Please fill information before next");

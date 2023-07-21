@@ -76,7 +76,7 @@
             android:name=".ViewModels.HoaDonActivity"
             android:exported="false" />
          <activity
-            android:name=".ViewModels.QLKhuyenMai"
+            android:name=".ViewModels.CustomerActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -135,7 +135,7 @@
             android:name=".ViewModels.MainActivity"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.CustomerActivity"
+            android:name=".ViewModels.QLKhuyenMai"
             android:exported="false" />
         <activity
             android:name=".ViewModels.ThemHoaDon"
