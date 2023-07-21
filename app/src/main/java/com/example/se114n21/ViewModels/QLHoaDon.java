@@ -17,17 +17,21 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.AdapterHoaDon;
 import com.example.se114n21.Models.ChiTietHoaDon;
 import com.example.se114n21.Models.HoaDon;
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -65,6 +69,71 @@ public class QLHoaDon extends AppCompatActivity {
         GetListHoaDonfromDatabase();
     }
 
+    private void showCustomDialogConfirm(String data, HoaDon hoaDon){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference myref = database.getReference("listHoaDon");
+
+                myref.child(String.valueOf(hoaDon.getMaHD())).removeValue(new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                        Toast.makeText(QLHoaDon.this, "Delete Successfull",Toast.LENGTH_SHORT).show();
+                        showCustomDialogSucess("Xóa hóa đơn thành công");
+                    }
+                });
+
+            }
+        });
+
+        Button butCancel = dialogView.findViewById(R.id.butCancel);
+        butCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
+    private void showCustomDialogSucess(String data){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtContent);
+        txtAlert.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
     private void initUI() {
         addhoadon = findViewById(R.id.addHoadonbut);
         recyclerView = findViewById(R.id.recycleview_hoadon);
@@ -100,7 +169,8 @@ public class QLHoaDon extends AppCompatActivity {
         adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
             @Override
             public void OnClickDeleteitem(HoaDon hd) {
-                OnClickdeletedata(hd);
+//                OnClickdeletedata(hd);
+                showCustomDialogConfirm("Bạn muốn xóa hóa đơn đã chọn ?", hd);
             }
             @Override
             public void OnClickGetitemHoaDon(HoaDon hd) {
