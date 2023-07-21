@@ -61,6 +61,34 @@ public class CustomerActivity extends AppCompatActivity {
         });
         GetListCustomerfromDatabase();
     }
+
+    private void showCustomDialogFail(String data){
+        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
     private void filterlist(String newText) {
         List<KhachHang> filteredList = new ArrayList<>();
         for (KhachHang item : listkhachhang)
@@ -258,18 +286,31 @@ public class CustomerActivity extends AppCompatActivity {
                 String newaddress = address.getText().toString().trim();
                 String newemail = email.getText().toString().trim();
                 String newloaikh = loaikh.getText().toString().trim();
-                kh.setTen(newname);
-                kh.setDienThoai(newsdt);
-                kh.setDiaChi(newaddress);
-                kh.setEmail(newemail);
-                kh.setLoaiKH(newloaikh);
-                myref.child(String.valueOf(kh.getMaKH())).updateChildren(kh.toMap(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                        showCustomDialogSucess("Cập nhật thông tin khách hàng thành công");
-                        dialog.dismiss();
-                    }
-                });
+                if (name.getText().toString().isEmpty()){
+                    showCustomDialogFail("Vui lòng nhập vào tên khách hàng");
+                    name.setError("Please fill information before continue");
+                    name.requestFocus();
+                }
+                if (loaikh.getText().toString().isEmpty()){
+                    showCustomDialogFail("Vui lòng nhập vào loại khách hàng");
+                    loaikh.setError("Please fill information before continue");
+                    loaikh.requestFocus();
+                }
+                if (! name.getText().toString().isEmpty() && ! loaikh.getText().toString().isEmpty())
+                {
+                    kh.setTen(newname);
+                    kh.setDienThoai(newsdt);
+                    kh.setDiaChi(newaddress);
+                    kh.setEmail(newemail);
+                    kh.setLoaiKH(newloaikh);
+                    myref.child(String.valueOf(kh.getMaKH())).updateChildren(kh.toMap(), new DatabaseReference.CompletionListener() {
+                        @Override
+                        public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                            showCustomDialogSucess("Cập nhật thông tin khách hàng thành công");
+                            dialog.dismiss();
+                        }
+                    });
+                }
             }
         });
         dialog.show();
