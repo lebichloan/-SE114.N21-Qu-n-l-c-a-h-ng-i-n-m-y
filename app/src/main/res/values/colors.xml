@@ -20,7 +20,7 @@
     <color name="gray_button">#f4f6fa</color>
     <color name="textColor">#5a595c</color>
     <color name="orange">#E8915C</color>
-    <color name="red">#EE786C</color>
+    <color name="red">#FF0000</color>
     <color name="blue">#39AAFC</color>
     <color name="gray_light">#F5F5F5</color>
 
@@ -29,5 +29,7 @@
     <color name="textColorSecondary">#6D6E70</color>
     <color name="textColorPrimary">#121315</color>
 
+    <color name="fog">#DDDDFF</color>
+    <color name="wild_sand">#F5F5F5</color>
 
 </resources>

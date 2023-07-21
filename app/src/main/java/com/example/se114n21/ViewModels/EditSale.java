@@ -238,8 +238,12 @@ public class EditSale extends AppCompatActivity {
         txtTenCT.setEnabled(false);
 
         txtMoTa.setText(khuyenMai.getMoTa());
+
         txtNgayBD.setText(khuyenMai.getNgayBD());
+        txtNgayBD.setEnabled(false);
         txtNgayKT.setText(khuyenMai.getNgayKT());
+        txtNgayKT.setEnabled(false);
+
         txtDonToiThieu.setText(String.valueOf(khuyenMai.getDonToiThieu()));
         txtKhuyenMai.setText(String.valueOf(khuyenMai.getDonToiThieu()));
         txtGiamToiDa.setText(String.valueOf(khuyenMai.getGiamToiDa()));
