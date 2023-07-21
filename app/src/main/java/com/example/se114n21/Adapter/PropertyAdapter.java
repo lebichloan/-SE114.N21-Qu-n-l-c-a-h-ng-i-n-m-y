@@ -1,6 +1,5 @@
 package com.example.se114n21.Adapter;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Models.ThuocTinh;
 import com.example.se114n21.R;
-import com.example.se114n21.ViewModels.DetailProduct;
 
 import java.util.List;
 

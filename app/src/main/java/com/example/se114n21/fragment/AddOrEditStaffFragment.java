@@ -1,6 +1,5 @@
 package com.example.se114n21.fragment;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -19,24 +18,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
-import com.example.se114n21.Models.Account;
 import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 import com.example.se114n21.databinding.FragmentAddStaffBinding;
 import com.example.se114n21.utils.GlideUtils;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.UploadTask;
-
-import java.util.Objects;
-import java.util.UUID;
 
 public class AddOrEditStaffFragment extends BaseFragment {
     FragmentAddStaffBinding addOrEditStaffFragment;

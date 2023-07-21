@@ -21,10 +21,25 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ViewModels.ListStaff"
+            android:name=".ViewModels.CapNhatTaiKhoan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DoiMatKhau"
             android:exported="false" />
         <activity
             android:name=".ViewModels.Login"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CheckLogin"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.UpdateStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DetailStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListStaff"
             android:exported="false" />
         <activity
             android:name=".ViewModels.EditSale"
@@ -69,7 +84,7 @@
             android:name=".ViewModels.admin_QLHoaDon"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.DetailStaff"
+            android:name=".ViewModels.SplashApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

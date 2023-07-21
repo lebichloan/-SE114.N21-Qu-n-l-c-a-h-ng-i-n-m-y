@@ -1,5 +1,6 @@
 package com.example.se114n21.Adapter;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,8 +8,8 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
 
+import com.example.se114n21.Interface.StaffInterface;
 import com.example.se114n21.Models.NhanVien;
-import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -17,13 +18,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ListStaffAdapter extends RecyclerView.Adapter<ListStaffAdapter.ListStaffViewHolder> implements Filterable {
-
     private List<NhanVien> mListNhanVien;
     private List<NhanVien> mListNhanVienOLD;
+    private StaffInterface staffInterface;
 
-    public ListStaffAdapter(List<NhanVien> mListNhanVien) {
+
+    public ListStaffAdapter(List<NhanVien> mListNhanVien, StaffInterface staffInterface) {
         this.mListNhanVien = mListNhanVien;
         this.mListNhanVienOLD = mListNhanVien;
+        this.staffInterface = staffInterface;
     }
 
     @NonNull
@@ -56,11 +59,26 @@ public class ListStaffAdapter extends RecyclerView.Adapter<ListStaffAdapter.List
 
         holder.email.setText(nhanVien.getEmail());
 
-        if (nhanVien.getLoaiNhanVien().equals("admin")) {
+        if (nhanVien.getLoaiNhanVien().equals("Admin")) {
             holder.role.setText("Admin");
         } else {
             holder.role.setText("Nhân viên");
         }
+
+        if (nhanVien.isTrangThai() == false) {
+            holder.state.setText("Đã nghỉ việc");
+            holder.state.setTextColor(Color.parseColor("#EE786C"));
+        } else {
+            holder.state.setText("Đang làm việc");
+            holder.state.setTextColor(Color.parseColor("#39AAFC"));
+        }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                staffInterface.onClick(nhanVien);
+            }
+        });
     }
 
     @Override
@@ -137,7 +155,7 @@ public class ListStaffAdapter extends RecyclerView.Adapter<ListStaffAdapter.List
     }
 
     public class ListStaffViewHolder extends RecyclerView.ViewHolder {
-        TextView id, name, phone, email, role;
+        TextView id, name, phone, email, role, state;
         public ListStaffViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -146,6 +164,7 @@ public class ListStaffAdapter extends RecyclerView.Adapter<ListStaffAdapter.List
             phone = itemView.findViewById(R.id.tv_phone_staff);
             email = itemView.findViewById(R.id.tv_email_staff);
             role = itemView.findViewById(R.id.tv_role_staff);
+            state = itemView.findViewById(R.id.tv_state_staff);
         }
     }
 }

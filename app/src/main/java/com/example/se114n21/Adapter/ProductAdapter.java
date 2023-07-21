@@ -8,14 +8,11 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.se114n21.Interface.ProductInterface;
-import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
-import com.example.se114n21.ViewModels.ListProduct;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;

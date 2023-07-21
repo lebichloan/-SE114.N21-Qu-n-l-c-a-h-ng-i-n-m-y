@@ -19,6 +19,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.ListStaffAdapter;
+import com.example.se114n21.Interface.StaffInterface;
 import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,6 +48,7 @@ public class ListStaff extends AppCompatActivity {
 
 //    LAUNCHER
     private ActivityResultLauncher<Intent> addStaffLauncher;
+    private ActivityResultLauncher<Intent> detailStaffLauncher;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,17 +77,31 @@ public class ListStaff extends AppCompatActivity {
                         }
                     }
                 });
+
+        detailStaffLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            getListStaff();
+                        }
+                    }
+                });
     }
 
     private void getListStaff() {
         progressDialog.show();
-        mListNhanVien.clear();
 
         DatabaseReference myRef = database.getReference("Users");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (mListNhanVien != null) {
+                    mListNhanVien.clear();
+                }
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     NhanVien nhanVien = dataSnapshot.getValue(NhanVien.class);
 
@@ -135,7 +151,14 @@ public class ListStaff extends AppCompatActivity {
 
         mListNhanVien = new ArrayList<>();
 
-        mListStaffAdapter = new ListStaffAdapter(mListNhanVien);
+        mListStaffAdapter = new ListStaffAdapter(mListNhanVien, new StaffInterface() {
+            @Override
+            public void onClick(NhanVien nhanVien) {
+                Intent intent = new Intent(ListStaff.this, DetailStaff.class);
+                intent.putExtra("MaND", nhanVien.getMaND());
+                detailStaffLauncher.launch(intent);
+            }
+        });
 
         recyclerView.setAdapter(mListStaffAdapter);
 

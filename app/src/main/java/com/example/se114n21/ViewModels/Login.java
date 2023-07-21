@@ -1,113 +1,57 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputType;
-import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.util.Patterns;
-import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.material.textfield.TextInputEditText;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthException;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.HashMap;
-
 public class Login extends AppCompatActivity {
-    ImageButton butBack;
     EditText txtEmail, txtPassword;
     ImageButton eyeButton;
     Button butLogin;
-    FirebaseAuth auth;
-    FirebaseDatabase database;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
     TextView textViewForgotPassword;
     ProgressDialog progressDialog;
+
+//    SHARED PREF
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF_NAME = "mypre";
+    private static final String KEY_ID = "id";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         getSupportActionBar().hide();
 
-        auth = FirebaseAuth.getInstance();
-        database = FirebaseDatabase.getInstance();
-        initUI();
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Please wait");
-        progressDialog.setCanceledOnTouchOutside(false);
+            sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
-        butBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        initUI();
 
         butLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String email, password;
-                email = txtEmail.getText().toString().trim();
-                password = txtPassword.getText().toString().trim();
-
-                if (! email.isEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-                    if (! password.isEmpty()) {
-                        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                            @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
-                                progressDialog.dismiss();
-                                if(task.isSuccessful()){
-                                    showDialogLoginSucess();
-                                }
-
-                            }
-                        });
-                    } else {
-                        showCustomDialogFail("Vui lòng nhập vào mật khẩu");
-                        txtPassword.setError("Password canot be empty");
-                        txtPassword.requestFocus();
-                    }
-                } else if (email.isEmpty()) {
-                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email");
-                    txtEmail.setError("Email cannot be empty");
-                    txtEmail.requestFocus();
-                } else {
-                    showCustomDialogFail("Vui lòng nhập vào địa chỉ email hợp lệ");
-                    txtEmail.setError("Please enter valid email");
-                    txtEmail.requestFocus();
-                }
+                LoginToApp();
             }
         });
 
@@ -115,7 +59,6 @@ public class Login extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Login.this, ForgotPassword.class));
-                finish();
             }
         });
 
@@ -140,108 +83,101 @@ public class Login extends AppCompatActivity {
             }
         });
 
-        eyeButton.setOnClickListener(view -> {
-            if (txtPassword.getInputType() == 129) {
-                txtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
-                eyeButton.setImageDrawable(getDrawable(R.drawable.eye_blind));
-            }
-            else
-            {
-                eyeButton.setImageDrawable(getDrawable(R.drawable.eye));
-            }
-        });
-
-    }
-
-    private void showDialogLoginSucess() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText("Đăng nhập thành công");
-//        Button butOK = dialogView.findViewById(R.id.butOK);
-//        butOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-        FirebaseUser user = auth.getCurrentUser();
-        DatabaseReference reference;
-
-        reference = FirebaseDatabase.getInstance().
-                getReference("NhanVien").child(user.getUid());
-
-        startActivity(new
-                Intent(getApplicationContext(),BottomNavigation.class));
-
-//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(DataSnapshot dataSnapshot) {
-//                if (dataSnapshot.exists()){
-//                    String usertype= dataSnapshot.child("loaiNhanVien").getValue().toString();
-//                    if(usertype.equals("admin")){
-//                        startActivity(new
-//                                Intent(getApplicationContext(),BottomNavigation.class));
-//                        finish();
-//                    }else if (usertype.equals("staff")) {
-//                        startActivity(new
-//                                Intent(getApplicationContext(),BottomNavigationNhanVien.class));
-//                        finish();
-//                    }
-//                }
-//            }
-//            @Override
-//            public void onCancelled(DatabaseError databaseError) {
-//            }
-//        });
-
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
+        eyeButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                dialog.dismiss();
+            public void onClick(View view) {
+                if (txtPassword.getInputType() == 129) {
+                    txtPassword.setInputType(InputType.TYPE_CLASS_TEXT);
+                    eyeButton.setImageDrawable(getDrawable(R.drawable.eye_blind));
+                } else {
+                    txtPassword.setInputType(129);
+                    eyeButton.setImageDrawable(getDrawable(R.drawable.eye));
+                }
             }
         });
 
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
     }
+
+    private void LoginToApp() {
+        if (checkForm() == true) {
+            progressDialog = ProgressDialog.show(this,"Đang đăng nhập", "Vui lòng đợi...",false,false);
+
+            DatabaseReference myRef = database.getReference("Users");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                   String email = txtEmail.getText().toString().trim();
+                   String password = txtPassword.getText().toString().trim();
+                   
+                   Integer dem = 0;
+                   boolean check = false;
+
+                   for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                        NhanVien nhanVien = dataSnapshot.getValue(NhanVien.class);
+
+                        dem++;
+                        
+                        if (nhanVien.getEmail().equals(email) && nhanVien.getPassword().equals(password)) {
+                            progressDialog.dismiss();
+                            check = true;
+                            if (nhanVien.isTrangThai() == false) {
+                                Toast.makeText(Login.this, "Tài khoản đã bị vô hiệu hóa!", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                SharedPreferences.Editor editor = sharedPreferences.edit();
+                                editor.putString(KEY_ID, nhanVien.getMaND());
+                                editor.apply();
+
+                                if (nhanVien.getLoaiNhanVien().equals("Admin")) {
+                                    startActivity(new Intent(Login.this, BottomNavigation.class));
+                                    finish();
+                                } else {
+                                    startActivity(new Intent(Login.this, BottomNavigationNhanVien.class));
+                                    finish();
+                                }
+                            }
+                            break;
+                        }
+                   }
+                   
+                   if (dem == snapshot.getChildrenCount() && check == false) {
+                       progressDialog.dismiss();
+                       Toast.makeText(Login.this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                   }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(Login.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+    private boolean checkForm() {
+        boolean isValid = true;
+
+        if (txtEmail.getText().toString().trim().equals("")) {
+            txtEmail.setError("Nội dung bắt buộc");
+            txtEmail.requestFocus();
+            isValid = false;
+        }
+
+        if (txtPassword.getText().toString().trim().equals("")) {
+            txtPassword.setError("Nội dung bắt buộc");
+            txtPassword.requestFocus();
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
     private void initUI() {
-        butBack = findViewById(R.id.butBack);
         txtEmail = findViewById(R.id.txtEmail);
         txtPassword = findViewById(R.id.txtPassword);
         eyeButton = findViewById(R.id.eyeButton);
         butLogin = findViewById(R.id.butLogin);
         textViewForgotPassword = findViewById((R.id.textViewForgotPassword));
     }
-
 }

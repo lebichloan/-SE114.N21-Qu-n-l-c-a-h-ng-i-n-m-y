@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Gravity;
@@ -54,16 +55,23 @@ public class Account extends AppCompatActivity {
     FirebaseAuth auth;
     FirebaseStorage storage;
 
+    //    SHARED PREF
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF_NAME = "mypre";
+    private static final String KEY_ID = "id";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_account);
 
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
+
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
         initUI();
-        getData();
-        getAvata();
+//        getData();
+//        getAvata();
 
         ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
@@ -136,7 +144,12 @@ public class Account extends AppCompatActivity {
         butLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showCustomDialogConfirm("Bạn chắc chắn muốn đăng xuất");
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.clear();
+                editor.commit();
+                Toast.makeText(Account.this, "LOG OUT THANH CONG", Toast.LENGTH_SHORT).show();
+                startActivity(new Intent(Account.this, Login.class));
+                finish();
             }
         });
     }

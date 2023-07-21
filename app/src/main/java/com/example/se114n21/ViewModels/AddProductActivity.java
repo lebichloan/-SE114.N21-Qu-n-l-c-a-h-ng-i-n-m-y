@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
@@ -35,7 +34,6 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.example.se114n21.Adapter.ImageAdapter;
-import com.example.se114n21.Adapter.ImageSliderAdapter;
 import com.example.se114n21.Adapter.PropertyAdapter;
 import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhoHang;
@@ -55,13 +53,9 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
-import com.smarteist.autoimageslider.SliderView;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class AddProductActivity extends AppCompatActivity {
     private Button btn_AddImage, btn_SaveProduct;
