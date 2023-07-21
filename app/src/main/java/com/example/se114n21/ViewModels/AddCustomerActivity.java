@@ -2,17 +2,24 @@ package com.example.se114n21.ViewModels;
 
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.se114n21.Models.IdGenerator;
@@ -41,13 +48,15 @@ public class AddCustomerActivity extends AppCompatActivity {
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Pushdata();
-                Toast.makeText(getApplicationContext(),"Successful!",Toast.LENGTH_SHORT).show();
+                if (isValidForm()) {
+                    Pushdata();
+                    Intent intent = new Intent(AddCustomerActivity.this,CustomerActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
     private void Pushdata() {
-
         myref2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -65,14 +74,84 @@ public class AddCustomerActivity extends AppCompatActivity {
                 myRef.child(id).setValue(kh);
                 maxid = maxid + 1;
                 myref2.setValue(maxid);
+                showCustomDialogSucess("Thêm khách hàng mới thành công");
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                showCustomDialogFail("Quá trình thất bại. Vui lòng thử lại");
             }
         });
-        Intent intent = new Intent(AddCustomerActivity.this,CustomerActivity.class);
-        startActivity(intent);
+    }
+
+    private boolean isValidForm(){
+        if (isTenKHEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào tên khách hàng");
+            edtname.setError("Please fill information before next");
+            edtname.requestFocus();
+            return false;
+        } else if (isLoaiKHEmpty()){
+            showCustomDialogFail("Vui lòng nhập vào loại khách hàng");
+            edtloaikh.setError("Please fill information before next");
+            edtloaikh.requestFocus();
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isTenKHEmpty(){
+        return edtname.getText().toString().isEmpty();
+    }
+
+    private boolean isLoaiKHEmpty(){
+        return edtloaikh.getText().toString().isEmpty();
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
     }
 
     private void initUI() {
