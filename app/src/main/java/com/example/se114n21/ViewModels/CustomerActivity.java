@@ -147,15 +147,20 @@ public class CustomerActivity extends AppCompatActivity {
 
             @Override
             public void OnClickGetitem(KhachHang kh) {
-                String getname = kh.getTen();
-                String getaddress = kh.getDiaChi();
+                Intent intent = new Intent(CustomerActivity.this, CustomerDetail.class);
+                String gettenkh = kh.getTen();
                 String getsdt = kh.getDienThoai();
-                Intent returnintent = new Intent();
-                returnintent.putExtra("key_sdt",getsdt);
-                returnintent.putExtra("key_address",getaddress);
-                returnintent.putExtra("key_name", getname);
-                setResult(Activity.RESULT_OK,returnintent);
-                finish();
+                String getmakh = kh.getMaKH();
+                String getloaikh = kh.getLoaiKH();
+                String getdiachi = kh.getDiaChi();
+                String getemail = kh.getEmail();
+                intent.putExtra("detail_tenkhachhang",gettenkh);
+                intent.putExtra("detail_sdtkhachhang", getsdt);
+                intent.putExtra("detail_makhachhang", getmakh);
+                intent.putExtra("detail_loaikhachhang", getloaikh);
+                intent.putExtra("detail_diachikhachhang", getdiachi);
+                intent.putExtra("detail_emailkhachhang", getemail);
+                startActivity(intent);
             }
         });
 
