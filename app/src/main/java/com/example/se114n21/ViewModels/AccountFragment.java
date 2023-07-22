@@ -1,5 +1,6 @@
 package com.example.se114n21.ViewModels;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.app.TaskInfo;
@@ -9,6 +10,10 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -43,6 +48,8 @@ public class AccountFragment extends Fragment {
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
     private TextView name, email, role, id, birthday, phone, address;
     private CircleImageView circleImageView;
+
+    private ActivityResultLauncher<Intent> capNhatTaiKhoanLauncher;
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -96,6 +103,7 @@ public class AccountFragment extends Fragment {
             id.setText("--");
         } else {
             id.setText(nhanVien.getMaNV());
+            btnListNhanVien.setVisibility(View.GONE);
         }
         birthday.setText(nhanVien.getNgaySinh());
         phone.setText(nhanVien.getSDT());
@@ -105,6 +113,18 @@ public class AccountFragment extends Fragment {
     }
 
     private void initUI() {
+        capNhatTaiKhoanLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            String keyid = sharedPreferences.getString(KEY_ID, null);
+                            getData(keyid);
+                        }
+                    }
+                });
+
 //        LOG OUT
         btnLogout = (Button) getView().findViewById(R.id.btn_logout_account_profile);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -145,13 +165,13 @@ public class AccountFragment extends Fragment {
         btnListNhanVien = (Button) getView().findViewById(R.id.btn_list_nhan_vien);
         btnChangePassword = (Button) getView().findViewById(R.id.btn_changepassword);
 
-//        btnAccount.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getActivity(), Account.class);
-//                startActivity(intent);
-//            }
-//        });
+        btnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), CapNhatTaiKhoan.class);
+                capNhatTaiKhoanLauncher.launch(intent);
+            }
+        });
 
         btnListNhanVien.setOnClickListener(new View.OnClickListener() {
             @Override

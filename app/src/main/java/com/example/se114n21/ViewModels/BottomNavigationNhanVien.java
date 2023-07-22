@@ -43,7 +43,7 @@ public class BottomNavigationNhanVien extends AppCompatActivity {
                         break;
 
                     case R.id.account_nav_nhan_vien:
-                        replaceFragment(new AccountNhanVienFragment());
+                        replaceFragment(new AccountFragment());
                         break;
                 }
 
