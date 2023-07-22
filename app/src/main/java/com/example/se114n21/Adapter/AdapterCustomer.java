@@ -98,7 +98,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
             tvname = itemView.findViewById(R.id.tv_name);
             edit = itemView.findViewById(R.id.update_customer_button);
             delete = itemView.findViewById(R.id.delete_customer_button);
-            customeritem = itemView.findViewById(R.id.customeritem);
+            customeritem = itemView.findViewById(R.id.item_customer);
         }
     }
 }
