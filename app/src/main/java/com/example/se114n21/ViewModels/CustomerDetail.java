@@ -1,9 +1,11 @@
 package com.example.se114n21.ViewModels;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.se114n21.R;
@@ -30,6 +32,11 @@ public class CustomerDetail extends AppCompatActivity {
     }
 
     private void InitUI() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Thông tin khách hàng");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
         tenkh = findViewById(R.id.detail_tenkhachhang);
         sdt = findViewById(R.id.detail_sdtkh);
         email = findViewById(R.id.detail_emailkh);
@@ -37,4 +44,14 @@ public class CustomerDetail extends AppCompatActivity {
         loaikh = findViewById(R.id.detail_loaikhachhang);
         diachikh = findViewById(R.id.detail_diachikh);
     }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
