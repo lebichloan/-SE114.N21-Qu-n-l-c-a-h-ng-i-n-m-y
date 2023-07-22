@@ -31,5 +31,6 @@
 
     <color name="fog">#DDDDFF</color>
     <color name="wild_sand">#F5F5F5</color>
+    <color name="silver_chalice">#999999</color>
 
 </resources>
