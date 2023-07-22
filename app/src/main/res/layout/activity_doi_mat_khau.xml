@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewModels.DoiMatKhau">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btnBack_DoiMatKhau"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Đổi mật khẩu"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginRight="50dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.divider.MaterialDivider>
+        </LinearLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_matkhauhientai"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mật khẩu hiện tại"
+            android:theme="@style/CustomOutlinedBox"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/gray"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/baseline_password_24"
+            app:startIconTint="@color/textColor"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_matkhauhientai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:focusable="true"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_matkhaumoi"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Mật khẩu mới"
+            android:theme="@style/CustomOutlinedBox"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/gray"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/ic_edit"
+            app:startIconTint="@color/textColor"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_matkhaumoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:focusable="true"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/layout_xacnhanmatkhaumoi"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Xác nhận mật khẩu mới"
+            android:theme="@style/CustomOutlinedBox"
+            app:endIconMode="password_toggle"
+            app:endIconTint="@color/gray"
+            app:errorEnabled="true"
+            app:startIconDrawable="@drawable/outline_mode_edit_outline_24"
+            app:startIconTint="@color/textColor"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            >
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/txt_xacnhanmatkhaumoi"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textPassword"
+                android:focusableInTouchMode="true"
+                android:clickable="true"
+                android:focusable="true"
+                >
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnConfirmNewPass"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Xác nhận"
+            android:textSize="14sp"
+            android:textAllCaps="false"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            >
+
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
+</RelativeLayout>

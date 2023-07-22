@@ -25,13 +25,37 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ViewModels.CustomerActivity"
+            android:name=".ViewModels.SplashApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ViewModels.CustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CapNhatTaiKhoan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DoiMatKhau"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Login"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CheckLogin"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.UpdateStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DetailStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListStaff"
+            android:exported="false" />
         <activity
             android:name=".ViewModels.SelectCustomer"
             android:exported="false" />
@@ -40,9 +64,6 @@
             android:exported="false" />
         <activity
             android:name=".ViewModels.EditSale"
-            android:exported="false" />
-        <activity
-            android:name=".ViewModels.Login"
             android:exported="false" />
         <activity
             android:name=".ViewModels.AddSale"

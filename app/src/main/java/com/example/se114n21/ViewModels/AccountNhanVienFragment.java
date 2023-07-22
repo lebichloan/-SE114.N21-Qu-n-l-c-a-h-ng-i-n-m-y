@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 
 public class AccountNhanVienFragment extends Fragment {
@@ -24,7 +23,7 @@ public class AccountNhanVienFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        initUI();
+//        initUI();
     }
 
     @Override
@@ -35,8 +34,8 @@ public class AccountNhanVienFragment extends Fragment {
     }
 
     private void initUI() {
-        btnAccount = (Button) getView().findViewById(R.id.btn_account_nhan_vien);
-        btnSetting = (Button) getView().findViewById(R.id.btn_setting_nhan_vien);
+//        btnAccount = (Button) getView().findViewById(R.id.btn_account_nhan_vien);
+//        btnSetting = (Button) getView().findViewById(R.id.btn_setting_nhan_vien);
 
         btnAccount.setOnClickListener(new View.OnClickListener() {
             @Override

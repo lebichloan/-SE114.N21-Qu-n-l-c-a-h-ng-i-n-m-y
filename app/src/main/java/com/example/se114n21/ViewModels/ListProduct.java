@@ -18,12 +18,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
-import com.example.se114n21.Adapter.ImageAdapter;
 import com.example.se114n21.Adapter.ProductAdapter;
 import com.example.se114n21.Interface.ProductInterface;
-import com.example.se114n21.Models.LoaiSanPham;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;

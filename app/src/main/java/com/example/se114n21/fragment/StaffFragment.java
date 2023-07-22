@@ -4,7 +4,6 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.text.Editable;
@@ -16,7 +15,6 @@ import android.view.ViewGroup;
 import com.example.se114n21.Adapter.StaffAdapter;
 import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
-import com.example.se114n21.Adapter.StaffAdapter;
 import com.example.se114n21.databinding.FragmentStaffBinding;
 import com.example.se114n21.listener.IOnManagerStaffListener;
 import com.google.firebase.database.DataSnapshot;
@@ -60,7 +58,7 @@ public class StaffFragment extends BaseFragment {
         Bundle bundle = null;
         if (nhanVien != null){
             bundle = new Bundle();
-            bundle.putSerializable("staff", nhanVien);
+//            bundle.putSerializable("staff", nhanVien);
         }
 
         getParentFragmentManager()

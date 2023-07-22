@@ -24,13 +24,11 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.se114n21.Models.Account;
 import com.example.se114n21.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.imageview.ShapeableImageView;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -157,25 +155,25 @@ public class SignUp extends AppCompatActivity {
                                         while (!uriTask.isComplete());
                                         Uri urlImage = uriTask.getResult();
                                         linkAvata = urlImage.toString();
-                                        Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
-                                        FirebaseDatabase.getInstance().getReference("Account").child(userId)
-                                                        .setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()){
-//                                                            Th?ng b?o luwu th?nh c?ng
-//                                                            Toast.makeText(SignUp.this, "Saved", Toast.LENGTH_SHORT).show();
-//                                                            finish();
-                                                        }
-                                                    }
-                                                }).addOnFailureListener(new OnFailureListener() {
-                                                    @Override
-                                                    public void onFailure(@NonNull Exception e) {
-//                                                        B?o l?i
-//                                                        Toast.makeText(SignUp.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
-                                                    }
-                                                });
-                                        dialog.dismiss();
+//                                        Account account = new Account(userId, linkAvata, hoTen, email, phanQuyen);
+//                                        FirebaseDatabase.getInstance().getReference("Account").child(userId)
+//                                                        .setValue(account).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                                    @Override
+//                                                    public void onComplete(@NonNull Task<Void> task) {
+//                                                        if (task.isSuccessful()){
+////                                                            Th?ng b?o luwu th?nh c?ng
+////                                                            Toast.makeText(SignUp.this, "Saved", Toast.LENGTH_SHORT).show();
+////                                                            finish();
+//                                                        }
+//                                                    }
+//                                                }).addOnFailureListener(new OnFailureListener() {
+//                                                    @Override
+//                                                    public void onFailure(@NonNull Exception e) {
+////                                                        B?o l?i
+////                                                        Toast.makeText(SignUp.this, e.getMessage().toString(), Toast.LENGTH_SHORT).show();
+//                                                    }
+//                                                });
+//                                        dialog.dismiss();
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                                     @Override

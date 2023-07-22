@@ -2,60 +2,34 @@ package com.example.se114n21.Models;
 
 import java.io.Serializable;
 import java.util.List;
-public class NhanVien implements Serializable {
+public class NhanVien {
     private String LinkAvt;
     private String MaNV;
+    private String MaND;
     private String HoTen;
     private String NgaySinh;
-    private String GioiTinh;
     private String DiaChi;
     private String SDT;
     private String Email;
-    private String NgayVaoLam;
-    private Double LuongTheoGio;
     private String loaiNhanVien;
-    private  String password;
-    private List<String> DanhSachCaLam;
+    private String Password;
+    private boolean TrangThai;
 
     public NhanVien() {
     }
 
-    public NhanVien(String maNV, String hoTen, String email, String loaiNhanVien){
-        LinkAvt = "";
-        MaNV = maNV;
-        HoTen = hoTen;
-        Email = email;
-        this.loaiNhanVien = loaiNhanVien;
-    }
-
-    public NhanVien(String linkAvt, String maNV, String hoten, String ngaySinh, String gioiTinh, String diaChi, String sdt, String email, String ngayVaoLam, Double luongTheoGio, List<String> danhSachCaLam) {
+    public NhanVien(String linkAvt, String maNV, String maND, String hoTen, String ngaySinh, String diaChi, String SDT, String email, String loaiNhanVien, String password, boolean trangThai) {
         LinkAvt = linkAvt;
         MaNV = maNV;
-        HoTen = hoten;
+        MaND = maND;
+        HoTen = hoTen;
         NgaySinh = ngaySinh;
-        GioiTinh = gioiTinh;
         DiaChi = diaChi;
-        SDT = sdt;
+        this.SDT = SDT;
         Email = email;
-        NgayVaoLam = ngayVaoLam;
-        LuongTheoGio = luongTheoGio;
-        DanhSachCaLam = danhSachCaLam;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLoaiNhanVien() {
-        return loaiNhanVien;
-    }
-
-    public void setLoaiNhanVien(String loaiNhanVien) {
         this.loaiNhanVien = loaiNhanVien;
+        Password = password;
+        TrangThai = trangThai;
     }
 
     public String getLinkAvt() {
@@ -74,12 +48,20 @@ public class NhanVien implements Serializable {
         MaNV = maNV;
     }
 
+    public String getMaND() {
+        return MaND;
+    }
+
+    public void setMaND(String maND) {
+        MaND = maND;
+    }
+
     public String getHoTen() {
         return HoTen;
     }
 
-    public void setHoTen(String hoten) {
-        HoTen = hoten;
+    public void setHoTen(String hoTen) {
+        HoTen = hoTen;
     }
 
     public String getNgaySinh() {
@@ -88,14 +70,6 @@ public class NhanVien implements Serializable {
 
     public void setNgaySinh(String ngaySinh) {
         NgaySinh = ngaySinh;
-    }
-
-    public String getGioiTinh() {
-        return GioiTinh;
-    }
-
-    public void setGioiTinh(String gioiTinh) {
-        GioiTinh = gioiTinh;
     }
 
     public String getDiaChi() {
@@ -110,8 +84,8 @@ public class NhanVien implements Serializable {
         return SDT;
     }
 
-    public void setSDT(String sdt) {
-        SDT = sdt;
+    public void setSDT(String SDT) {
+        this.SDT = SDT;
     }
 
     public String getEmail() {
@@ -122,44 +96,27 @@ public class NhanVien implements Serializable {
         Email = email;
     }
 
-    public String getNgayVaoLam() {
-        return NgayVaoLam;
+    public String getLoaiNhanVien() {
+        return loaiNhanVien;
     }
 
-    public void setNgayVaoLam(String ngayVaoLam) {
-        NgayVaoLam = ngayVaoLam;
+    public void setLoaiNhanVien(String loaiNhanVien) {
+        this.loaiNhanVien = loaiNhanVien;
     }
 
-    public Double getLuongTheoGio() {
-        return LuongTheoGio;
+    public String getPassword() {
+        return Password;
     }
 
-    public void setLuongTheoGio(Double luongTheoGio) {
-        LuongTheoGio = luongTheoGio;
+    public void setPassword(String password) {
+        Password = password;
     }
 
-    public List<String> getDanhSachCaLam() {
-        return DanhSachCaLam;
+    public boolean isTrangThai() {
+        return TrangThai;
     }
 
-    public void setDanhSachCaLam(List<String> danhSachCaLam) {
-        DanhSachCaLam = danhSachCaLam;
-    }
-
-    @Override
-    public String toString() {
-        return "NhanVien{" +
-                "LinkAvt='" + LinkAvt + '\'' +
-                ", MaNV='" + MaNV + '\'' +
-                ", HoTen='" + HoTen + '\'' +
-                ", NgaySinh='" + NgaySinh + '\'' +
-                ", GioiTinh='" + GioiTinh + '\'' +
-                ", DiaChi='" + DiaChi + '\'' +
-                ", SDT='" + SDT + '\'' +
-                ", Email='" + Email + '\'' +
-                ", NgayVaoLam='" + NgayVaoLam + '\'' +
-                ", LuongTheoGio=" + LuongTheoGio +
-                ", DanhSachCaLam=" + DanhSachCaLam +
-                '}';
+    public void setTrangThai(boolean trangThai) {
+        TrangThai = trangThai;
     }
 }
