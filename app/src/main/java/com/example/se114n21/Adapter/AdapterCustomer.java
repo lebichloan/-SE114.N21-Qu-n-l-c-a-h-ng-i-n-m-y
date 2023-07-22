@@ -1,15 +1,17 @@
-package com.example.se114n21.ViewModels;
+package com.example.se114n21.Adapter;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Models.KhachHang;
+import com.example.se114n21.Models.KhuyenMai;
 import com.example.se114n21.R;
 
 import java.util.List;
@@ -20,6 +22,12 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
     public interface IclickListener{
         void OnClickUpdateitem(KhachHang kh);
         void OnClickDeleteitem(KhachHang kh);
+        void OnClickGetitem(KhachHang kh);
+    }
+    public void setFilteredList(List<KhachHang> filteredList)
+    {
+        this.listcustomer = filteredList;
+        notifyDataSetChanged();
     }
     public AdapterCustomer(List<KhachHang> listcustomer, IclickListener iclickListener) {
         this.listcustomer = listcustomer;
@@ -42,6 +50,12 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
         }
         holder.tvid.setText(kh.getMaKH());
         holder.tvname.setText(kh.getTen());
+        holder.customeritem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                iclickListener.OnClickGetitem(kh);
+            }
+        });
         holder.edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +81,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
     }
 
     public class CustomerViewHolder extends RecyclerView.ViewHolder{
+        private RelativeLayout customeritem;
         private TextView tvid;
         private TextView tvname;
 
@@ -83,6 +98,7 @@ public class AdapterCustomer extends RecyclerView.Adapter<AdapterCustomer.Custom
             tvname = itemView.findViewById(R.id.tv_name);
             edit = itemView.findViewById(R.id.update_customer_button);
             delete = itemView.findViewById(R.id.delete_customer_button);
+            customeritem = itemView.findViewById(R.id.item_customer);
         }
     }
 }

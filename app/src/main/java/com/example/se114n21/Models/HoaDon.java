@@ -1,5 +1,6 @@
 package com.example.se114n21.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,22 +12,20 @@ public class HoaDon {
     private String NgayHD;
     private String DiaCHiNhanHang;
     private String DienThoaiNhanHang;
-    private Double PhiVanChuyen;
-    private Double PhiLapDat;
-    private Double ChietKhau;
-    private Double TongTienPhaiTra;
-    private Double TienVon;
-    private String TinhTrangHD;
-    private String TinhTrangGiaoHang;
+    private Integer PhiVanChuyen;
+    private Integer PhiLapDat;
+    private Integer ChietKhau;
+    private Integer TongTienPhaiTra;
+    private Integer TienVon;
     private String GhiChu;
     private String PhuongThucThanhToan;
     private List<ChiTietHoaDon> ChiTietHD;
-    private Double HoaHong;
 
     public HoaDon() {
+        this.ChiTietHD = new ArrayList<>();
     }
 
-    public HoaDon(String maHD, String maNV, String maKH, String ngayHD, String diaCHiNhanHang, String dienThoaiNhanHang, Double phiVanChuyen, Double phiLapDat, Double chietKhau, Double tongTienPhaiTra, Double tienVon, String tinhTrangHD, String tinhTrangGiaoHang, String ghiChu, String phuongThucThanhToan, List<ChiTietHoaDon> chiTietHD, Double hoaHong) {
+    public HoaDon(String maHD, String maNV, String maKH, String ngayHD, String diaCHiNhanHang, String dienThoaiNhanHang, Integer phiVanChuyen, Integer phiLapDat, Integer chietKhau, Integer tongTienPhaiTra, Integer tienVon, String ghiChu, String phuongThucThanhToan, List<ChiTietHoaDon> chiTietHD) {
         MaHD = maHD;
         MaNV = maNV;
         MaKH = maKH;
@@ -38,12 +37,9 @@ public class HoaDon {
         ChietKhau = chietKhau;
         TongTienPhaiTra = tongTienPhaiTra;
         TienVon = tienVon;
-        TinhTrangHD = tinhTrangHD;
-        TinhTrangGiaoHang = tinhTrangGiaoHang;
         GhiChu = ghiChu;
         PhuongThucThanhToan = phuongThucThanhToan;
         ChiTietHD = chiTietHD;
-        HoaHong = hoaHong;
     }
 
     public String getMaHD() {
@@ -94,60 +90,44 @@ public class HoaDon {
         DienThoaiNhanHang = dienThoaiNhanHang;
     }
 
-    public Double getPhiVanChuyen() {
+    public Integer getPhiVanChuyen() {
         return PhiVanChuyen;
     }
 
-    public void setPhiVanChuyen(Double phiVanChuyen) {
+    public void setPhiVanChuyen(Integer phiVanChuyen) {
         PhiVanChuyen = phiVanChuyen;
     }
 
-    public Double getPhiLapDat() {
+    public Integer getPhiLapDat() {
         return PhiLapDat;
     }
 
-    public void setPhiLapDat(Double phiLapDat) {
+    public void setPhiLapDat(Integer phiLapDat) {
         PhiLapDat = phiLapDat;
     }
 
-    public Double getChietKhau() {
+    public Integer getChietKhau() {
         return ChietKhau;
     }
 
-    public void setChietKhau(Double chietKhau) {
+    public void setChietKhau(Integer chietKhau) {
         ChietKhau = chietKhau;
     }
 
-    public Double getTongTienPhaiTra() {
+    public Integer getTongTienPhaiTra() {
         return TongTienPhaiTra;
     }
 
-    public void setTongTienPhaiTra(Double tongTienPhaiTra) {
+    public void setTongTienPhaiTra(Integer tongTienPhaiTra) {
         TongTienPhaiTra = tongTienPhaiTra;
     }
 
-    public Double getTienVon() {
+    public Integer getTienVon() {
         return TienVon;
     }
 
-    public void setTienVon(Double tienVon) {
+    public void setTienVon(Integer tienVon) {
         TienVon = tienVon;
-    }
-
-    public String getTinhTrangHD() {
-        return TinhTrangHD;
-    }
-
-    public void setTinhTrangHD(String tinhTrangHD) {
-        TinhTrangHD = tinhTrangHD;
-    }
-
-    public String getTinhTrangGiaoHang() {
-        return TinhTrangGiaoHang;
-    }
-
-    public void setTinhTrangGiaoHang(String tinhTrangGiaoHang) {
-        TinhTrangGiaoHang = tinhTrangGiaoHang;
     }
 
     public String getGhiChu() {
@@ -171,58 +151,6 @@ public class HoaDon {
     }
 
     public void setChiTietHD(List<ChiTietHoaDon> chiTietHD) {
-        ChiTietHD = chiTietHD;
-    }
-
-    public Double getHoaHong() {
-        return HoaHong;
-    }
-
-    public void setHoaHong(Double hoaHong) {
-        HoaHong = hoaHong;
-    }
-
-    @Override
-    public String toString() {
-        return "HoaDon{" +
-                "MaHD='" + MaHD + '\'' +
-                ", MaNV='" + MaNV + '\'' +
-                ", MaKH='" + MaKH + '\'' +
-                ", NgayHD='" + NgayHD + '\'' +
-                ", DiaCHiNhanHang='" + DiaCHiNhanHang + '\'' +
-                ", DienThoaiNhanHang='" + DienThoaiNhanHang + '\'' +
-                ", PhiVanChuyen=" + PhiVanChuyen +
-                ", PhiLapDat=" + PhiLapDat +
-                ", ChietKhau=" + ChietKhau +
-                ", TongTienPhaiTra=" + TongTienPhaiTra +
-                ", TienVon=" + TienVon +
-                ", TinhTrangHD='" + TinhTrangHD + '\'' +
-                ", TinhTrangGiaoHang='" + TinhTrangGiaoHang + '\'' +
-                ", GhiChu='" + GhiChu + '\'' +
-                ", PhuongThucThanhToan='" + PhuongThucThanhToan + '\'' +
-                ", ChiTietHD=" + ChiTietHD +
-                ", HoaHong=" + HoaHong +
-                '}';
-    }
-    public Map<String, Object> toMap()
-    {
-        HashMap<String,Object> result = new HashMap<>();
-        result.put("MaNV", MaNV);
-        result.put("maKH",MaKH);
-        result.put("NgayHD",NgayHD);
-        result.put("DiaCHiNhanHang",DiaCHiNhanHang);
-        result.put("PhiVanChuyen",PhiVanChuyen);
-        result.put("PhiLapDat",PhiLapDat);
-        result.put("ChietKhau",ChietKhau);
-        result.put("TongTienPhaiTra",TongTienPhaiTra);
-        result.put("TienVon",TienVon);
-        result.put("TinhTrangHD",TinhTrangHD);
-        result.put("TinhTrangGiaoHang",TinhTrangGiaoHang);
-        result.put("GhiChu",GhiChu);
-        result.put("PhuongThucThanhToan",PhuongThucThanhToan);
-        result.put("ChiTietHD",ChiTietHD);
-        result.put("HoaHong",HoaHong);
-
-        return result;
+        this.ChiTietHD.addAll(chiTietHD);
     }
 }

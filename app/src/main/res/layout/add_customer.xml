@@ -1,149 +1,261 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Thông tin khách hàng"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Họ và tên"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
+    android:orientation="vertical"
+    android:background="@color/wild_sand">
 
-    <EditText
-        android:id="@+id/edtname"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
-        android:hint="Nhập họ và tên"
-        android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
-        android:textStyle="bold"/>
-    <TextView
-        android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Số điện thoại"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
-    <EditText
-        android:id="@+id/edtsdt"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
-        android:hint="Nhập số điện thoại"
-        android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
-        android:textStyle="bold"></EditText>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Địa chỉ"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
+        android:layout_weight="1">
 
-    <EditText
-        android:id="@+id/edtaddress"
-        android:layout_width="380dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:hint="Nhập địa chỉ"
-        android:textColor="@color/white"
-        android:textColorHint="#44FDFDFD"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="top"></EditText>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical">
 
-    <EditText
-        android:id="@+id/edtemail"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
-        android:hint="Nhập email"
-        android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
-        android:textStyle="bold"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Loại khách hàng"
-        android:textColor="@color/black"
-        android:background="@color/white"
-        android:textSize="18dp"
-        android:textStyle="bold"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp">
-    </TextView>
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
-    <EditText
-        android:id="@+id/edtloaikh"
-        android:layout_width="380dp"
-        android:layout_height="48dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:background="#EE786C"
-        android:textColor="@color/white"
-        android:hint="Nhập loại khách hàng"
-        android:textSize="18sp"
-        android:textColorHint="#44FDFDFD"
-        android:textStyle="bold"/>
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Họ và tên "
+                            android:textSize="18dp"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textSize="18dp"
+                            android:textColor="@color/red" />
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/edtname"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edit_text"
+                        android:ellipsize="end"
+                        android:hint="Họ và tên"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:paddingVertical="16dp"
+                        android:paddingLeft="20dp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Email"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtemail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edit_text"
+                        android:ellipsize="end"
+                        android:hint="Họ và tên"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:paddingVertical="16dp"
+                        android:paddingLeft="20dp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Số điện thoại "
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtsdt"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edit_text"
+                        android:ellipsize="end"
+                        android:hint="Số điện thoại"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:paddingVertical="16dp"
+                        android:paddingLeft="20dp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Địa chỉ"
+                        android:textSize="18dp"
+                        android:textColor="@color/black"
+                        android:layout_marginLeft="10dp"/>
+
+                    <EditText
+                        android:id="@+id/edtaddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edit_text"
+                        android:ellipsize="end"
+                        android:hint="Địa chỉ"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:paddingVertical="16dp"
+                        android:paddingLeft="20dp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Loại khách hàng "
+                            android:textSize="18dp"
+                            android:textColor="@color/black"
+                            android:layout_marginLeft="10dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="*"
+                            android:textSize="18dp"
+                            android:textColor="@color/red"/>
+
+                    </LinearLayout>
+
+                    <EditText
+                        android:id="@+id/edtloaikh"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/border_edit_text"
+                        android:ellipsize="end"
+                        android:hint="Loại khách hàng"
+                        android:inputType="text"
+                        android:maxLines="2"
+                        android:paddingVertical="16dp"
+                        android:paddingLeft="20dp"
+                        android:textColor="@android:color/black"
+                        tools:ignore="VisualLintTextFieldSize" />
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+        </LinearLayout>
+
+    </ScrollView>
+
     <Button
         android:id="@+id/addcustomer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:width="150dp"
-        android:text="THÊM MỚI"
-        android:height="55dp"
-        android:background="@drawable/add_button"
-        />
+        android:layout_margin="10dp"
+        android:background="@drawable/background_button"
+        android:text="thêm mới"
+        android:textColor="@color/white"
+        android:textSize="20dp"
+        android:gravity="center"
+        android:padding="7dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="TouchTargetSizeCheck,VisualLintButtonSize" />
 
 </LinearLayout>
