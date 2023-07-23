@@ -33,7 +33,7 @@ public class CusDebtAdapter extends RecyclerView.Adapter<CusDebtAdapter.CusDebtV
     @NonNull
     @Override
     public CusDebtViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profit_cusDeft, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_profit_cus_debt, parent, false);
         return new CusDebtViewHolder(view);
     }
 

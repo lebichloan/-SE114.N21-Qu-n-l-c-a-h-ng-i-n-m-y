@@ -44,6 +44,7 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
             return;
 
         holder.tvName.setText(inventory.getName());
+        holder.tvIdInventory.setText(inventory.getId());
         holder.tvImport.setText("SL nhập: " + inventory.getImp());
         holder.tvExport.setText("SL xuất: " + inventory.getExp());
     }
@@ -57,12 +58,13 @@ public class InventoryAdapter extends RecyclerView.Adapter<InventoryAdapter.Inve
 
     public class InventoryViewHolder extends ViewHolder {
 
-        private TextView tvName, tvImport, tvExport;
+        private TextView tvName, tvIdInventory, tvImport, tvExport;
 
         public InventoryViewHolder(@NonNull View itemView) {
             super(itemView);
 
             tvName = itemView.findViewById(R.id.tvNameInventory);
+            tvIdInventory = itemView.findViewById(R.id.tvIdInventory);
             tvImport = itemView.findViewById(R.id.tvImport);
             tvExport = itemView.findViewById(R.id.tvExport);
 

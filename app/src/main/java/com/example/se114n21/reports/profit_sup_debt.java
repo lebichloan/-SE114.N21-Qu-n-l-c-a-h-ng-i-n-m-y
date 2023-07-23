@@ -81,7 +81,7 @@ public class profit_sup_debt extends Fragment {
         List<CusDebt> list = new ArrayList<>();
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("supDebt");
+        DatabaseReference ref = database.getReference("sup_debt");
 
         Query query = ref.orderByChild("id");
 
