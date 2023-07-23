@@ -134,7 +134,7 @@ public class EditProduct extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Cập nhật sản phẩm");
         actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 //        progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Vui long doi mot chut");

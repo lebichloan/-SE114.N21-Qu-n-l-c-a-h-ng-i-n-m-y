@@ -85,7 +85,7 @@ public class ListProductType extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Danh mục sản phẩm");
 
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //      RCV
         rcv_List_Product_Type = findViewById(R.id.rcv_list_product_type);
