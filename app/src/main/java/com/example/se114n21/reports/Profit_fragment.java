@@ -47,7 +47,7 @@ public class Profit_fragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 // Mở fragment mới
-                fragmentTransaction.replace(R.id.content_frame, new profit_cus_deft());
+                fragmentTransaction.replace(R.id.content_frame, new profit_cus_debt());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
@@ -60,7 +60,7 @@ public class Profit_fragment extends Fragment {
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
                 // Mở fragment mới
-                fragmentTransaction.replace(R.id.content_frame, new profit_sup_deft());
+                fragmentTransaction.replace(R.id.content_frame, new profit_sup_debt());
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }

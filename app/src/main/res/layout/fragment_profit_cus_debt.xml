@@ -10,7 +10,7 @@
         android:id="@+id/textViewTitle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Báo cáo nhập xuất"
+        android:text="Công nợ khách hàng"
         android:textSize="20sp"
         android:textStyle="bold"
         android:padding="16dp"
@@ -19,7 +19,7 @@
 
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvInventory"
+        android:id="@+id/rvCusDebt"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
@@ -29,7 +29,7 @@
         android:id="@+id/tvTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tổng doanh thu: $5000"
+        android:text="Tổng công nợ: $5000"
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="16dp"
