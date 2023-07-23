@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/wild_sand">
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cập nhật thông tin khách hàng"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:layout_margin="10dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Họ và tên"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textSize="18dp"
+                    android:textColor="@color/red"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_edit_text"
+                android:ellipsize="end"
+                android:hint="Họ tên khách hàng"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Email"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/edt_email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_edit_text"
+                android:ellipsize="end"
+                android:hint="Email"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Số điện thoại "
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/edt_sdt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_edit_text"
+                android:ellipsize="end"
+                android:hint="Số điện thoại"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Địa chỉ"
+                android:textSize="18dp"
+                android:textColor="@color/black"
+                android:layout_marginLeft="10dp"/>
+
+            <EditText
+                android:id="@+id/edt_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_edit_text"
+                android:ellipsize="end"
+                android:hint="Địa chỉ"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                tools:ignore="VisualLintTextFieldSize" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="15dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Loại khách hàng"
+                    android:textSize="18dp"
+                    android:textColor="@color/black"
+                    android:layout_marginLeft="10dp"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="*"
+                    android:textSize="18dp"
+                    android:textColor="@color/red"/>
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/edt_loaikh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/border_edit_text"
+                android:ellipsize="end"
+                android:hint="Loại khách hàng"
+                android:inputType="text"
+                android:padding="16dp"
+                android:textColor="@android:color/black"
+                tools:ignore="VisualLintTextFieldSize" />
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/cancelupdatecustomer"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="HUỶ"
+            android:background="@drawable/background_button"/>
+
+        <View
+            android:layout_width="70dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/updatecustomer"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:text="CẬP NHẬT"
+            android:background="@drawable/background_button"/>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
+
+</LinearLayout>

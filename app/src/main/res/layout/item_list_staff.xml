@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_id_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NV0001"
+                android:textColor="@color/textColor"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_name_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nguyen Van A"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_phone_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0835489396"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_email_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="kietphamkb@gmail.com"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1">
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tv_role_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nhân viên"
+                android:textColor="@color/orange"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_gravity="end"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/tv_state_staff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Đang làm việc"
+                android:textColor="@color/blue"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                >
+            </TextView>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>

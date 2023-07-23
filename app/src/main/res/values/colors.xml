@@ -4,7 +4,33 @@
     <color name="purple_500">#FF6200EE</color>
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
+
+    <color name="blue_violet">#5446B7</color>
+    <color name="apricot">#EE786C</color>
+    <color name="blaltic_sea">#222129</color>
+    <color name="alabaster">#F7F7F7</color>
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="alto">#DCDCDC</color>
+
+    <color name="yellow">#FFEB3B</color>
+    <color name="purple_app">#5446B7</color>
+    <color name="gray">#98999b</color>
+    <color name="gray_button">#f4f6fa</color>
+    <color name="textColor">#5a595c</color>
+    <color name="orange">#E8915C</color>
+    <color name="red">#FF0000</color>
+    <color name="blue">#39AAFC</color>
+    <color name="gray_light">#F5F5F5</color>
+
+
+    <color name="colorPrimary">#FC5353</color>
+    <color name="textColorSecondary">#6D6E70</color>
+    <color name="textColorPrimary">#121315</color>
+
+    <color name="fog">#DDDDFF</color>
+    <color name="wild_sand">#F5F5F5</color>
+    <color name="silver_chalice">#999999</color>
+
 </resources>

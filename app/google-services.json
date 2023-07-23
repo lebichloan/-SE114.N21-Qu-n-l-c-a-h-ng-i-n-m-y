@@ -1,41 +1,41 @@
 {
   "project_info": {
-    "project_number": "607812958980",
-    "project_id": "reportse-84fe7",
-    "storage_bucket": "reportse-84fe7.appspot.com"
+    "project_number": "902269608705",
+    "project_id": "se114n21-49fb6",
+    "storage_bucket": "se114n21-49fb6.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:607812958980:android:e4ab29ff7a31834de9ae51",
+        "mobilesdk_app_id": "1:902269608705:android:f6b8c76f22daec60bd3100",
         "android_client_info": {
           "package_name": "com.example.se114n21"
         }
       },
       "oauth_client": [
         {
-          "client_id": "607812958980-9rr2b2lu7hrdv5lj5dp3sn96pa0osjsd.apps.googleusercontent.com",
+          "client_id": "902269608705-mf5pv6dtln1qqirvk055r0bs9knfguo3.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.se114n21",
-            "certificate_hash": "d6d1305234a46161dc8712ae0a8b326ffe9c8958"
+            "certificate_hash": "5a0adff9f2b7771d85ec2bb222f068cbe0bb896e"
           }
         },
         {
-          "client_id": "607812958980-cpre8it809rqfqqdsoaqvur7k16insmo.apps.googleusercontent.com",
+          "client_id": "902269608705-0urr8g2kqcqejhsbu8nda1o90e2btufb.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyChq0PCPHgs5xjtY-OZEbbyvnkDYX8ozfc"
+          "current_key": "AIzaSyB6Cx7j4btvp_393XG3XhK2MOywU8pBlJU"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "607812958980-cpre8it809rqfqqdsoaqvur7k16insmo.apps.googleusercontent.com",
+              "client_id": "902269608705-0urr8g2kqcqejhsbu8nda1o90e2btufb.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

@@ -2,16 +2,36 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@drawable/ic_launcher_background"
+        android:hardwareAccelerated="true"
+        android:icon="@drawable/avata"
         android:label="@string/app_name"
+        android:largeHeap="true"
+        android:requestLegacyExternalStorage="true"
         android:supportsRtl="true"
         android:theme="@style/Theme.SE114N21"
+        android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".ViewModels.SplashApp"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".reports.reportContainer"
             android:exported="false" />
@@ -20,14 +40,143 @@
             android:exported="false"
             android:label="@string/title_activity_login" />
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+            android:name=".ViewModels.CustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CapNhatTaiKhoan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DoiMatKhau"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Login"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CheckLogin"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.UpdateStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DetailStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SelectCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChonSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.EditSale"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddSale"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.EditStaff"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BottomNavigationNhanVien"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BottomNavigation"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.EditProduct"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DetailProduct"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLHoaDon"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.HoaDonDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.HoaDonActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLSanPham"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.admin_QLKhachHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AdminMain"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.NVMain"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListProduct"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLKhachHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SignUpSucess"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SignUp"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChangeEmail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SendEmailSucess"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ChangePassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.NVProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.Account"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ConfirmNewPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ForgotPassword"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AdminProfile"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.MainActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.QLKhuyenMai"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ThemHoaDon"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddCustomerActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListProductType"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.CustomerDetail"
+            android:exported="false" />
     </application>
 
 </manifest>

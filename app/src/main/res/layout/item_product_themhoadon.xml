@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="12dp"
+        >
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_id_product_themhoadon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SP0001"
+                android:textColor="@color/textColor"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                >
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_name_product_themhoadon"
+                android:layout_width="wrap_content"
+                android:maxWidth="220dp"
+                android:layout_height="wrap_content"
+                android:text="slflsnfldnflsdfsdfsfssdfsfsfsdfsdfsfsdfsdfsfsdnflsdknflsdnfslnfsdnfldjsnfj"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:layout_marginTop="1dp"
+                android:maxLines="2"
+                android:ellipsize="end"
+                >
+            </TextView>
+
+            <TextView
+                android:id="@+id/tv_thanhtien_themhoadon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="85000"
+                android:textColor="@color/orange"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginTop="5dp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+        </TextView>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete_themhoadon"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                app:icon="@drawable/baseline_clear_24"
+                app:iconTint="@color/gray"
+                app:iconGravity="textStart"
+                android:layout_gravity="end"
+                >
+            </com.google.android.material.button.MaterialButton>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_soluong_themhoadon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_gravity="center"
+                android:text="6"
+                android:layout_marginRight="30dp"
+                android:layout_marginLeft="12dp"
+                >
+
+            </com.google.android.material.button.MaterialButton>
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewModels.ChonSanPham">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/search_view_select_product"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:queryHint="Tim kiem..."
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
+            android:layout_margin="10dp"
+            android:background="@drawable/search_view_style"
+            >
+
+        </androidx.appcompat.widget.SearchView>
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_chon_san_pham"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            >
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="10dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_clear_selected"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="140dp"
+            android:layout_height="wrap_content"
+            android:text="Chọn lại"
+            android:textColor="@color/textColor"
+            android:layout_gravity="center"
+            app:icon="@drawable/x"
+            app:cornerRadius="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:iconGravity="textStart"
+            android:layout_marginEnd="10dp"
+            android:backgroundTint="@color/white"
+            app:iconTint="@color/red"
+            >
+        </com.google.android.material.button.MaterialButton>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_done_select_product"
+            style="@style/Widget.MaterialComponents.Button.Icon"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:text="Xong"
+            android:textColor="@color/white"
+            android:layout_gravity="center"
+            app:icon="@drawable/ic_check_circle"
+            app:cornerRadius="50dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            app:iconGravity="textStart"
+            >
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
+</RelativeLayout>
