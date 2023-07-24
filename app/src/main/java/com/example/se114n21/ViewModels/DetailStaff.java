@@ -79,6 +79,7 @@ public class DetailStaff extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
                 Toast.makeText(DetailStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });

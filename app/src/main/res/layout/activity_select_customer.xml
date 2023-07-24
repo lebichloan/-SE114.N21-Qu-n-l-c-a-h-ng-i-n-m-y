@@ -13,15 +13,51 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btnBack_ThemKhachHang"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Thêm khách hàng"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginRight="50dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.divider.MaterialDivider>
+        </LinearLayout>
+
         <androidx.appcompat.widget.SearchView
             android:id="@+id/sv_select_customer"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:queryHint="Tim kiem..."
+            android:layout_height="40dp"
+            app:queryHint="Nhập mã, tên, số điện thoại khách hàng"
             android:background="@drawable/search_view_style"
             android:layout_margin="10dp"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent"
+            android:theme="@style/AppSearchView"
             >
 
         </androidx.appcompat.widget.SearchView>

@@ -14,19 +14,25 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Interpolator;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -40,6 +46,7 @@ import com.example.se114n21.Models.HoaDon;
 import com.example.se114n21.Models.IdGenerator;
 import com.example.se114n21.Models.KhachHang;
 import com.example.se114n21.Models.LoaiSanPham;
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;
@@ -59,14 +66,15 @@ import java.util.List;
 import java.util.Map;
 
 public class ThemHoaDon extends AppCompatActivity {
+    private ImageButton btnBack;
     private List<String> mListID = new ArrayList<>();
-    private Button btnSelectProduct, btnSelectCustomer, btnPurchase, btnTienMat, btnChuyenKhoan, btnQuetThe;
+    private Button btnSelectProduct, btnSelectCustomer, btnPurchase, btnSelectKhuyenMai, btnClearKhuyenMai;
     private RadioGroup radioGroup;
     private ProgressDialog progressDialog;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
 
     private TextView tvTongTienHang, tvPhiVanChuyen, tvPhiLapDat, tvChietKhau, tvTongThanhToan, tvTongThanhToan2,
-                        tvMaKH, tvTenKH, tvDienThoaiKH;
+                        tvMaKH, tvTenKH, tvDienThoaiKH, tenKM, phantramKM, giamtoidaKM, dontoithieuKM, khuyenmai;
     private EditText editPhoneNhanHang, editDiaChiNhanHang, editNote;
 
 // RCV
@@ -77,27 +85,56 @@ public class ThemHoaDon extends AppCompatActivity {
 //    LAUNCHER
     private ActivityResultLauncher<Intent> SelectCustomerLauncher;
     private ActivityResultLauncher<Intent> launcher;
+    private ActivityResultLauncher<Intent> SelectKhuyenMaiLauncher;
+
+//  KM
+    int PHANTRAM, GIAMTOIDA, DONTOITHIEU;
+
+    SharedPreferences sharedPreferences;
+    private static final String SHARED_PREF_NAME = "mypre";
+    private static final String KEY_ID = "id";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_them_hoa_don);
+        getSupportActionBar().hide();
+
+        sharedPreferences = getSharedPreferences(SHARED_PREF_NAME, MODE_PRIVATE);
 
         InitUI();
     }
 
 
+    //    CLEAR FOCUS ON EDIT TEXT
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
+
+
     private void InitUI() {
-//        progressDialog
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Vui long doi mot chut");
-        progressDialog.setCancelable(false);
-        progressDialog.setCanceledOnTouchOutside(false);
-//        Action bar
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Thêm hóa đơn");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+        btnBack = findViewById(R.id.btnBack_ThemHoaDon);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 //        EDIT TEXT
         editPhoneNhanHang = findViewById(R.id.phone_nhanhang);
@@ -151,6 +188,29 @@ public class ThemHoaDon extends AppCompatActivity {
                     }
                 });
 
+//        SELECT KHUYEN MAI LAUNCHER
+        SelectKhuyenMaiLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent intent = result.getData();
+                            String NAME = intent.getStringExtra("KM_TEN");
+                            PHANTRAM = (int) intent.getDoubleExtra("KM_PHANTRAM", 0);
+                            GIAMTOIDA = (int) intent.getIntExtra("KM_GIAMTOIDA", 0);
+                            DONTOITHIEU = (int) intent.getIntExtra("KM_DONTOITHIEU", 0);
+
+                            tenKM.setText(NAME);
+                            phantramKM.setText(String.valueOf(PHANTRAM));
+                            giamtoidaKM.setText(String.valueOf(GIAMTOIDA));
+                            dontoithieuKM.setText(String.valueOf(DONTOITHIEU));
+
+                            setKhuyenMai();
+                        }
+                    }
+                });
+
 
 //        BUTTON SELECT PRODUCT
         btnSelectProduct = findViewById(R.id.btn_select_product);
@@ -172,14 +232,28 @@ public class ThemHoaDon extends AppCompatActivity {
             }
         });
 
+//        BUTTON SELECT KHUYEN MAI
+        btnSelectKhuyenMai = findViewById(R.id.btn_themkhuyenmai);
+        btnSelectKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ThemHoaDon.this, SelectKhuyenMai.class);
+                SelectKhuyenMaiLauncher.launch(intent);
+            }
+        });
+
 //        BUTTON PURCHASE
         btnPurchase = findViewById(R.id.btn_thanhtoan);
         btnPurchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (checkBill() == true) {
-                    progressDialog.show();
-                    getMaxId();
+                    if (khuyenmai.getText().toString().equals("0") && tenKM.getText().toString().length() > 0) {
+                        Toast.makeText(ThemHoaDon.this, "Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+                    } else {
+                        progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
+                        getMaxId();
+                    }
                 }
             }
         });
@@ -256,6 +330,25 @@ public class ThemHoaDon extends AppCompatActivity {
         tvMaKH = findViewById(R.id.makhachhang);
         tvTenKH = findViewById(R.id.tenkhachhang);
         tvDienThoaiKH = findViewById(R.id.sodienthoaikhachhang);
+
+        tenKM = findViewById(R.id.tenkhuyenmai);
+        phantramKM = findViewById(R.id.phantram);
+        giamtoidaKM = findViewById(R.id.giamtoida);
+        dontoithieuKM = findViewById(R.id.dontoithieu);
+        khuyenmai = findViewById(R.id.khuyenmai);
+
+        btnClearKhuyenMai = findViewById(R.id.btn_clearkhuyenmai);
+        btnClearKhuyenMai.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tenKM.setText("");
+                phantramKM.setText("");
+                giamtoidaKM.setText("");
+                dontoithieuKM.setText("");
+                khuyenmai.setText("0");
+                setTongThanhToan();
+            }
+        });
     }
 
     boolean save = false;
@@ -293,9 +386,16 @@ public class ThemHoaDon extends AppCompatActivity {
 
         hoaDon.setMaHD(createID(maxId));
 
-        hoaDon.setMaNV("NV0001");
+        hoaDon.setKhuyenMai(Integer.parseInt(khuyenmai.getText().toString().trim()));
+
 
         hoaDon.setMaKH(tvMaKH.getText().toString().trim());
+        hoaDon.setTenKH(tvTenKH.getText().toString().trim());
+        hoaDon.setSoDienThoaiKH(tvDienThoaiKH.getText().toString().trim());
+
+        if (tvMaKH.getText().toString().trim().equals("Khách lẻ")) {
+            hoaDon.setTenKH(tvMaKH.getText().toString().trim());
+        }
 
 //      DATE
         Date currentTime = Calendar.getInstance().getTime();
@@ -305,6 +405,7 @@ public class ThemHoaDon extends AppCompatActivity {
         hoaDon.setDienThoaiNhanHang(editPhoneNhanHang.getText().toString().trim());
         hoaDon.setDiaCHiNhanHang(editDiaChiNhanHang.getText().toString().trim());
 
+        hoaDon.setTongTienHang(Integer.parseInt(tvTongTienHang.getText().toString().trim()));
         hoaDon.setPhiVanChuyen(Integer.parseInt(tvPhiVanChuyen.getText().toString().trim()));
         hoaDon.setPhiLapDat(Integer.parseInt(tvPhiLapDat.getText().toString().trim()));
         hoaDon.setChietKhau(Integer.parseInt(tvChietKhau.getText().toString().trim()));
@@ -325,7 +426,31 @@ public class ThemHoaDon extends AppCompatActivity {
         }
         hoaDon.setTienVon(tong);
 
-        addBill(hoaDon);
+        setMaNV(hoaDon);
+    }
+
+    private void setMaNV(HoaDon hoaDon) {
+        String MaND = sharedPreferences.getString(KEY_ID, null);
+        DatabaseReference myRef = database.getReference("Users/" + MaND);
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                NhanVien nhanVien = snapshot.getValue(NhanVien.class);
+                if (nhanVien.getLoaiNhanVien().equals("Admin")) {
+                    hoaDon.setMaNV("Admin - " + nhanVien.getHoTen());
+                } else {
+                    hoaDon.setMaNV(nhanVien.getMaNV() + " - " + nhanVien.getHoTen());
+                }
+
+                addBill(hoaDon);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void addBill(HoaDon hoaDon) {
@@ -359,7 +484,9 @@ public class ThemHoaDon extends AppCompatActivity {
                 }
 
                 progressDialog.dismiss();
-                Toast.makeText(ThemHoaDon.this, "Them hoa don thanh cong!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ThemHoaDon.this, "Thêm hóa đơn thành công!", Toast.LENGTH_SHORT).show();
+
+                onBackPressed();
             }
         });
     }
@@ -383,7 +510,7 @@ public class ThemHoaDon extends AppCompatActivity {
     }
 
     private void setData() {
-        progressDialog.show();
+        progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
 
             DatabaseReference myRef = database.getReference("listSanPham");
             myRef.addValueEventListener(new ValueEventListener() {
@@ -542,7 +669,7 @@ public class ThemHoaDon extends AppCompatActivity {
                             Toast.makeText(ThemHoaDon.this, "Còn " + chiTietHoaDon.getSanPham().getSoLuong().toString() + " sản phẩm trong kho", Toast.LENGTH_SHORT).show();
                         } else {
                             dialog.dismiss();
-                            progressDialog.show();
+                            progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
 
                             chiTietHoaDon.setSoLuong(Integer.parseInt(soluong));
                             chiTietHoaDon.setThanhTien(Integer.parseInt(soluong) * chiTietHoaDon.getSanPham().getGiaBan());
@@ -564,26 +691,34 @@ public class ThemHoaDon extends AppCompatActivity {
         Integer tong = mThemhoadonAdapter.getTongTienHang();
         tvTongTienHang.setText(tong.toString());
 
-        setTongThanhToan();
+        setKhuyenMai();
+    }
+
+    private void setKhuyenMai() {
+        if (tenKM.getText().toString().equals("")) {
+            setTongThanhToan();
+        } else {
+            Integer tienhang = Integer.parseInt(tvTongTienHang.getText().toString().trim());
+            if (tienhang >= DONTOITHIEU) {
+                Integer sotiengiam = tienhang * PHANTRAM / 100;
+                if (sotiengiam > GIAMTOIDA) {
+                    sotiengiam = GIAMTOIDA;
+                }
+                khuyenmai.setText(String.valueOf(sotiengiam));
+            } else {
+                Toast.makeText(this, "Chưa đạt số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+            }
+            setTongThanhToan();
+        }
     }
 
     private void setTongThanhToan() {
         Integer tong = Integer.parseInt(tvTongTienHang.getText().toString().trim()) +
                        Integer.parseInt(tvPhiVanChuyen.getText().toString().trim()) +
                        Integer.parseInt(tvPhiLapDat.getText().toString().trim()) -
-                       Integer.parseInt(tvChietKhau.getText().toString().trim());
+                       Integer.parseInt(tvChietKhau.getText().toString().trim()) -
+                       Integer.parseInt(khuyenmai.getText().toString().trim());
         tvTongThanhToan.setText(tong.toString());
         tvTongThanhToan2.setText(tong.toString());
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 }

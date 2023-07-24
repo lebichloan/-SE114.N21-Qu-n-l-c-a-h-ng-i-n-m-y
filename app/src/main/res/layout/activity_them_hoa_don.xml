@@ -13,6 +13,41 @@
         android:orientation="vertical"
         >
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btnBack_ThemHoaDon"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Thêm hóa đơn"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:layout_marginRight="50dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.divider.MaterialDivider>
+        </LinearLayout>
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -264,7 +299,62 @@
                             </TextView>
 
                             <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="- "
+                                android:textColor="@color/black"
+                                android:textSize="15sp"></TextView>
+
+                            <TextView
                                 android:id="@+id/chietkhau"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:background="@drawable/bg_white_border_blue"
+                                android:paddingLeft="20dp"
+                                android:paddingRight="20dp"
+                                android:text="0"
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+
+                                ></TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="Khuyến mãi: "
+                                android:textColor="@color/black"
+                                android:textSize="15sp"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="- "
+                                android:textColor="@color/black"
+                                android:textSize="15sp"></TextView>
+
+                            <TextView
+                                android:id="@+id/khuyenmai"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="start"
@@ -318,6 +408,197 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Khuyến mãi"
+                                android:textColor="@color/black"
+                                android:textSize="15sp"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_themkhuyenmai"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                app:icon="@drawable/ic_add"
+                                app:iconGravity="textStart"
+                                app:iconTint="@color/blue">
+
+                            </com.google.android.material.button.MaterialButton>
+                            <com.google.android.material.button.MaterialButton
+                                android:id="@+id/btn_clearkhuyenmai"
+                                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginRight="5dp"
+                                app:icon="@drawable/ic_delete"
+                                app:iconGravity="textStart"
+                                app:iconTint="@color/red">
+
+                            </com.google.android.material.button.MaterialButton>
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="Tên khuyến mãi: "
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+                                android:textStyle="bold"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/tenkhuyenmai"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:text=""
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+                                android:ellipsize="end"
+                                ></TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="Phần trăm giảm: "
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+                                android:textStyle="bold"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/phantram"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:text=""
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"></TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="Giảm tối đa: "
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+                                android:textStyle="bold"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/giamtoida"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:text=""
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"></TextView>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="10dp"
+                            android:orientation="horizontal">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:alpha="0.8"
+                                android:text="Tiền hàng tối thiểu: "
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"
+                                android:textStyle="bold"></TextView>
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1">
+
+                            </TextView>
+
+                            <TextView
+                                android:id="@+id/dontoithieu"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="start"
+                                android:text=""
+                                android:textColor="@color/textColor"
+                                android:textSize="15sp"></TextView>
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp">
 
                     <LinearLayout
                         android:layout_width="match_parent"
@@ -327,7 +608,8 @@
 
                         <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal">
 
                             <TextView
                                 android:layout_width="wrap_content"
@@ -553,25 +835,25 @@
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
-                <com.google.android.material.button.MaterialButton
-                    android:id="@+id/btn_saveBill"
-                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:paddingTop="15dp"
-                    android:paddingBottom="15dp"
-                    android:text="Lưu tạm"
-                    android:textAlignment="textStart"
-                    android:textAllCaps="false"
-                    android:textColor="@color/textColor"
-                    android:textSize="15sp"
-                    app:icon="@drawable/baseline_save_alt_24"
-                    app:iconGravity="end"
-                    app:iconTint="@color/blue">
+<!--                <com.google.android.material.button.MaterialButton-->
+<!--                    android:id="@+id/btn_saveBill"-->
+<!--                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_marginStart="5dp"-->
+<!--                    android:layout_marginEnd="5dp"-->
+<!--                    android:paddingTop="15dp"-->
+<!--                    android:paddingBottom="15dp"-->
+<!--                    android:text="Lưu tạm"-->
+<!--                    android:textAlignment="textStart"-->
+<!--                    android:textAllCaps="false"-->
+<!--                    android:textColor="@color/textColor"-->
+<!--                    android:textSize="15sp"-->
+<!--                    app:icon="@drawable/baseline_save_alt_24"-->
+<!--                    app:iconGravity="end"-->
+<!--                    app:iconTint="@color/blue">-->
 
-                </com.google.android.material.button.MaterialButton>
+<!--                </com.google.android.material.button.MaterialButton>-->
             </LinearLayout>
         </ScrollView>
 

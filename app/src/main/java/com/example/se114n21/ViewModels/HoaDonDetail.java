@@ -1,9 +1,13 @@
 package com.example.se114n21.ViewModels;
 
+import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,8 +17,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.se114n21.Adapter.AdapterChitietHD;
+import com.example.se114n21.Adapter.CTHDAdapter;
+import com.example.se114n21.Adapter.HoaDonAdapter;
+import com.example.se114n21.Interface.HoaDonInterface;
 import com.example.se114n21.Models.ChiTietHoaDon;
 import com.example.se114n21.Models.HoaDon;
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.Models.SanPham;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
@@ -28,127 +36,106 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class HoaDonDetail extends AppCompatActivity {
-    TextView sohd;
-    TextView ngayhd;
-    TextView tongtien;
-    TextView makh;
-    TextView chietkhau;
-    TextView philapdat;
-    TextView phivanchuyen;
-    TextView sdt;
-    TextView diachi;
-    TextView ghichu;
-    TextView manv;
-    TextView thanhtien;
-    TextView phuongthuc;
-    TextView tongtienhang;
-    Integer tongtiensanpham;
-    String texttongtien;
-    SanPham sp;
-    String tensp;
-    Number soluong;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
-    DatabaseReference ref3 = database.getReference("test");
-    ChiTietHoaDon chiTietHoaDon;
-    List<ChiTietHoaDon> listchitiet;
-    RecyclerView recyclerView;
-    AdapterChitietHD adapterChitietHD;
+    private ImageButton btnBack;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private RecyclerView recyclerView;
+    private List<ChiTietHoaDon> mListCTHD;
+    private CTHDAdapter mCthdAdapter;
+    private ProgressDialog progressDialog;
+    private TextView mahoadon, nhanvien, thoigian, khachhang, sodienthoai, diachinhanhang, sodienthoaigiaohang,
+                    tongtienhang, phivanchuyen, philapdat, chietkhau, khuyenmai, tongthanhtoan, phuongthucthanhtoan, ghichu;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.hoadon_details);
-        InitUI();
-        listchitiet = new ArrayList<>();
-        DatabaseReference ref1 = database.getReference("listHoaDon/"+getIntent().getStringExtra("detailsohd")+"/chiTietHD");
-        DatabaseReference ref2 = database.getReference("listHoaDon");
-        ref1.addChildEventListener(new ChildEventListener() {
+        getSupportActionBar().hide();
+
+        initUI();
+
+        Intent i = getIntent();
+        String MaHD = i.getStringExtra("MaHD");
+
+        getData(MaHD);
+    }
+
+    private void  getData(String MaHD) {
+        progressDialog = ProgressDialog.show(HoaDonDetail.this,"Đang tải", "Vui lòng đợi...",false,false);
+        DatabaseReference myRef = database.getReference("listHoaDon/" + MaHD);
+
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                chiTietHoaDon = snapshot.getValue(ChiTietHoaDon.class);
-                if (chiTietHoaDon != null)
-                {
-                    listchitiet.add(chiTietHoaDon);
-                    adapterChitietHD.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                HoaDon hoaDon = snapshot.getValue(HoaDon.class);
+                setData(hoaDon);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                progressDialog.dismiss();
+                Toast.makeText(HoaDonDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+    }
+
+    private void setData(HoaDon hoaDon) {
+        mahoadon.setText(hoaDon.getMaHD());
+        nhanvien.setText(hoaDon.getMaNV());
+        thoigian.setText(hoaDon.getNgayHD());
+        khachhang.setText(hoaDon.getTenKH());
+        sodienthoai.setText(hoaDon.getSoDienThoaiKH());
+        diachinhanhang.setText(hoaDon.getDiaCHiNhanHang());
+        sodienthoaigiaohang.setText(hoaDon.getDienThoaiNhanHang());
+        tongtienhang.setText(String.valueOf(hoaDon.getTongTienHang()));
+        phivanchuyen.setText(String.valueOf(hoaDon.getPhiVanChuyen()));
+        philapdat.setText(String.valueOf(hoaDon.getPhiLapDat()));
+        chietkhau.setText(String.valueOf(hoaDon.getChietKhau()));
+        khuyenmai.setText(String.valueOf(hoaDon.getKhuyenMai()));
+        tongthanhtoan.setText(String.valueOf(hoaDon.getTongTienPhaiTra()));
+        phuongthucthanhtoan.setText(hoaDon.getPhuongThucThanhToan());
+        ghichu.setText(hoaDon.getGhiChu());
+
+        mListCTHD.addAll(hoaDon.getChiTietHD());
+        mCthdAdapter.notifyDataSetChanged();
+
+        progressDialog.dismiss();
+    }
+
+    private void initUI() {
+        btnBack= findViewById(R.id.btnBack_ChiTietHoaDon);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+//        RCV
+        recyclerView = findViewById(R.id.rcv_CTHD);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
 
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
+        mListCTHD = new ArrayList<>();
 
-        adapterChitietHD = new AdapterChitietHD(listchitiet)
-        {
-        };
-        recyclerView.setAdapter(adapterChitietHD);
-        sohd.setText(getIntent().getStringExtra("detailsohd"));
-        makh.setText(getIntent().getStringExtra("detailmakh"));
-        ngayhd.setText(getIntent().getStringExtra("detailngayhd"));
-        manv.setText(getIntent().getStringExtra("detailmanv"));
-        chietkhau.setText(getIntent().getStringExtra("detailchietkhau"));
-        tongtien.setText(getIntent().getStringExtra("detailtonggiatri"));
-        phivanchuyen.setText(getIntent().getStringExtra("detailphivanchuyen"));
-        philapdat.setText(getIntent().getStringExtra("detailphilapdat"));
-        diachi.setText(getIntent().getStringExtra("detaildiachi"));
-        ghichu.setText(getIntent().getStringExtra("detailghichu"));
-        sdt.setText(getIntent().getStringExtra("detailsdt"));
-        thanhtien.setText(getIntent().getStringExtra("detailtonggiatri"));
-        phuongthuc.setText(getIntent().getStringExtra("detailphuongthuc"));
-        tongtienhang.setText(getIntent().getStringExtra("detailtongtienhang"));
+        mCthdAdapter= new CTHDAdapter(mListCTHD);
+
+        recyclerView.setAdapter(mCthdAdapter);
+
+//        TEXTVIEW
+        mahoadon = findViewById(R.id.MaHD_CTHD);
+        nhanvien = findViewById(R.id.MaNV_CTHD);
+        thoigian = findViewById(R.id.ThoiGian_CTHD);
+        khachhang = findViewById(R.id.TenKH_CTHD);
+        sodienthoai = findViewById(R.id.SoDienThoaiKH_CTHD);
+        diachinhanhang = findViewById(R.id.DiaChiNhanHang_CTHD);
+        sodienthoaigiaohang = findViewById(R.id.SoDienThoaiNhanHang_CTHD);
+        tongtienhang = findViewById(R.id.TongTienHang_CTHD);
+        phivanchuyen = findViewById(R.id.PhiVanChuyen_CTHD);
+        philapdat = findViewById(R.id.PhiLapDat_CTHD);
+        chietkhau = findViewById(R.id.ChietKhau_CTHD);
+        khuyenmai = findViewById(R.id.KhuyenMai_CTHD);
+        tongthanhtoan = findViewById(R.id.TongThanhToan_CTHD);
+        phuongthucthanhtoan = findViewById(R.id.PhuongThucThanhToan_CTHD);
+        ghichu = findViewById(R.id.GhiChu_CTHD);
     }
-
-    private void InitUI() {
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Thông tin hóa đơn");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
-        sohd = findViewById(R.id.detail_mahd);
-        ngayhd = findViewById(R.id.detail_ngayhd);
-        makh = findViewById(R.id.detail_makh);
-        chietkhau = findViewById(R.id.detail_chietkhau);
-        philapdat = findViewById(R.id.detail_philapdat);
-        phivanchuyen = findViewById(R.id.detail_phivanchuyen);
-        sdt = findViewById(R.id.detail_sdt);
-        diachi = findViewById(R.id.detail_diachilapdat);
-        ghichu = findViewById(R.id.detail_ghichu);
-        manv = findViewById(R.id.detail_manv);
-        tongtien = findViewById(R.id.detail_tongtienphaitra);
-        thanhtien = findViewById(R.id.detail_thanhtien);
-        phuongthuc = findViewById(R.id.detail_phuongthuc);
-        tongtienhang = findViewById(R.id.detail_tongtienhang);
-        recyclerView = findViewById(R.id.recycle_detai_chitiethd);
-    }
-
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }
