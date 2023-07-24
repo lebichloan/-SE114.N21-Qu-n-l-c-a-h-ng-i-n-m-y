@@ -4,5 +4,10 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
     </style>
-
+<style name="colored_checkbox" parent="Theme.AppCompat.Light">
+<!--    selected checkbox-->
+    <item name="colorAccent">#5446B7</item>
+<!--    unselected checkbox-->
+    <item name="android:textColorSecondary">#333333</item>
+</style>
 </resources>
