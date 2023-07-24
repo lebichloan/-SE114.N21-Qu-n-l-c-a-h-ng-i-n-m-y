@@ -16,7 +16,7 @@
             android:id="@+id/search_view_select_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:queryHint="Tim kiem..."
+            app:queryHint="Tìm kiếm"
             app:iconifiedByDefault="false"
             app:queryBackground="@android:color/transparent"
             android:layout_margin="10dp"

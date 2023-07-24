@@ -25,7 +25,7 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ViewModels.SplashApp"
+            android:name=".ViewModels.QLHoaDon"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -103,7 +103,7 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.QLHoaDon"
+            android:name=".ViewModels.SplashApp"
             android:exported="false" />
         <activity
             android:name=".ViewModels.HoaDonDetail"
