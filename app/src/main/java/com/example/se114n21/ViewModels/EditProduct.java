@@ -50,6 +50,7 @@ import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +60,8 @@ import java.util.List;
 import java.util.Map;
 
 public class EditProduct extends AppCompatActivity {
-    private EditText edit_Name, edit_Brand, edit_MGF, edit_Desc, edit_RetailPrice, edit_CostPrice, edit_Stock, edit_Commission, edit_ProductType;
+    private ImageButton btnBack;
+    private EditText edit_Name, edit_Brand, edit_MGF, edit_Desc, edit_RetailPrice, edit_CostPrice, edit_ProductType;
     private TextInputLayout layout_Name, layout_Brand, layout_MGF, layout_Desc, layout_RetailPrice, layout_CostPrice, layout_Stock, layout_Commission, layout_ProductType;
     private Button btnUpdate, btnAddImage;
     private String ID;
@@ -88,6 +90,7 @@ public class EditProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_product);
+        getSupportActionBar().hide();
 
         initUI();
 
@@ -100,6 +103,13 @@ public class EditProduct extends AppCompatActivity {
     }
 
     private void initUI() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 //      BUTTON ADD PROPERTY
         btnAddProperty = findViewById(R.id.btn_add_property_edit_product);
         btnAddProperty.setOnClickListener(new View.OnClickListener() {
@@ -130,11 +140,6 @@ public class EditProduct extends AppCompatActivity {
         rcvThuocTinh.setAdapter(mPropertyAdapter);
 
 
-//        ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Cập nhật sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
 //        progress dialog
         progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Vui long doi mot chut");
@@ -147,8 +152,6 @@ public class EditProduct extends AppCompatActivity {
         edit_Desc = findViewById(R.id.edit_desc_edit_product);
         edit_RetailPrice = findViewById(R.id.edit_retailPrice_edit_product);
         edit_CostPrice = findViewById(R.id.edit_costPrice_edit_product);
-        edit_Stock = findViewById(R.id.edit_stock_edit_product);
-        edit_Commission = findViewById(R.id.edit_commission_edit_product);
         edit_ProductType = findViewById(R.id.edit_type_edit_product);
 
 //        Input Text Layout
@@ -158,8 +161,6 @@ public class EditProduct extends AppCompatActivity {
         layout_Desc = findViewById(R.id.layout_desc_edit_product);
         layout_RetailPrice = findViewById(R.id.layout_retailPrice_edit_product);
         layout_CostPrice = findViewById(R.id.layout_costPrice_edit_product);
-        layout_Stock = findViewById(R.id.layout_stock_edit_product);
-        layout_Commission = findViewById(R.id.layout_commission_edit_product);
         layout_ProductType = findViewById(R.id.layout_type_edit_product);
 
         edit_ProductType.setOnClickListener(new View.OnClickListener() {
@@ -350,8 +351,6 @@ public class EditProduct extends AppCompatActivity {
         map.put("mota", edit_Desc.getText().toString().trim());
         map.put("giaBan", Integer.parseInt(edit_RetailPrice.getText().toString().trim()));
         map.put("giaNhap", Integer.parseInt(edit_CostPrice.getText().toString().trim()));
-        map.put("soLuong", Integer.parseInt(edit_Stock.getText().toString().trim()));
-        map.put("hoaHong", Double.parseDouble(edit_Commission.getText().toString().trim()));
         map.put("linkAnhSP", mListURL);
         map.put("dsthuocTinh", mListThuocTinh);
 
@@ -439,8 +438,15 @@ public class EditProduct extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                LoaiSanPham loaiSanPham = snapshot.getValue(LoaiSanPham.class);
-                setData(sanPham, loaiSanPham);
+                if (snapshot.exists()) {
+                    LoaiSanPham loaiSanPham = snapshot.getValue(LoaiSanPham.class);
+                    setData(sanPham, loaiSanPham);
+                } else {
+                    LoaiSanPham loaiSanPham = new LoaiSanPham();
+                    loaiSanPham.setTenLSP(sanPham.getTenLSP());
+
+                    setData(sanPham, loaiSanPham);
+                }
             }
 
             @Override
@@ -460,9 +466,6 @@ public class EditProduct extends AppCompatActivity {
         edit_RetailPrice.setText(sanPham.getGiaBan().toString());
         edit_CostPrice.setText(sanPham.getGiaNhap().toString());
 
-        edit_Stock.setText(sanPham.getSoLuong().toString());
-
-        edit_Commission.setText(sanPham.getHoaHong().toString());
 
         edit_ProductType.setText(loaiSanPham.getTenLSP());
 
@@ -479,16 +482,6 @@ public class EditProduct extends AppCompatActivity {
     public void onBackPressed() {
         backHandle();
         super.onBackPressed();
-    }
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                backHandle();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void backHandle() {
@@ -611,84 +604,38 @@ public class EditProduct extends AppCompatActivity {
             }
         });
 
-        edit_Stock.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String str = charSequence.toString();
-                if (str.length() > 0) {
-                    layout_Stock.setError("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        edit_Commission.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String str = charSequence.toString();
-                if (str.length() > 0) {
-                    layout_Commission.setError("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 
     private boolean checkValid() {
         boolean isValid = true;
 
         if (edit_Name.getText().toString().equals("")) {
-            layout_Name.setError("* Khong duoc bo trong");
+            edit_Name.setError("Nội dung bắt buộc");
+            edit_Name.requestFocus();
             isValid = false;
         }
 
         if (edit_Brand.getText().toString().equals("")) {
-            layout_Brand.setError("* Khong duoc bo trong");
+            edit_Brand.setError("Nội dung bắt buộc");
+            edit_Brand.requestFocus();
             isValid = false;
         }
 
         if (edit_MGF.getText().toString().equals("")) {
-            layout_MGF.setError("* Khong duoc bo trong");
+            edit_MGF.setError("Nội dung bắt buộc");
+            edit_MGF.requestFocus();
             isValid = false;
         }
 
         if (edit_RetailPrice.getText().toString().equals("")) {
-            layout_RetailPrice.setError("* Khong duoc bo trong");
+            edit_RetailPrice.setError("Nội dung bắt buộc");
+            edit_RetailPrice.requestFocus();
             isValid = false;
         }
 
         if (edit_CostPrice.getText().toString().equals("")) {
-            layout_CostPrice.setError("* Khong duoc bo trong");
-            isValid = false;
-        }
-
-
-        if (edit_Stock.getText().toString().equals("")) {
-            layout_Stock.setError("* Khong duoc bo trong");
-            isValid = false;
-        }
-
-
-        if (edit_Commission.getText().toString().equals("")) {
-            layout_Commission.setError("* Khong duoc bo trong");
+            edit_CostPrice.setError("Nội dung bắt buộc");
+            edit_CostPrice.requestFocus();
             isValid = false;
         }
 

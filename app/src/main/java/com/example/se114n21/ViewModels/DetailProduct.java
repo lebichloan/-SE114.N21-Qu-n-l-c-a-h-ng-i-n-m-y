@@ -38,14 +38,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class DetailProduct extends AppCompatActivity {
+    private ImageButton btnBack, btnEdit;
     private SliderView sliderView;
-    private TextView tvId, tvName, tvMGF, tvBrand, tvType, tvDesc, tvRetail, tvCost, tvStock, tvCommission;
+    private TextView tvId, tvName, tvMGF, tvBrand, tvType, tvDesc, tvRetail, tvCost, tvStock;
     private Button btnDelete;
     private String ID;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -64,6 +66,7 @@ public class DetailProduct extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail_product);
+        getSupportActionBar().hide();
 
         initUI();
 
@@ -74,6 +77,21 @@ public class DetailProduct extends AppCompatActivity {
     }
 
     private void initUI() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        btnEdit = findViewById(R.id.btnEdit);
+        btnEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openEditProduct();
+            }
+        });
 //        RCV
         rcvProperty = findViewById(R.id.rcv_property_detail_product);
 
@@ -101,11 +119,6 @@ public class DetailProduct extends AppCompatActivity {
         progressDialog.setCanceledOnTouchOutside(false);
         progressDialog.setMessage("Please wait!");
 
-//        ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Chi tiết sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
 //
         tvId = findViewById(R.id.tv_id_product_detail);
         tvName = findViewById(R.id.tv_name_product_detail);
@@ -116,7 +129,6 @@ public class DetailProduct extends AppCompatActivity {
         tvRetail = findViewById(R.id.tv_retail_product_detail);
         tvCost = findViewById(R.id.tv_cost_product_detail);
         tvStock = findViewById(R.id.tv_stock_product_detail);
-        tvCommission = findViewById(R.id.tv_commission_product_detail);
 //        DELETE
         btnDelete = findViewById(R.id.btn_delete_product_detail);
         btnDelete.setOnClickListener(new View.OnClickListener() {
@@ -182,12 +194,12 @@ public class DetailProduct extends AppCompatActivity {
 
         tvDesc.setText(sanPham.getMota());
 
+        tvType.setText(sanPham.getTenLSP());
+
         tvRetail.setText(sanPham.getGiaBan().toString());
         tvCost.setText(sanPham.getGiaNhap().toString());
 
         tvStock.setText(sanPham.getSoLuong().toString());
-
-        tvCommission.setText(sanPham.getHoaHong().toString());
 
         mListImageSlider.addAll(sanPham.getLinkAnhSP());
         mImageSliderAdapter.notifyDataSetChanged();
@@ -242,28 +254,6 @@ public class DetailProduct extends AppCompatActivity {
         setResult(RESULT_OK, intent);
         finish();
         super.onBackPressed();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.product_detail_menu, menu);        
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.action_edit:
-                openEditProduct();
-                break;
-            case android.R.id.home:
-                Intent intent = new Intent(DetailProduct.this, ListProduct.class);
-                setResult(RESULT_OK, intent);
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
     }
 
     private void openEditProduct() {

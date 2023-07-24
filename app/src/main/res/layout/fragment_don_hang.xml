@@ -80,7 +80,7 @@
                     </com.google.android.material.divider.MaterialDivider>
 
                     <com.google.android.material.button.MaterialButton
-                        android:id="@+id/btn_donluutam"
+                        android:id="@+id/btn_danhsachkhachang"
                         style="@style/Widget.MaterialComponents.Button.TextButton"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -88,7 +88,7 @@
                         android:layout_marginRight="10dp"
                         android:paddingTop="5dp"
                         android:paddingBottom="5dp"
-                        android:text="Đơn lưu tạm"
+                        android:text="Quản lý khách hàng"
                         android:textAllCaps="false"
                         android:textSize="16sp"
                         app:icon="@drawable/baseline_checklist_24"

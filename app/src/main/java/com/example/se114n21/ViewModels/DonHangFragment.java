@@ -16,7 +16,7 @@ import com.example.se114n21.R;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 
 public class DonHangFragment extends Fragment {
-    Button btnDanhSachDonHang, btnDonLuuTam, btnKhuyenMai;
+    Button btnDanhSachDonHang, btnDanhSachKhachHang, btnKhuyenMai;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -40,11 +40,11 @@ public class DonHangFragment extends Fragment {
             }
         });
 
-        btnDonLuuTam = (Button) getView().findViewById(R.id.btn_donluutam);
-        btnDonLuuTam.setOnClickListener(new View.OnClickListener() {
+        btnDanhSachKhachHang = (Button) getView().findViewById(R.id.btn_danhsachkhachang);
+        btnDanhSachKhachHang.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                startActivity(new Intent(getActivity(), CustomerActivity.class));
             }
         });
 

@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.se114n21.Adapter.ProductAdapter;
 import com.example.se114n21.Interface.ProductInterface;
@@ -42,17 +43,26 @@ public class ListProduct extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcher_add_product;
     private Button btnAddProduct;
     private SearchView searchView;
+    private ImageButton btnBack;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_product);
+        getSupportActionBar().hide();
 
         initUI();
         getListProduct();
     }
 
     private void initUI() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 //        SEARCH VIEW
         searchView = findViewById(R.id.search_view_product);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -69,11 +79,6 @@ public class ListProduct extends AppCompatActivity {
             }
         });
 
-//        ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Danh sách sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //        BUTTON ADD
         btnAddProduct = findViewById(R.id.btn_add_product);

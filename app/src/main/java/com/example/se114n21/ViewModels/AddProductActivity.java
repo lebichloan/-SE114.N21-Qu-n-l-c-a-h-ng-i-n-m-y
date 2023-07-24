@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -14,12 +16,15 @@ import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResult;
@@ -58,6 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddProductActivity extends AppCompatActivity {
+    private ImageButton btnBack;
     private Button btn_AddImage, btn_SaveProduct;
     private EditText edit_Name, edit_Brand, edit_MGF, edit_Desc, edit_RetailPrice, edit_CostPrice, edit_Stock, edit_Commission, edit_ProductType;
     private TextInputLayout layout_Name, layout_Brand, layout_MGF, layout_Desc, layout_RetailPrice, layout_CostPrice, layout_Stock, layout_Commission, layout_ProductType;
@@ -90,6 +96,7 @@ public class AddProductActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_product);
+        getSupportActionBar().hide();
 
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
                 result -> {
@@ -171,45 +178,64 @@ public class AddProductActivity extends AppCompatActivity {
         });
     }
 
+    //    CLEAR FOCUS ON EDIT TEXT
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
     private boolean checkValid() {
         boolean isValid = true;
 
         if (edit_Name.getText().toString().equals("")) {
-            layout_Name.setError("* Khong duoc bo trong");
+            edit_Name.setError("Nội dung bắt buộc");
+            edit_Name.requestFocus();
             isValid = false;
         }
 
         if (edit_Brand.getText().toString().equals("")) {
-            layout_Brand.setError("* Khong duoc bo trong");
+            edit_Brand.setError("Nội dung bắt buộc");
+            edit_Brand.requestFocus();
             isValid = false;
         }
 
         if (edit_MGF.getText().toString().equals("")) {
-            layout_MGF.setError("* Khong duoc bo trong");
+            edit_MGF.setError("Nội dung bắt buộc");
+            edit_MGF.requestFocus();
             isValid = false;
         }
 
         if (edit_RetailPrice.getText().toString().equals("")) {
-            layout_RetailPrice.setError("* Khong duoc bo trong");
+            edit_RetailPrice.setError("Nội dung bắt buộc");
+            edit_RetailPrice.requestFocus();
             isValid = false;
         }
 
         if (edit_CostPrice.getText().toString().equals("")) {
-            layout_CostPrice.setError("* Khong duoc bo trong");
+            edit_CostPrice.setError("Nội dung bắt buộc");
+            edit_CostPrice.requestFocus();
             isValid = false;
         }
 
 
         if (edit_Stock.getText().toString().equals("")) {
-            layout_Stock.setError("* Khong duoc bo trong");
+            edit_Stock.setError("Nội dung bắt buộc");
+            edit_Stock.requestFocus();
             isValid = false;
         }
 
-
-        if (edit_Commission.getText().toString().equals("")) {
-            layout_Commission.setError("* Khong duoc bo trong");
-            isValid = false;
-        }
 
         return isValid;
     }
@@ -334,26 +360,6 @@ public class AddProductActivity extends AppCompatActivity {
 
             }
         });
-
-        edit_Commission.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                String str = charSequence.toString();
-                if (str.length() > 0) {
-                    layout_Commission.setError("");
-                }
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
     }
 
     private void addProduct(SanPham sanPham, KhoHang khoHang) {
@@ -437,9 +443,9 @@ public class AddProductActivity extends AppCompatActivity {
 
         sanPham.setGiaNhap(Integer.parseInt(edit_CostPrice.getText().toString().trim()));
 
-        sanPham.setHoaHong((double) Integer.parseInt(edit_Commission.getText().toString().trim()));
-
         sanPham.setSoLuong(Integer.parseInt(edit_Stock.getText().toString().trim()));
+
+        sanPham.setTenLSP(edit_ProductType.getText().toString().trim());
 
         KhoHang khoHang = new KhoHang(ID, Long.parseLong(edit_Stock.getText().toString().trim()));
 
@@ -494,6 +500,15 @@ public class AddProductActivity extends AppCompatActivity {
     }
 
     private void initUI() {
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+
         progressDialog = new ProgressDialog(this);
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
@@ -509,13 +524,6 @@ public class AddProductActivity extends AppCompatActivity {
         });
 
 
-//        ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Thêm sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-
-        actionBar.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_24);
-
 //        button
         btn_AddImage = findViewById(R.id.btn_addImage);
         btn_SaveProduct = findViewById(R.id.btn_saveProduct);
@@ -528,7 +536,6 @@ public class AddProductActivity extends AppCompatActivity {
         edit_RetailPrice = findViewById(R.id.edit_retailPrice);
         edit_CostPrice = findViewById(R.id.edit_costPrice);
         edit_Stock = findViewById(R.id.edit_stock);
-        edit_Commission = findViewById(R.id.edit_commission);
         edit_ProductType = findViewById(R.id.edit_productType);
 
 //        Input Text Layout
@@ -539,7 +546,6 @@ public class AddProductActivity extends AppCompatActivity {
         layout_RetailPrice = findViewById(R.id.layout_retailPrice);
         layout_CostPrice = findViewById(R.id.layout_costPrice);
         layout_Stock = findViewById(R.id.layout_stock);
-        layout_Commission = findViewById(R.id.layout_commission);
         layout_ProductType = findViewById(R.id.layout_productType);
 
         
@@ -647,17 +653,4 @@ public class AddProductActivity extends AppCompatActivity {
         dialog.show();
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }
