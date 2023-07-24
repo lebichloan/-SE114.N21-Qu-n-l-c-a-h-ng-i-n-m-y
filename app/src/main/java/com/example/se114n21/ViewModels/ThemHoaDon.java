@@ -445,6 +445,7 @@ public class ThemHoaDon extends AppCompatActivity {
                 progressDialog.dismiss();
 //                Toast.makeText(ThemHoaDon.this, "Them hoa don thanh cong!", Toast.LENGTH_SHORT).show();
                 showCustomDialogSucess("Thêm hóa đơn thành công");
+                startActivity(new Intent(getApplicationContext(), QLHoaDon.class));
             }
         });
     }

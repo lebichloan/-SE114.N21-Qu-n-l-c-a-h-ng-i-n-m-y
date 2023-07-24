@@ -1,6 +1,7 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -14,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,6 +55,11 @@ public class SelectCustomer extends AppCompatActivity {
     }
 
     private void initUI() {
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Chọn khách hàng");
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
 //        SEARCH VIEW
         searchView = findViewById(R.id.sv_select_customer);
         searchView.setOnQueryTextListener(new androidx.appcompat.widget.SearchView.OnQueryTextListener() {
@@ -220,6 +227,15 @@ public class SelectCustomer extends AppCompatActivity {
             dialogWindow.setAttributes(layoutParams);
         }
         dialog.show();
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }
