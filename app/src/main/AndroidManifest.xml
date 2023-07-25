@@ -149,6 +149,9 @@
         <activity
             android:name=".ViewModels.CustomerDetail"
             android:exported="false" />
+        <activity
+            android:name=".ViewModels.FilterHoaDon"
+            android:exported="false" />
     </application>
 
 </manifest>

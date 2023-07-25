@@ -25,6 +25,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -52,6 +54,7 @@ public class QLHoaDon extends AppCompatActivity {
 
     List<HoaDon> searchlist;
     SearchView searchView;
+    ImageButton filter;
     long test;
     List<ChiTietHoaDon> listchitiet;
 
@@ -140,6 +143,15 @@ public class QLHoaDon extends AppCompatActivity {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(linearLayoutManager);
         searchView = findViewById(R.id.search_hd);
+        filter = findViewById(R.id.buttonfilter);
+
+        filter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(QLHoaDon.this,FilterHoaDon.class);
+                startActivity(intent);
+            }
+        });
 
         androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("Quản lý hóa đơn");

@@ -20,12 +20,12 @@
             android:gravity="center"
             android:layout_marginTop="90dp"
             android:layout_marginStart="20dp"
-            android:background="@drawable/checkbox_background">
+            android:background="@drawable/checkbox_background"
+            >
             <CheckBox
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Khách lẻ"
-                android:theme="@style/colored_checkbox"
                 android:button="@drawable/img_checkbox"
                 android:textSize="19dp"
                 android:textColor="#333333"
@@ -42,7 +42,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đã đăng kí"
-                android:theme="@style/colored_checkbox"
                 android:button="@drawable/img_checkbox"
                 android:textSize="19dp"
                 android:textColor="#333333"
@@ -75,7 +74,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tiền mặt"
-                android:theme="@style/colored_checkbox"
                 android:button="@drawable/img_checkbox"
                 android:textSize="19dp"
                 android:textColor="#333333"
@@ -92,7 +90,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chuyển khoản"
-                android:theme="@style/colored_checkbox"
                 android:button="@drawable/img_checkbox"
                 android:textSize="19dp"
                 android:textColor="#333333"
@@ -109,7 +106,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quẹt thẻ"
-                android:theme="@style/colored_checkbox"
                 android:button="@drawable/img_checkbox"
                 android:textSize="19dp"
                 android:textColor="#333333"
@@ -120,4 +116,14 @@
         android:layout_width="wrap_content"
         android:layout_height="1dp"
         android:background="#999999"/>
+    <RelativeLayout
+        android:layout_width="360dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="190dp">
+        <Button
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:background="@drawable/filter_datlai"/>
+    </RelativeLayout>
 </LinearLayout>
