@@ -25,6 +25,27 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".ViewModels.BaoCaoKho"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BaoCaoLoiNhuan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DoanhThuDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BaoCaoDoanhThu"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DonNhapHangDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddDonNhapHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListDonNhapHang"
+            android:exported="false" />
+        <activity
             android:name=".ViewModels.UpdateCustomer"
             android:exported="false" />
         <activity

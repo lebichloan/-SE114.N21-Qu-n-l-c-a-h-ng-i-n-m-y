@@ -42,5 +42,12 @@ public class SanPhamFragment extends Fragment {
                 startActivity(intent);
             }
         });
+
+        btnNhapHang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getActivity(), ListDonNhapHang.class));
+            }
+        });
     }
 }

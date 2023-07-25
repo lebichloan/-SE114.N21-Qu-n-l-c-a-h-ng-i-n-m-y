@@ -44,6 +44,7 @@ public class HoaDonDetail extends AppCompatActivity {
     private ProgressDialog progressDialog;
     private TextView mahoadon, nhanvien, thoigian, khachhang, sodienthoai, diachinhanhang, sodienthoaigiaohang,
                     tongtienhang, phivanchuyen, philapdat, chietkhau, khuyenmai, tongthanhtoan, phuongthucthanhtoan, ghichu;
+    private String CODE = "";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

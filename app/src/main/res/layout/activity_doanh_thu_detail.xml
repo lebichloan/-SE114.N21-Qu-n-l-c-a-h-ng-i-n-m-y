@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewModels.ListProduct">
+    tools:context=".ViewModels.DoanhThuDetail">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:background="@color/white">
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -30,7 +30,7 @@
                     android:id="@+id/Title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Quản lý sản phẩm"
+                    android:text="25/07/2003"
                     android:textSize="16sp"
                     android:textColor="@color/textColor"
                     android:textStyle="bold"
@@ -46,48 +46,54 @@
             </com.google.android.material.divider.MaterialDivider>
         </LinearLayout>
 
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view_product"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            app:queryHint="Nhập mã, tên sản phẩm"
-            android:background="@drawable/search_view_style"
-            android:layout_margin="10dp"
-            app:iconifiedByDefault="false"
-            app:queryBackground="@android:color/transparent"
-            android:theme="@style/AppSearchView"
-            >
-
-        </androidx.appcompat.widget.SearchView>
-
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_list_product"
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="10dp"
+            app:cardCornerRadius="15dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_margin="12dp">
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="DOANH THU"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/blaltic_sea"
+                    android:layout_marginBottom="5dp"
+                    >
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/doanhthu"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16sp"
+                    android:text="0"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    android:textColor="@color/blue"
+                    android:layout_marginBottom="5dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textSize="14sp"
-        app:cornerRadius="500dp"
-        android:backgroundTint="@color/blue"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:icon="@drawable/baseline_add_24"
-        android:text="Thêm sản phẩm"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
-        >
-
-    </com.google.android.material.button.MaterialButton>
 </RelativeLayout>

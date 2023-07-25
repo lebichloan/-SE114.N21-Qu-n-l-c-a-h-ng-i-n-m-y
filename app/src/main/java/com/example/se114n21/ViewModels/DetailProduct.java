@@ -212,8 +212,8 @@ public class DetailProduct extends AppCompatActivity {
 
     private void deleteProduct() {
         new AlertDialog.Builder(DetailProduct.this)
-                .setTitle("Xoa san pham?")
-                .setMessage("Ban co chac chan muon xoa san pham nay hay khong?")
+                .setTitle("Xóa sản phẩm?")
+                .setMessage("Bạn có chắc chắn muốn xóa sản phẩm này không?")
                 .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {

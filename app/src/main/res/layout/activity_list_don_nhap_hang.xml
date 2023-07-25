@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ViewModels.ListProduct">
+    tools:context=".ViewModels.ListDonNhapHang">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -27,10 +27,9 @@
                     android:background="@null"/>
 
                 <TextView
-                    android:id="@+id/Title"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:text="Quản lý sản phẩm"
+                    android:text="Đơn nhập hàng"
                     android:textSize="16sp"
                     android:textColor="@color/textColor"
                     android:textStyle="bold"
@@ -47,10 +46,10 @@
         </LinearLayout>
 
         <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view_product"
+            android:id="@+id/searchview"
             android:layout_width="match_parent"
             android:layout_height="40dp"
-            app:queryHint="Nhập mã, tên sản phẩm"
+            app:queryHint="Nhập mã đơn, mã, tên sản phẩm"
             android:background="@drawable/search_view_style"
             android:layout_margin="10dp"
             app:iconifiedByDefault="false"
@@ -60,34 +59,25 @@
 
         </androidx.appcompat.widget.SearchView>
 
-
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rcv_list_product"
+            android:id="@+id/rcv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            >
+            android:layout_weight="1">
 
         </androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_add_product"
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnAdd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="20dp"
-        android:textSize="14sp"
-        app:cornerRadius="500dp"
-        android:backgroundTint="@color/blue"
+        android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        app:icon="@drawable/baseline_add_24"
-        android:text="Thêm sản phẩm"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:paddingRight="20dp"
-        android:paddingLeft="20dp"
+        android:layout_marginRight="30dp"
+        android:layout_marginBottom="30dp"
+        android:src="@drawable/baseline_add_24"
+        android:backgroundTint="@color/blue"
         >
-
-    </com.google.android.material.button.MaterialButton>
+    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 </RelativeLayout>

@@ -20,12 +20,14 @@ import java.util.List;
 public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.HoaDonViewHolder> implements Filterable {
     private List<HoaDon> mListHoaDon;
     private List<HoaDon> mListHoaDonOLD;
-    private HoaDonInterface hoaDonInterface ;
+    private HoaDonInterface hoaDonInterface;
+    private String code;
 
-    public HoaDonAdapter(List<HoaDon> mListHoaDon, HoaDonInterface hoaDonInterface) {
+    public HoaDonAdapter(List<HoaDon> mListHoaDon, HoaDonInterface hoaDonInterface, String code) {
         this.mListHoaDon = mListHoaDon;
         this.mListHoaDonOLD = mListHoaDon;
         this.hoaDonInterface = hoaDonInterface;
+        this.code = code;
     }
 
     @NonNull
@@ -44,7 +46,11 @@ public class HoaDonAdapter extends RecyclerView.Adapter<HoaDonAdapter.HoaDonView
 
         holder.id.setText(hoaDon.getMaHD());
         holder.name.setText(hoaDon.getTenKH());
-        holder.tongthanhtoan.setText(String.valueOf(hoaDon.getTongTienPhaiTra()));
+        if (code.equals("loinhuan")) {
+            holder.tongthanhtoan.setText(String.valueOf(hoaDon.getTongTienPhaiTra() - hoaDon.getTienVon()));
+        } else {
+            holder.tongthanhtoan.setText(String.valueOf(hoaDon.getTongTienPhaiTra()));
+        }
         holder.thoigian.setText(hoaDon.getNgayHD());
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
