@@ -23,6 +23,7 @@
             android:background="@drawable/checkbox_background"
             >
             <CheckBox
+                android:id="@+id/checkbox_khachle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Khách lẻ"
@@ -39,6 +40,7 @@
             android:layout_marginStart="230dp"
             android:background="@drawable/checkbox_background">
             <CheckBox
+                android:id="@+id/checkbox_dadk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Đã đăng kí"
@@ -71,6 +73,7 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/checkbox_background">
             <CheckBox
+                android:id="@+id/checkbox_tienmat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Tiền mặt"
@@ -87,6 +90,7 @@
             android:layout_marginStart="230dp"
             android:background="@drawable/checkbox_background">
             <CheckBox
+                android:id="@+id/checkbox_chuyenkhoan"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Chuyển khoản"
@@ -103,6 +107,7 @@
             android:layout_marginStart="20dp"
             android:background="@drawable/checkbox_background">
             <CheckBox
+                android:id="@+id/checkbox_quetthe"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Quẹt thẻ"
@@ -122,8 +127,21 @@
         android:layout_gravity="center"
         android:layout_marginTop="190dp">
         <Button
+            android:id="@+id/button_datlai"
             android:layout_width="180dp"
             android:layout_height="70dp"
-            android:background="@drawable/filter_datlai"/>
+            android:background="@drawable/filter_datlai"
+            android:text="Đặt lại"
+            android:textSize="16dp"
+            android:textColor="@color/blue"/>
+        <Button
+            android:id="@+id/button_loc"
+            android:layout_width="180dp"
+            android:layout_height="70dp"
+            android:layout_marginStart="180dp"
+            android:background="@drawable/filter_loc"
+            android:text="Lọc"
+            android:textSize="16dp"
+            android:textColor="#FFFFFF"/>
     </RelativeLayout>
 </LinearLayout>
