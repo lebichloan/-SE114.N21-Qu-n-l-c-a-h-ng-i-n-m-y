@@ -251,8 +251,7 @@ public class ThemHoaDon extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkBill() == true) {
                     if (khuyenmai.getText().toString().equals("0") && tenKM.getText().toString().length() > 0) {
-//                        Toast.makeText(ThemHoaDon.this, "Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!");
+                        Toast.makeText(ThemHoaDon.this, "Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
                     } else {
                         progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
                         getMaxId();
@@ -371,92 +370,10 @@ public class ThemHoaDon extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
-    }
-
-    private void showCustomDialogConfirm(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-//        Button butCancel = dialogView.findViewById(R.id.butCancel);
-//        butCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-//        butOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
     }
 
     private String createID(Integer maxId) {
@@ -533,9 +450,7 @@ public class ThemHoaDon extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-//                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
-
+                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -572,9 +487,7 @@ public class ThemHoaDon extends AppCompatActivity {
 
                 progressDialog.dismiss();
 
-//                Toast.makeText(ThemHoaDon.this, "Thêm hóa đơn thành công!", Toast.LENGTH_SHORT).show();
-
-                showCustomDialogSucess("Thêm hóa đơn thành công");
+                Toast.makeText(ThemHoaDon.this, "Thêm hóa đơn thành công!", Toast.LENGTH_SHORT).show();
                 onBackPressed();
 
             }
@@ -584,18 +497,15 @@ public class ThemHoaDon extends AppCompatActivity {
     private boolean checkBill() {
 
         if (mThemhoadonAdapter.getItemCount() == 0) {
-//            Toast.makeText(this, "Chưa chọn sản phẩm", Toast.LENGTH_SHORT).show();
-            showCustomDialogFail("Vui lòng chọn sản phẩm để tiếp tục");
+            Toast.makeText(this, "Chưa chọn sản phẩm", Toast.LENGTH_SHORT).show();
             return false;
         } else
         if (tvMaKH.getText().toString().trim().equals("")){
-//            Toast.makeText(this, "Chưa thêm khách hàng", Toast.LENGTH_SHORT).show();
-            showCustomDialogFail("Vui lòng chọn thông tin khách hàng để tiếp tục");
+            Toast.makeText(this, "Chưa thêm khách hàng", Toast.LENGTH_SHORT).show();
             return false;
         } else
         if (radioGroup.getCheckedRadioButtonId() == -1) {
-//            Toast.makeText(this, "Chưa chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
-            showCustomDialogFail("Vui lòng chọn phương thức thanh toán để tiếp tục");
+            Toast.makeText(this, "Chưa chọn phương thức thanh toán", Toast.LENGTH_SHORT).show();
             return false;
         }
         
@@ -687,8 +597,8 @@ public class ThemHoaDon extends AppCompatActivity {
                         Integer.parseInt(tvPhiLapDat.getText().toString().trim());
 
                 if (code == "chietkhau" && Integer.parseInt(editDialogFill.getText().toString().trim()) > TienTra) {
-//                    Toast.makeText(ThemHoaDon.this, "Chiết Khấu không thể lớn hơn Tổng Thanh Toán. Tổng Thanh Toán là " + tvTongThanhToan.getText().toString().trim(), Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Giá trị chiết khấu không thể lớn hơn tổng thanh toán. Tổng thanh toán hiện tại là " + tvTongThanhToan.getText().toString().trim());
+                    Toast.makeText(ThemHoaDon.this, "Chiết Khấu không thể lớn hơn Tổng Thanh Toán. Tổng Thanh Toán là " + tvTongThanhToan.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+
                 } else {
                     if (Integer.parseInt(editDialogFill.getText().toString().trim()) == 0) {
                         tv.setText(editDialogFill.getText().toString().trim());
@@ -754,16 +664,14 @@ public class ThemHoaDon extends AppCompatActivity {
                 String soluong = editDialogFill.getText().toString();
                 
                 if (soluong.isEmpty()) {
-//                    Toast.makeText(ThemHoaDon.this, "Số lượng không được bỏ trống", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Số lượng hàng hóa không được bỏ trống. Vui lòng nhập vào số lượng hàng hóa");
+                    Toast.makeText(ThemHoaDon.this, "Số lượng không được bỏ trống", Toast.LENGTH_SHORT).show();
                 } else 
                     if (Integer.parseInt(soluong) <= 0) {
-//                        Toast.makeText(ThemHoaDon.this, "Số lượng không thể bằng 0", Toast.LENGTH_SHORT).show();
-                        showCustomDialogFail("Vui lòng nhập số lượng hàng hóa lớn hơn 0");
+                        Toast.makeText(ThemHoaDon.this, "Số lượng không thể bằng 0", Toast.LENGTH_SHORT).show();
                     } else 
                         if (Integer.parseInt(soluong) > chiTietHoaDon.getSanPham().getSoLuong()) {
-//                            Toast.makeText(ThemHoaDon.this, "Còn " + chiTietHoaDon.getSanPham().getSoLuong().toString() + " sản phẩm trong kho", Toast.LENGTH_SHORT).show();
-                            showCustomDialogFail("Còn " + chiTietHoaDon.getSanPham().getSoLuong().toString() + " sản phẩm trong kho");
+                            Toast.makeText(ThemHoaDon.this, "Còn " + chiTietHoaDon.getSanPham().getSoLuong().toString() + " sản phẩm trong kho", Toast.LENGTH_SHORT).show();
+
                         } else {
                             dialog.dismiss();
                             progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
@@ -803,8 +711,7 @@ public class ThemHoaDon extends AppCompatActivity {
                 }
                 khuyenmai.setText(String.valueOf(sotiengiam));
             } else {
-//                Toast.makeText(this, "Chưa đạt số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Đơn hàng chưa đạt giá trị tối thiểu");
+                Toast.makeText(this, "Chưa đạt số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
             }
             setTongThanhToan();
         }

@@ -59,7 +59,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
                     .into(holder.imgProduct);
 
         } else {
-            holder.imgProduct.setImageResource(R.mipmap.ic_launcher);
+            holder.imgProduct.setImageResource(R.drawable.blank_img);
         }
 
         holder.tvId.setText(sanPham.getMaSP());

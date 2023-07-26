@@ -137,7 +137,6 @@ public class CustomerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(CustomerActivity.this, AddCustomerActivity.class));
-                finish();
             }
         });
     }

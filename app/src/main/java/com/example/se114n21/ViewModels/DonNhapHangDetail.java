@@ -69,57 +69,9 @@ public class DonNhapHangDetail extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-//                Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-//        butOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
     }
 
 
@@ -201,8 +153,7 @@ public class DonNhapHangDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editDialogFill.getText().toString().equals("")) {
-//                    Toast.makeText(DonNhapHangDetail.this, "Nhập số lượng sản phẩm để trả hàng!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Vui lòng nhập số lượng sản phẩm để trả hàng");
+                    Toast.makeText(DonNhapHangDetail.this, "Nhập số lượng sản phẩm để trả hàng!", Toast.LENGTH_SHORT).show();
                 } else {
                     Integer duoctra = donNhapHang.getSoLuongNhap() - donNhapHang.getSoLuongTraHang();
                     Integer trahang = Integer.parseInt(editDialogFill.getText().toString().trim());
@@ -212,12 +163,10 @@ public class DonNhapHangDetail extends AppCompatActivity {
                             progressDialog = ProgressDialog.show(DonNhapHangDetail.this,"Đang tải", "Vui lòng đợi...",false,false);
                             checkKho(dialog, trahang);
                         } else {
-//                            Toast.makeText(DonNhapHangDetail.this, "Số lượng có thể trả là " + duoctra.toString(), Toast.LENGTH_SHORT).show();
-                        showCustomDialogFail("Số lượng có thể trả là " + duoctra.toString());
+                            Toast.makeText(DonNhapHangDetail.this, "Số lượng có thể trả là " + duoctra.toString(), Toast.LENGTH_SHORT).show();
                         }
                     } else {
-//                        Toast.makeText(DonNhapHangDetail.this, "Số lượng phải lớn hơn 0", Toast.LENGTH_SHORT).show();
-                        showCustomDialogFail("Số lượng phải lớn hơn 0");
+                        Toast.makeText(DonNhapHangDetail.this, "Số lượng phải lớn hơn 0", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -238,21 +187,18 @@ public class DonNhapHangDetail extends AppCompatActivity {
                         Integer conlai = sanPham.getSoLuong() - trahang;
                         updateSP(dialog, conlai, trahang);
                     } else {
-//                        Toast.makeText(DonNhapHangDetail.this, "Số lượng trong kho chỉ còn " + sanPham.getSoLuong(), Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Số lượng trong kho chỉ còn " + sanPham.getSoLuong());
+                        Toast.makeText(DonNhapHangDetail.this, "Số lượng trong kho chỉ còn " + sanPham.getSoLuong(), Toast.LENGTH_SHORT).show();
                     }
                 } else {
                     progressDialog.dismiss();
-//                    Toast.makeText(DonNhapHangDetail.this, "Sản phẩm không còn tồn tại!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Sản phẩm không còn tồn tại!");
+                    Toast.makeText(DonNhapHangDetail.this, "Sản phẩm không còn tồn tại!", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-//                Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -266,8 +212,7 @@ public class DonNhapHangDetail extends AppCompatActivity {
                 if (error == null) {
                     updateDNH(dialog, trahang);
                 } else {
-//                    Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                    Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
 
                 }
             }
@@ -287,11 +232,9 @@ public class DonNhapHangDetail extends AppCompatActivity {
 
                 if (error == null) {
                     getData(donNhapHang.getMaDNH());
-//                    Toast.makeText(DonNhapHangDetail.this, "Hoàn trả thành công!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogSucess("Hoàn trả hàng thành công");
+                    Toast.makeText(DonNhapHangDetail.this, "Hoàn trả thành công!", Toast.LENGTH_SHORT).show();
                 } else {
-//                    Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                    Toast.makeText(DonNhapHangDetail.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                 }
             }
         });

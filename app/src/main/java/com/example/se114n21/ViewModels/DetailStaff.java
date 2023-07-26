@@ -91,92 +91,12 @@ public class DetailStaff extends AppCompatActivity {
         });
     }
 
-    private void showCustomDialogConfirm(String data){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-//        Button butCancel = dialogView.findViewById(R.id.butCancel);
-//        butCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
-
-    private void showCustomDialogFail(String data){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
 
     private void setData(NhanVien nhanVien) {
         Glide.with(this)
                 .load(nhanVien.getLinkAvt()) // image url
-                .placeholder(R.drawable.ic_launcher_background) // any placeholder to load at start
-                .error(R.mipmap.ic_launcher)  // any image in case of error
+                .placeholder(R.drawable.blank_img) // any placeholder to load at start
+                .error(R.drawable.blank_img)  // any image in case of error
                 .into(avt);
 
         if (nhanVien.getMaNV() != null) {
@@ -226,11 +146,9 @@ public class DetailStaff extends AppCompatActivity {
                             @Override
                             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                                 if (error == null) {
-//                                    Toast.makeText(DetailStaff.this, "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
-                                showCustomDialogSucess("Xóa người dùng thành công");
+                                    Toast.makeText(DetailStaff.this, "Xóa người dùng thành công!", Toast.LENGTH_SHORT).show();
                                 } else {
-//                                    Toast.makeText(DetailStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                                    Toast.makeText(DetailStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                                 }
                                 progressDialog.dismiss();
 

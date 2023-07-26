@@ -101,13 +101,13 @@ public class AddCustomerActivity extends AppCompatActivity {
                 myRef.child(id).setValue(kh);
                 maxid = maxid + 1;
                 myref2.setValue(maxid);
-                showCustomDialogSucess("Thêm khách hàng mới thành công");
-                onBackPressed();
+                Toast.makeText(AddCustomerActivity.this, "Thêm khách hàng mới thành công!", Toast.LENGTH_SHORT).show();
+                finish();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                showCustomDialogFail("Quá trình thất bại. Vui lòng thử lại");
+                Toast.makeText(AddCustomerActivity.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -125,55 +125,7 @@ public class AddCustomerActivity extends AppCompatActivity {
     private boolean isTenKHEmpty(){
         return edtname.getText().toString().isEmpty();
     }
-
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-//        butOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
+    
     private void initUI() {
         edtname = findViewById(R.id.edtname);
         edtsdt = findViewById(R.id.edtsdt);

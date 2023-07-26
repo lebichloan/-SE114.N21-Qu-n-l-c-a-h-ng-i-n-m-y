@@ -127,8 +127,7 @@ public class Login extends AppCompatActivity {
                             progressDialog.dismiss();
                             check = true;
                             if (nhanVien.isTrangThai() == false) {
-                                showCustomDialogFail("Tài khoản của bạn đã bị vô hiệu hóa");
-//                                Toast.makeText(Login.this, "Tài khoản đã bị vô hiệu hóa!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(Login.this, "Tài khoản đã bị vô hiệu hóa!", Toast.LENGTH_SHORT).show();
                             } else {
 
                                 SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -149,16 +148,14 @@ public class Login extends AppCompatActivity {
                    
                    if (dem == snapshot.getChildrenCount() && check == false) {
                        progressDialog.dismiss();
-                       showCustomDialogFail("Thông tin đăng nhập không hợp lệ");
-//                       Toast.makeText(Login.this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
+                       Toast.makeText(Login.this, "Email hoặc mật khẩu không đúng!", Toast.LENGTH_SHORT).show();
                    }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
                     progressDialog.dismiss();
-                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại");
-//                    Toast.makeText(Login.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(Login.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
@@ -168,101 +165,18 @@ public class Login extends AppCompatActivity {
         boolean isValid = true;
 
         if (txtEmail.getText().toString().trim().equals("")) {
-            showCustomDialogFail("Vui lòng nhập vào email để tiếp tục");
             txtEmail.setError("Nội dung bắt buộc");
             txtEmail.requestFocus();
             isValid = false;
         }
 
         if (txtPassword.getText().toString().trim().equals("")) {
-            showCustomDialogFail("Vui lòng nhập vào mật khẩu để tiếp tục");
             txtPassword.setError("Nội dung bắt buộc");
             txtPassword.requestFocus();
             isValid = false;
         }
 
         return isValid;
-    }
-
-    private void showCustomDialogConfirm(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-//        Button butCancel = dialogView.findViewById(R.id.butCancel);
-//        butCancel.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtContent);
-        txtAlert.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
     }
 
     private void initUI() {
