@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".reports.Sell_fragment">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:id="@+id/tvSale"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo doanh thu"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="35dp"
+        android:drawableLeft="@mipmap/sale_foreground"
+        android:textColor="#1976D2"/>
+
+
+    <TextView
+        android:id="@+id/tvProfit"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo lợi nhuận"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:drawableLeft="@mipmap/profit_foreground"
+        android:textColor="#1976D2"/>
+
+    <TextView
+        android:id="@+id/tvOrder"
+        android:layout_width="391dp"
+        android:layout_height="wrap_content"
+        android:text="Báo cáo đơn hàng"
+        android:textSize="20dp"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:drawableLeft="@mipmap/order_foreground"
+        android:textColor="#1976D2"/>
+
+</LinearLayout>

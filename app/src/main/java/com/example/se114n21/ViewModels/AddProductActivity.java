@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -34,6 +35,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -112,7 +114,8 @@ public class AddProductActivity extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    Toast.makeText(this, "You can select a maximum of " + "5" + " images.", Toast.LENGTH_SHORT).show();
+                                    showCustomDialogFail("Bạn có thể chọn tối đa 5 hình ảnh");
+//                                    Toast.makeText(this, "You can select a maximum of " + "5" + " images.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
@@ -368,7 +371,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Upload Product Successfully!", Toast.LENGTH_SHORT).show();
+                showCustomDialogSucess("Thêm sản phẩm mới thành công");
+//                Toast.makeText(AddProductActivity.this, "Upload Product Successfully!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddProductActivity.this, ListProduct.class);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -406,7 +410,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại");
+//                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -480,7 +485,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại");
+//                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -522,7 +528,6 @@ public class AddProductActivity extends AppCompatActivity {
                 openAddPropertyDialog(Gravity.CENTER);
             }
         });
-
 
 //        button
         btn_AddImage = findViewById(R.id.btn_addImage);
@@ -635,7 +640,8 @@ public class AddProductActivity extends AppCompatActivity {
                 String value = editValue.getText().toString().trim();
                 
                 if (name.isEmpty() || value.isEmpty()) {
-                    Toast.makeText(AddProductActivity.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Vui lòng nhập đầy đủ thông tin trươớc khi tiếp tục");
+//                    Toast.makeText(AddProductActivity.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
                 } else {
                     dialog.dismiss();
                     progressDialog.show();
@@ -652,5 +658,4 @@ public class AddProductActivity extends AppCompatActivity {
 
         dialog.show();
     }
-
 }

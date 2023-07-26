@@ -61,6 +61,13 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".reports.reportContainer"
+            android:exported="false" />
+        <activity
+            android:name=".ui.login.LoginActivity"
+            android:exported="false"
+            android:label="@string/title_activity_login" />
+        <activity
             android:name=".ViewModels.CustomerActivity"
             android:exported="false" />
         <activity

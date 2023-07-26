@@ -36,9 +36,20 @@ android {
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
     }
+    buildFeatures {
+        viewBinding true
+    }
+    // ...
+    signingConfigs {
+        debug {
+            storeFile file('debug.keystore')
+            storePassword 'android'
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+        }
+    }
+    // ...
 }
-
-
 
 dependencies {
     //noinspection GradleCompatible
@@ -57,6 +68,16 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+
+    // Sang Quang
+    implementation 'com.google.android.material:material:1.2.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata:2.0.0'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel:2.0.0'
+    androidTestImplementation 'androix.test.ext:junit:1.1.1'
+    androidTestImplementation 'androix.test.espresso.espresso.core:3.2.0'
+
+    implementation platform('com.google.firebase:firebase-bom:32.1.0')
+    //
 
 //  config firebase
     implementation platform('com.google.firebase:firebase-bom:31.5.0')
