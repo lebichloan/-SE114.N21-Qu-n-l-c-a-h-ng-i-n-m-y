@@ -15,7 +15,7 @@ import android.widget.Button;
 import com.example.se114n21.R;
 
 public class SanPhamFragment extends Fragment {
-    private Button btnListProduct, btnNhapHang;
+    private Button btnListProduct, btnNhapHang, btnLoaiSP;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,6 +34,7 @@ public class SanPhamFragment extends Fragment {
     private void initUI() {
         btnListProduct = (Button) getView().findViewById(R.id.btn_list_product);
         btnNhapHang = (Button) getView().findViewById(R.id.btn_nhaphang);
+        btnLoaiSP = (Button) getView().findViewById(R.id.loaisp);
 
         btnListProduct.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,6 +48,15 @@ public class SanPhamFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(getActivity(), ListDonNhapHang.class));
+            }
+        });
+
+        btnLoaiSP.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListProductType.class);
+                intent.putExtra("code", "view");
+                startActivity(intent);
             }
         });
     }

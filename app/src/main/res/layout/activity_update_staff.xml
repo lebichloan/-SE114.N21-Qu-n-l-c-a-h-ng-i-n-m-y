@@ -272,7 +272,7 @@
             android:textAlignment="gravity"
             android:lineHeight="20dp"
             android:text="Lưu ý:\n
--	Các thông tin của nhân viên: tên, email, số điện thoại, ngày sinh, địa chỉ được cập nhật từ tài khoản nhân viên.\n
+-	Các thông tin của nhân viên: tên, số điện thoại, ngày sinh, địa chỉ được cập nhật từ tài khoản nhân viên.\n
 -	Nếu bạn muốn thay đổi các thông tin trên, vui lòng thông báo nhân viên của bạn chỉnh sửa trong Thông tin tài khoản cá nhân.
 "
             >

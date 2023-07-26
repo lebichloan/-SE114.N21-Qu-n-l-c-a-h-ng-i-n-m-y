@@ -53,7 +53,7 @@ public class ChangePassword extends AppCompatActivity {
         FirebaseUser firebaseUser = auth.getCurrentUser();
 
         if (firebaseUser.equals("")) {
-            showCustomDialog("Vui lòng đăng nhập để tiếp tục");
+//            showCustomDialog("Vui lòng đăng nhập để tiếp tục");
             Intent intent = new Intent(ChangePassword.this, Login.class);
             startActivity(intent);
             finish();
@@ -102,32 +102,32 @@ public class ChangePassword extends AppCompatActivity {
 
     }
 
-    private void showCustomDialog(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtAlert);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
+//    private void showCustomDialog(String data){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialogView = inflater.inflate(R.layout.dialog_fail, null);
+//        builder.setView(dialogView);
+//        Dialog dialog = builder.create();
+//        TextView txtContent = dialogView.findViewById(R.id.txtAlert);
+//        txtContent.setText(data);
+//        Button butOK = dialogView.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        Window dialogWindow = dialog.getWindow();
+//        if (dialogWindow != null) {
+//            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+//            layoutParams.gravity = Gravity.TOP;
+//            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+//            dialogWindow.setAttributes(layoutParams);
+//        }
+//        dialog.show();
+//
+//    }
 
 
     private void reAuthenticateUser(FirebaseUser firebaseUser) {
@@ -136,7 +136,7 @@ public class ChangePassword extends AppCompatActivity {
                 public void onClick(View v) {
                    String oldPassword = txtOldPassword.getText().toString();
                    if (TextUtils.isEmpty(oldPassword)) {
-                       showCustomDialog("Vui lòng nhập vào mật khẩu của bạn");
+//                       showCustomDialog("Vui lòng nhập vào mật khẩu của bạn");
                        txtOldPassword.setError("Please enter your current password to authenticate");
                        txtOldPassword.requestFocus();
                    } else {
@@ -152,7 +152,7 @@ public class ChangePassword extends AppCompatActivity {
                                    try {
                                        throw task.getException();
                                    } catch (Exception e) {
-                                       showCustomDialog(e.getMessage());
+//                                       showCustomDialog(e.getMessage());
 //                                       Toast.makeText(ChangePassword.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                                    }
                                }

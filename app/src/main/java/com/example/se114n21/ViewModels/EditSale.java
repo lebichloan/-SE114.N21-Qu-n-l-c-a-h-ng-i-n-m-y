@@ -105,58 +105,11 @@ public class EditSale extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-//                Toast.makeText(EditSale.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                Toast.makeText(EditSale.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-//        butOK.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                dialog.dismiss();
-//            }
-//        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
 
     private void setData(KhuyenMai khuyenMai) {
         ten.setText(khuyenMai.getTenKM());
@@ -259,15 +212,12 @@ public class EditSale extends AppCompatActivity {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         progressDialog.dismiss();
-//                        Toast.makeText(EditSale.this, "Cập nhật thông tin khuyến mãi thành công!", Toast.LENGTH_SHORT).show();
-
-                        showCustomDialogSucess("Cập nhật thông tin khuyến mãi thành công");
+                        Toast.makeText(EditSale.this, "Cập nhật thông tin khuyến mãi thành công!", Toast.LENGTH_SHORT).show();
                         onBackPressed();
                     }
                 });
             } else {
-//                Toast.makeText(this, "Thời gian bắt đầu không thể trễ hơn thời gian kết thúc chương trình!", Toast.LENGTH_SHORT).show()
-                showCustomDialogFail("Thời gian bắt đầu không thể lớn hơn thời gian kết thúc chương trình");
+                Toast.makeText(this, "Thời gian bắt đầu không thể trễ hơn thời gian kết thúc chương trình!", Toast.LENGTH_SHORT).show();
             }
         }
     }
