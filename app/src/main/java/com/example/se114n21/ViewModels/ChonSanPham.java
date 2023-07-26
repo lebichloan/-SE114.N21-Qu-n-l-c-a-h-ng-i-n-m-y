@@ -190,7 +190,8 @@ public class ChonSanPham extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                Toast.makeText(ChonSanPham.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                progressDialog.dismiss();
             }
         });
     }

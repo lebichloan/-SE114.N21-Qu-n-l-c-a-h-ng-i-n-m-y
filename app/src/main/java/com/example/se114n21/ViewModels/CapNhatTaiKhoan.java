@@ -247,7 +247,7 @@ public class CapNhatTaiKhoan extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(CapNhatTaiKhoan.this, "Upload Image failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(CapNhatTaiKhoan.this, "Đăng tải ảnh thất bại!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -292,5 +292,4 @@ public class CapNhatTaiKhoan extends AppCompatActivity {
             }
         });
     }
-
 }

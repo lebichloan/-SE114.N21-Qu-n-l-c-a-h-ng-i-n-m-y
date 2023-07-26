@@ -136,7 +136,6 @@ public class DoiMatKhau extends AppCompatActivity {
         });
     }
 
-
     private void changePassOnDB(NhanVien nhanVien) {
         DatabaseReference myRef = database.getReference("Users/" + nhanVien.getMaND() + "/password");
 

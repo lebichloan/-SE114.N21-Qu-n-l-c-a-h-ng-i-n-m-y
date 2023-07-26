@@ -91,7 +91,6 @@ public class DetailStaff extends AppCompatActivity {
         });
     }
 
-
     private void setData(NhanVien nhanVien) {
         Glide.with(this)
                 .load(nhanVien.getLinkAvt()) // image url
