@@ -59,8 +59,8 @@ public class ImageForEditAdapter extends RecyclerView.Adapter<ImageForEditAdapte
 
         Glide.with(mContext)
                 .load(URL)
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.blank_img)
+                .error(R.drawable.blank_img)
                 .into(holder.Img);
 
         holder.deleteImg.setOnClickListener(new View.OnClickListener() {

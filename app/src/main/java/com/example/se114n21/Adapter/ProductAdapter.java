@@ -54,8 +54,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
 
             Glide.with(mContext)
                     .load(listURL.get(0)) // image url
-                    .placeholder(R.drawable.ic_launcher_background) // any placeholder to load at start
-                    .error(R.mipmap.ic_launcher)  // any image in case of error
+                    .placeholder(R.drawable.blank_img) // any placeholder to load at start
+                    .error(R.drawable.blank_img)  // any image in case of error
                     .into(holder.imgProduct);
 
         } else {

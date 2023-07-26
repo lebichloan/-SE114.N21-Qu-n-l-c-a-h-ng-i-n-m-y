@@ -39,8 +39,8 @@ public class ImageSliderAdapter extends SliderViewAdapter<ImageSliderAdapter.Ima
 
         Glide.with(mContext)
                 .load(str)
-                .placeholder(R.drawable.ic_launcher_background)
-                .error(R.mipmap.ic_launcher)
+                .placeholder(R.drawable.blank_img)
+                .error(R.drawable.blank_img)
                 .into(holder.imgSlider);
     }
 
