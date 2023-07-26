@@ -114,8 +114,7 @@ public class AddProductActivity extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    showCustomDialogFail("Bạn có thể chọn tối đa 5 hình ảnh");
-//                                    Toast.makeText(this, "You can select a maximum of " + "5" + " images.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "Chọn tối đa 5 hình ảnh.", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
 
@@ -371,8 +370,7 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                showCustomDialogSucess("Thêm sản phẩm mới thành công");
-//                Toast.makeText(AddProductActivity.this, "Upload Product Successfully!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProductActivity.this, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(AddProductActivity.this, ListProduct.class);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -410,8 +408,7 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại");
-//                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -485,8 +482,7 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại");
-//                Toast.makeText(AddProductActivity.this, "Upload Product failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -640,8 +636,7 @@ public class AddProductActivity extends AppCompatActivity {
                 String value = editValue.getText().toString().trim();
                 
                 if (name.isEmpty() || value.isEmpty()) {
-                    showCustomDialogFail("Vui lòng nhập đầy đủ thông tin trươớc khi tiếp tục");
-//                    Toast.makeText(AddProductActivity.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddProductActivity.this, "Vui lòng nhập đầy đủ thông tin trươớc khi tiếp tục!", Toast.LENGTH_SHORT).show();
                 } else {
                     dialog.dismiss();
                     progressDialog.show();
