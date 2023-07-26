@@ -134,15 +134,15 @@ public class AddCustomerActivity extends AppCompatActivity {
         builder.setView(dialogViewFail);
         Dialog dialog = builder.create();
 
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+//        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {

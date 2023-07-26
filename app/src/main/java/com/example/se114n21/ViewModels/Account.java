@@ -69,7 +69,7 @@ public class Account extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         storage = FirebaseStorage.getInstance();
-        initUI();
+//        initUI();
 //        getData();
 //        getAvata();
 
@@ -84,7 +84,7 @@ public class Account extends AppCompatActivity {
                             avata.setImageURI(uri);
                             updateAvata(uri);
                         } else {
-                            showCustomDialogFail("Vui lòng chọn hình ảnh");
+//                            showCustomDialogFail("Vui lòng chọn hình ảnh");
 //                            Toast.makeText(Account.this, "No Image Selected", Toast.LENGTH_SHORT).show();
                         }
                     }
@@ -175,7 +175,7 @@ public class Account extends AppCompatActivity {
                                         }
                                         else {
                                             // co loi
-                                            showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+//                                            showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
                                         }
                                     }
                                 });
@@ -186,7 +186,7 @@ public class Account extends AppCompatActivity {
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
+//                        showCustomDialogFail("Thay đổi avata không thành công. Vui lòng thử lại sau");
                     }
                 });
     }
@@ -234,94 +234,95 @@ public class Account extends AppCompatActivity {
                 startActivity(new Intent(Account.this, Login.class));
             }
         });
-
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
     }
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
 
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-    private void getData(){
-        FirebaseUser user = auth.getCurrentUser();
-        DatabaseReference reference;
-        reference = FirebaseDatabase.getInstance().
-                getReference("NhanVien").child(user.getUid());
-
-        reference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                if (dataSnapshot.exists()){
-                    String hoTen = dataSnapshot.child("hoTen").getValue().toString();
-                    String email = dataSnapshot.child("email").getValue().toString();
-                    txtProfile.setText(hoTen);
-                    txtEmail.setText(email);
-                }
-            }
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-            }
-        });
-
-    }
-    private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Thông tin tài khoản");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
-        avata = findViewById(R.id.avata);
-        txtProfile = findViewById(R.id.txtProfile);
-        txtEmail = findViewById(R.id.txtEmail);
-        txtPassword = findViewById(R.id.txtPassword);
-        butProfileNext = findViewById(R.id.butProfileNext);
-        butEmailNext = findViewById(R.id.butEmailNext);
-        butPasswordNext = findViewById(R.id.butPasswordNext);
-        butLogout = findViewById(R.id.butLogout);
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//        Button butCancel = dialogView.findViewById(R.id.butCancel);
+//        butCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//        Window dialogWindow = dialog.getWindow();
+//        if (dialogWindow != null) {
+//            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+//            layoutParams.gravity = Gravity.TOP;
+//            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+//            dialogWindow.setAttributes(layoutParams);
+//        }
+//        dialog.show();
+//
+//    }
+//    private void showCustomDialogFail(String data){
+//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+//        LayoutInflater inflater = getLayoutInflater();
+//        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+//        builder.setView(dialogViewFail);
+//        Dialog dialog = builder.create();
+//
+//        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+//        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+//
+//        Window dialogWindow = dialog.getWindow();
+//        if (dialogWindow != null) {
+//            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+//            layoutParams.gravity = Gravity.TOP;
+//            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+//            dialogWindow.setAttributes(layoutParams);
+//        }
+//        dialog.show();
+//    }
+//    private void getData(){
+//        FirebaseUser user = auth.getCurrentUser();
+//        DatabaseReference reference;
+//        reference = FirebaseDatabase.getInstance().
+//                getReference("NhanVien").child(user.getUid());
+//
+//        reference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                if (dataSnapshot.exists()){
+//                    String hoTen = dataSnapshot.child("hoTen").getValue().toString();
+//                    String email = dataSnapshot.child("email").getValue().toString();
+//                    txtProfile.setText(hoTen);
+//                    txtEmail.setText(email);
+//                }
+//            }
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//            }
+//        });
+//
+//    }
+//    private void initUI() {
+//        ActionBar actionBar = getSupportActionBar();
+//        actionBar.setTitle("Thông tin tài khoản");
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+//
+//        avata = findViewById(R.id.avata);
+//        txtProfile = findViewById(R.id.txtProfile);
+//        txtEmail = findViewById(R.id.txtEmail);
+//        txtPassword = findViewById(R.id.txtPassword);
+//        butProfileNext = findViewById(R.id.butProfileNext);
+//        butEmailNext = findViewById(R.id.butEmailNext);
+//        butPasswordNext = findViewById(R.id.butPasswordNext);
+//        butLogout = findViewById(R.id.butLogout);
+//    }
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        switch (item.getItemId()) {
+//            case android.R.id.home:
+//                finish();
+//                return true;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
 }

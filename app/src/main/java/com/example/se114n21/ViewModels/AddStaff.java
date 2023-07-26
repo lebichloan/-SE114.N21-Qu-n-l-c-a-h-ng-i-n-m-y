@@ -141,8 +141,7 @@ public class AddStaff extends AppCompatActivity {
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-//                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại");
+                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             });
@@ -166,8 +165,7 @@ public class AddStaff extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại");
+                Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                 progressDialog.dismiss();
             }
         });
@@ -181,94 +179,13 @@ public class AddStaff extends AppCompatActivity {
                 if (error == null) {
                     sendPassword(nhanVien);
                 } else {
-//                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại");
+                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }
             }
         });
     }
 
-    private void showCustomDialogConfirm(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
 
     private void sendPassword(NhanVien nhanVien) {
         JavaMailAPI javaMailAPI = new JavaMailAPI(this,
@@ -286,8 +203,7 @@ public class AddStaff extends AppCompatActivity {
         }
 
         progressDialog.dismiss();
-//        Toast.makeText(AddStaff.this, "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
-        showCustomDialogSucess("Thêm nguời dùng thành công");
+        Toast.makeText(AddStaff.this, "Thêm người dùng thành công!", Toast.LENGTH_SHORT).show();
     }
 
     private String createIDNhanVien(Integer maxId) {
