@@ -251,7 +251,8 @@ public class ThemHoaDon extends AppCompatActivity {
             public void onClick(View view) {
                 if (checkBill() == true) {
                     if (khuyenmai.getText().toString().equals("0") && tenKM.getText().toString().length() > 0) {
-                        Toast.makeText(ThemHoaDon.this, "Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(ThemHoaDon.this, "Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Không thể áp dụng khuyến mãi do chưa đạt đến số tiền hàng tối thiểu!");
                     } else {
                         progressDialog = ProgressDialog.show(ThemHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
                         getMaxId();
@@ -420,13 +421,13 @@ public class ThemHoaDon extends AppCompatActivity {
 
         TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
         txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
@@ -532,7 +533,9 @@ public class ThemHoaDon extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ThemHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+
             }
         });
     }
@@ -569,8 +572,9 @@ public class ThemHoaDon extends AppCompatActivity {
 
                 progressDialog.dismiss();
 
-                Toast.makeText(ThemHoaDon.this, "Thêm hóa đơn thành công!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ThemHoaDon.this, "Thêm hóa đơn thành công!", Toast.LENGTH_SHORT).show();
 
+                showCustomDialogSucess("Thêm hóa đơn thành công");
                 onBackPressed();
 
             }
@@ -799,7 +803,8 @@ public class ThemHoaDon extends AppCompatActivity {
                 }
                 khuyenmai.setText(String.valueOf(sotiengiam));
             } else {
-                Toast.makeText(this, "Chưa đạt số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Chưa đạt số tiền hàng tối thiểu!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Đơn hàng chưa đạt giá trị tối thiểu");
             }
             setTongThanhToan();
         }

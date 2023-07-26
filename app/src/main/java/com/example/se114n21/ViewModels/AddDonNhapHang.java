@@ -6,14 +6,20 @@ import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -109,11 +115,59 @@ public class AddDonNhapHang extends AppCompatActivity {
     private void addDNH() {
         if (checkForm() == true) {
             if (Integer.parseInt(soluong.getText().toString().trim()) <= 0) {
-                Toast.makeText(this, "Số lượng sản phẩm phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "Số lượng sản phẩm phải lớn hơn 0", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Số lượng sản phẩm phải lớn hơn 0");
             } else {
                 getMaxId();
             }
         }
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
     }
 
     boolean save = false;
@@ -146,7 +200,8 @@ public class AddDonNhapHang extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
                 progressDialog.dismiss();
             }
         });
@@ -171,7 +226,8 @@ public class AddDonNhapHang extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
             }
         });
     }
@@ -201,7 +257,8 @@ public class AddDonNhapHang extends AppCompatActivity {
                     updateMaxId(donNhapHang);
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddDonNhapHang.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
                 }
             }
         });
@@ -214,7 +271,8 @@ public class AddDonNhapHang extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(AddDonNhapHang.this, "Tạo đơn nhập thành công!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddDonNhapHang.this, "Tạo đơn nhập thành công!", Toast.LENGTH_SHORT).show();
+                showCustomDialogSucess("Thêm đơn nhập hàng thành công");
 
                 onBackPressed();
             }

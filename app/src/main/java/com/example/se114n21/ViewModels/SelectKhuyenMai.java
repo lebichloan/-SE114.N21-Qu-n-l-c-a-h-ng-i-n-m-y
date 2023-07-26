@@ -1,18 +1,26 @@
 package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import androidx.appcompat.widget.SearchView;
+
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -78,10 +86,58 @@ public class SelectKhuyenMai extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(SelectKhuyenMai.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(SelectKhuyenMai.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
     }
 
     private void initUI() {
