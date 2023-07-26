@@ -253,7 +253,8 @@ public class EditProduct extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    Toast.makeText(this, "Chọn tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(this, "Chọn tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
+                                    showCustomDialogFail("Vui lòng chọn tối đa 5 ảnh");
 
                                     progressDialog.dismiss();
                                     return;
@@ -274,7 +275,86 @@ public class EditProduct extends AppCompatActivity {
                 });
     }
 
+    private void showCustomDialogConfirm(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
 
+//        Button butCancel = dialogView.findViewById(R.id.butCancel);
+//        butCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
 
     private void openAddPropertyDialog(int gravity) {
         final Dialog dialog = new Dialog(this);
@@ -321,8 +401,8 @@ public class EditProduct extends AppCompatActivity {
                 String value = editValue.getText().toString().trim();
 
                 if (name.isEmpty() || value.isEmpty()) {
-                    Toast.makeText(EditProduct.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
-//                    showCustomDialogFail("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục");
+//                    Toast.makeText(EditProduct.this, "Chưa nhập đầy đủ thông tin", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục");
                 } else {
                     dialog.dismiss();
                     progressDialog.show();
@@ -364,7 +444,8 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditProduct.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                showCustomDialogSucess("Cập nhật sản phẩm thành công");
                 if (isDelete == true) {
                     checkImage(mListURL_delete);
                 }
@@ -407,8 +488,9 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Tải ảnh lên thất bại!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditProduct.this, "Tải ảnh lên thất bại!", Toast.LENGTH_SHORT).show();
 
+                showCustomDialogFail("Có lỗi xảy ra trong quá trình tải ảnh lên");
             }
         });
     }

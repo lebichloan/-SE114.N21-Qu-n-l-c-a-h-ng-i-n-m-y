@@ -120,25 +120,105 @@ public class DoiMatKhau extends AppCompatActivity {
                         changePassOnDB(nhanVien);
                     } else {
                         progressDialog.dismiss();
-                        Toast.makeText(DoiMatKhau.this, "Xác nhận mật khẩu mới không trùng khớp!", Toast.LENGTH_SHORT).show();
-//                        showCustomDialogFail("Vui lòng xác nhận mật khẩu trùng khớp với mật khẩu mới");
+//                        Toast.makeText(DoiMatKhau.this, "Xác nhận mật khẩu mới không trùng khớp!", Toast.LENGTH_SHORT).show();
+                        showCustomDialogFail("Vui lòng xác nhận mật khẩu trùng khớp với mật khẩu mới");
                     }
                 } else {
                     progressDialog.dismiss();
-                    Toast.makeText(DoiMatKhau.this, "Mật khẩu hiện tại không chính xác!", Toast.LENGTH_SHORT).show();
-//                    showCustomDialogFail("Mật khẩu hiện tại của bạn không chính xác");
+//                    Toast.makeText(DoiMatKhau.this, "Mật khẩu hiện tại không chính xác!", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Mật khẩu hiện tại của bạn không chính xác");
                 }
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(DoiMatKhau.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-//                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+//                Toast.makeText(DoiMatKhau.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
             }
         });
     }
 
+    private void showCustomDialogConfirm(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
+        builder.setView(dialogView);
+        Dialog dialog = builder.create();
+        TextView txtContent = dialogView.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+        Button butOK = dialogView.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+//        Button butCancel = dialogView.findViewById(R.id.butCancel);
+//        butCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+
+    }
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+        butOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
 
     private void changePassOnDB(NhanVien nhanVien) {
         DatabaseReference myRef = database.getReference("Users/" + nhanVien.getMaND() + "/password");
@@ -149,11 +229,11 @@ public class DoiMatKhau extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 if (error == null) {
-                    Toast.makeText(DoiMatKhau.this, "Đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show();
-//                    showCustomDialogSucess("Đổi mật khẩu thành công");
+//                    Toast.makeText(DoiMatKhau.this, "Đổi mật khẩu thành công!", Toast.LENGTH_SHORT).show();
+                    showCustomDialogSucess("Đổi mật khẩu thành công");
                 } else {
-                    Toast.makeText(DoiMatKhau.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-//                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+//                    Toast.makeText(DoiMatKhau.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                    showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
                 }
 
                 onBackPressed();

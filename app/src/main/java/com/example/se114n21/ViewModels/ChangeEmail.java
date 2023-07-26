@@ -42,7 +42,7 @@ public class ChangeEmail extends AppCompatActivity {
         FirebaseUser firebaseUser = auth.getCurrentUser();
 
         if (firebaseUser.equals("")) {
-//            showCustomDialogFail("Vui lòng đăng nhập để tiếp tục");
+            showCustomDialogFail("Vui lòng đăng nhập để tiếp tục");
             Intent intent = new Intent(ChangeEmail.this, Login.class);
             startActivity(intent);
             finish();
@@ -65,7 +65,7 @@ public class ChangeEmail extends AppCompatActivity {
             public void onClick(View v) {
                 String email = txtEmail.getText().toString();
                 if (TextUtils.isEmpty(email)) {
-//                    showCustomDialogFail("Vui lòng nhập vào email mới hợp lệ");
+                    showCustomDialogFail("Vui lòng nhập vào email mới hợp lệ");
                     txtEmail.setError("Please enter your new email to update");
                     txtEmail.requestFocus();
                 } else {
@@ -101,15 +101,15 @@ public class ChangeEmail extends AppCompatActivity {
         }
         dialog.show();
     }
-//    private void showCustomDialogFail(String data){
-//        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//        LayoutInflater inflater = getLayoutInflater();
-//        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-//        builder.setView(dialogViewFail);
-//        Dialog dialog = builder.create();
-//
-//        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-//        txtAlert.setText(data);
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
 //        Button butOK = dialogViewFail.findViewById(R.id.butOK);
 //        butOK.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -117,16 +117,16 @@ public class ChangeEmail extends AppCompatActivity {
 //                dialog.dismiss();
 //            }
 //        });
-//
-//        Window dialogWindow = dialog.getWindow();
-//        if (dialogWindow != null) {
-//            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-//            layoutParams.gravity = Gravity.TOP;
-//            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-//            dialogWindow.setAttributes(layoutParams);
-//        }
-//        dialog.show();
-//    }
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
 
     private void initUI() {
         butBack = findViewById(R.id.butBack);
