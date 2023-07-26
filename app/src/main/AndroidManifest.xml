@@ -188,9 +188,6 @@
             android:name=".ViewModels.AdminProfile"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.MainActivity"
-            android:exported="false" />
-        <activity
             android:name=".ViewModels.QLKhuyenMai"
             android:exported="false" />
         <activity
