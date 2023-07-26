@@ -253,7 +253,8 @@ public class EditProduct extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    Toast.makeText(this, "Chọn tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(this, "Chọn tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
+                                    showCustomDialogFail("Vui lòng chọn tối đa 5 ảnh");
 
                                     progressDialog.dismiss();
                                     return;
@@ -317,13 +318,13 @@ public class EditProduct extends AppCompatActivity {
 
         TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
         txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
@@ -443,7 +444,8 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditProduct.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
+                showCustomDialogSucess("Cập nhật sản phẩm thành công");
                 if (isDelete == true) {
                     checkImage(mListURL_delete);
                 }
@@ -486,8 +488,9 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Tải ảnh lên thất bại!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(EditProduct.this, "Tải ảnh lên thất bại!", Toast.LENGTH_SHORT).show();
 
+                showCustomDialogFail("Có lỗi xảy ra trong quá trình tải ảnh lên");
             }
         });
     }

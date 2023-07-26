@@ -94,6 +94,55 @@ public class AddProductActivity extends AppCompatActivity {
     private List<ThuocTinh> mListThuocTinh;
     private PropertyAdapter mPropertyAdapter;
     private Button btnAddProperty;
+
+    private void showCustomDialogFail(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
+        txtAlert.setText(data);
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+    private void showCustomDialogSucess(String data){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        LayoutInflater inflater = getLayoutInflater();
+        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
+        builder.setView(dialogViewFail);
+        Dialog dialog = builder.create();
+
+        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
+        txtContent.setText(data);
+
+        Window dialogWindow = dialog.getWindow();
+        if (dialogWindow != null) {
+            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
+            layoutParams.gravity = Gravity.TOP;
+            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
+            dialogWindow.setAttributes(layoutParams);
+        }
+        dialog.show();
+    }
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -114,7 +163,8 @@ public class AddProductActivity extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    Toast.makeText(this, "Chọn tối đa 5 hình ảnh.", Toast.LENGTH_SHORT).show();
+//                                    Toast.makeText(this, "Chọn tối đa 5 hình ảnh.", Toast.LENGTH_SHORT).show();
+                                    showCustomDialogFail("Bạn có thể chọn tối đa 5 hình ảnh");
                                     return;
                                 }
 
@@ -370,7 +420,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddProductActivity.this, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show();
+                showCustomDialogSucess("Thêm sản phẩm thành công");
                 Intent intent = new Intent(AddProductActivity.this, ListProduct.class);
                 setResult(RESULT_OK, intent);
                 finish();
@@ -408,7 +459,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!");
             }
         });
     }
@@ -482,7 +534,8 @@ public class AddProductActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(AddProductActivity.this, "Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra khi thêm sản phẩm. Vui lòng thử lại!");
             }
         });
     }
@@ -635,7 +688,8 @@ public class AddProductActivity extends AppCompatActivity {
                 String value = editValue.getText().toString().trim();
                 
                 if (name.isEmpty() || value.isEmpty()) {
-                    Toast.makeText(AddProductActivity.this, "Vui lòng nhập đầy đủ thông tin trươớc khi tiếp tục!", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(AddProductActivity.this, "Vui lòng nhập đầy đủ thông tin trươớc khi tiếp tục!", Toast.LENGTH_SHORT).show()
+                    showCustomDialogFail("Vui lòng nhập đầy đủ thông tin trước khi tiếp tục");
                 } else {
                     dialog.dismiss();
                     progressDialog.show();

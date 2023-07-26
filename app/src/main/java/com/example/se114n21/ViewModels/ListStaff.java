@@ -124,7 +124,8 @@ public class ListStaff extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 progressDialog.dismiss();
-                Toast.makeText(ListStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(ListStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
             }
         });
     }
@@ -172,13 +173,13 @@ public class ListStaff extends AppCompatActivity {
 
         TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
         txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        Button butOK = dialogViewFail.findViewById(R.id.butOK);
+//        butOK.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
