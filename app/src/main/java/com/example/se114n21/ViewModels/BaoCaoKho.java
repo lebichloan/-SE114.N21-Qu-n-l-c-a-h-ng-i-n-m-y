@@ -2,6 +2,7 @@ package com.example.se114n21.ViewModels;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -40,6 +41,7 @@ public class BaoCaoKho extends AppCompatActivity {
     private List<SanPham> mListSanPham;
     private TonKhoAdapter mTonKhoAdapter;
     private ProgressDialog progressDialog;
+    private SearchView searchView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -123,5 +125,21 @@ public class BaoCaoKho extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(mTonKhoAdapter);
+
+        //        SEARCH VIEW
+        searchView = findViewById(R.id.searchview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mTonKhoAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mTonKhoAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
     }
 }

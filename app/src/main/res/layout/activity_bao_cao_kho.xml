@@ -119,6 +119,20 @@
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 
+        <androidx.appcompat.widget.SearchView
+            android:id="@+id/searchview"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            app:queryHint="Nhập mã, tên sản phẩm"
+            android:background="@drawable/search_view_style"
+            android:layout_margin="10dp"
+            app:iconifiedByDefault="false"
+            app:queryBackground="@android:color/transparent"
+            android:theme="@style/AppSearchView"
+            >
+
+        </androidx.appcompat.widget.SearchView>
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rcv"
             android:layout_width="match_parent"

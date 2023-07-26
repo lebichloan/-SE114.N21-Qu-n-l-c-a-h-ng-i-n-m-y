@@ -142,7 +142,7 @@ public class EditProduct extends AppCompatActivity {
 
 //        progress dialog
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Vui long doi mot chut");
+        progressDialog.setMessage("Đang tải . . .");
         progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
 //        edit text
@@ -252,7 +252,7 @@ public class EditProduct extends AppCompatActivity {
                                     count = limit;
 
                                 if (count < 1) {
-                                    Toast.makeText(this, "You can select a maximum of " + "5" + " images.", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, "Chọn tối đa 5 ảnh", Toast.LENGTH_SHORT).show();
                                     progressDialog.dismiss();
                                     return;
                                 }
@@ -359,7 +359,7 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Cap nhat san pham thanh cong", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProduct.this, "Cập nhật sản phẩm thành công", Toast.LENGTH_SHORT).show();
                 if (isDelete == true) {
                     checkImage(mListURL_delete);
                 }
@@ -375,7 +375,7 @@ public class EditProduct extends AppCompatActivity {
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
-        activityResultLauncher.launch(Intent.createChooser(intent, "Select Images"));
+        activityResultLauncher.launch(Intent.createChooser(intent, "Chọn ảnh"));
     }
 
     private void uploadToStorage(Uri uri, int i, int size) {
@@ -402,7 +402,7 @@ public class EditProduct extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 progressDialog.dismiss();
-                Toast.makeText(EditProduct.this, "Upload Image failed!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(EditProduct.this, "Tải ảnh lên thất bại!", Toast.LENGTH_SHORT).show();
             }
         });
     }
