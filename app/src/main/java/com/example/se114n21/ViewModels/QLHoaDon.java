@@ -90,6 +90,48 @@ public class QLHoaDon extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        listhoadon = new ArrayList<>();
+        adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
+            @Override
+            public void OnClickDeleteitem(HoaDon hd) {
+//                OnClickdeletedata(hd);
+                showCustomDialogConfirm("Bạn muốn xóa hóa đơn đã chọn ?", hd);
+            }
+            @Override
+            public void OnClickGetitemHoaDon(HoaDon hd) {
+                listchitiet = hd.getChiTietHD();
+                Intent intent = new Intent(QLHoaDon.this,HoaDonDetail.class);
+                String getsohd = hd.getMaHD();
+                String getngayhd = hd.getNgayHD();
+                String getmakh = hd.getMaKH();
+                String getmanv = hd.getMaNV();
+                String gettonggiatri = hd.getTongTienPhaiTra().toString();
+                String getchietkhau = hd.getChietKhau().toString();
+                String getphilapdat = hd.getPhiLapDat().toString();
+                String getsdt = hd.getDienThoaiNhanHang();
+                String getdiachi = hd.getDiaCHiNhanHang();
+                String getphivanchuyen = hd.getPhiVanChuyen().toString();
+                String getghichu = hd.getGhiChu();
+                String getphuongthuc = hd.getPhuongThucThanhToan();
+                Integer tongtien = hd.getTongTienPhaiTra() - hd.getChietKhau() - hd.getPhiVanChuyen() - hd.getPhiLapDat();
+                String gettongtien = String.valueOf(tongtien);
+                intent.putExtra("detailtongtienhang",gettongtien);
+                intent.putExtra("detailsohd", getsohd);
+                intent.putExtra("detailngayhd", getngayhd);
+                intent.putExtra("detailmakh", getmakh);
+                intent.putExtra("detailmanv", getmanv);
+                intent.putExtra("detailphuongthuc", getphuongthuc);
+                intent.putExtra("detailtonggiatri", gettonggiatri);
+                intent.putExtra("detailchietkhau", getchietkhau);
+                intent.putExtra("detailphilapdat", getphilapdat);
+                intent.putExtra("detailsdt", getsdt);
+                intent.putExtra("detaildiachi", getdiachi);
+                intent.putExtra("detailphivanchuyen", getphivanchuyen);
+                intent.putExtra("detailghichu", getghichu);
+                startActivity(intent);
+            }
+        });
+        recyclerView.setAdapter(adapterHoaDon);
     }
 
     private void showCustomDialogConfirm(String data, HoaDon hoaDon){
@@ -196,50 +238,6 @@ public class QLHoaDon extends AppCompatActivity {
                 return false;
             }
         });
-
-        listhoadon = new ArrayList<>();
-        adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
-            @Override
-            public void OnClickDeleteitem(HoaDon hd) {
-//                OnClickdeletedata(hd);
-                showCustomDialogConfirm("Bạn muốn xóa hóa đơn đã chọn ?", hd);
-            }
-            @Override
-            public void OnClickGetitemHoaDon(HoaDon hd) {
-                listchitiet = hd.getChiTietHD();
-                Intent intent = new Intent(QLHoaDon.this,HoaDonDetail.class);
-                String getsohd = hd.getMaHD();
-                String getngayhd = hd.getNgayHD();
-                String getmakh = hd.getMaKH();
-                String getmanv = hd.getMaNV();
-                String gettonggiatri = hd.getTongTienPhaiTra().toString();
-                String getchietkhau = hd.getChietKhau().toString();
-                String getphilapdat = hd.getPhiLapDat().toString();
-                String getsdt = hd.getDienThoaiNhanHang();
-                String getdiachi = hd.getDiaCHiNhanHang();
-                String getphivanchuyen = hd.getPhiVanChuyen().toString();
-                String getghichu = hd.getGhiChu();
-                String getphuongthuc = hd.getPhuongThucThanhToan();
-                Integer tongtien = hd.getTongTienPhaiTra() - hd.getChietKhau() - hd.getPhiVanChuyen() - hd.getPhiLapDat();
-                String gettongtien = String.valueOf(tongtien);
-                intent.putExtra("detailtongtienhang",gettongtien);
-                intent.putExtra("detailsohd", getsohd);
-                intent.putExtra("detailngayhd", getngayhd);
-                intent.putExtra("detailmakh", getmakh);
-                intent.putExtra("detailmanv", getmanv);
-                intent.putExtra("detailphuongthuc", getphuongthuc);
-                intent.putExtra("detailtonggiatri", gettonggiatri);
-                intent.putExtra("detailchietkhau", getchietkhau);
-                intent.putExtra("detailphilapdat", getphilapdat);
-                intent.putExtra("detailsdt", getsdt);
-                intent.putExtra("detaildiachi", getdiachi);
-                intent.putExtra("detailphivanchuyen", getphivanchuyen);
-                intent.putExtra("detailghichu", getghichu);
-                startActivity(intent);
-            }
-        });
-
-        recyclerView.setAdapter(adapterHoaDon);
     }
     private void lochoadon(String text)
     {
