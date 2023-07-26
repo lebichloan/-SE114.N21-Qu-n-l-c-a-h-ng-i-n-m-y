@@ -32,7 +32,7 @@
 
             </TextView>
             <TextView
-                android:id="@+id/txtContent"
+                android:id="@+id/txtAlert"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Có lỗi xảy ra"

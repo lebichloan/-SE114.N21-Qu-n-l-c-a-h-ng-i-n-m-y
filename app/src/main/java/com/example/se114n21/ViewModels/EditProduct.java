@@ -290,13 +290,6 @@ public class EditProduct extends AppCompatActivity {
             }
         });
 
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
             WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
@@ -317,13 +310,6 @@ public class EditProduct extends AppCompatActivity {
 
         TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
         txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {

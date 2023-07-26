@@ -110,13 +110,6 @@ public class ChangePassword extends AppCompatActivity {
         Dialog dialog = builder.create();
         TextView txtContent = dialogView.findViewById(R.id.txtAlert);
         txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
 
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
