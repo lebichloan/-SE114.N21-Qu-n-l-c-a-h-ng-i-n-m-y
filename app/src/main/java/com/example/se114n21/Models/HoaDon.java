@@ -9,12 +9,33 @@ public class HoaDon {
     private String MaHD;
     private String MaNV;
     private String MaKH;
+    private String TenKH;
+    private String SoDienThoaiKH;
+
+    public String getTenKH() {
+        return TenKH;
+    }
+
+    public void setTenKH(String tenKH) {
+        TenKH = tenKH;
+    }
+
+    public String getSoDienThoaiKH() {
+        return SoDienThoaiKH;
+    }
+
+    public void setSoDienThoaiKH(String soDienThoaiKH) {
+        SoDienThoaiKH = soDienThoaiKH;
+    }
+
     private String NgayHD;
     private String DiaCHiNhanHang;
     private String DienThoaiNhanHang;
     private Integer PhiVanChuyen;
     private Integer PhiLapDat;
     private Integer ChietKhau;
+    private Integer KhuyenMai;
+    private Integer TongTienHang;
     private Integer TongTienPhaiTra;
     private Integer TienVon;
     private String GhiChu;
@@ -25,21 +46,41 @@ public class HoaDon {
         this.ChiTietHD = new ArrayList<>();
     }
 
-    public HoaDon(String maHD, String maNV, String maKH, String ngayHD, String diaCHiNhanHang, String dienThoaiNhanHang, Integer phiVanChuyen, Integer phiLapDat, Integer chietKhau, Integer tongTienPhaiTra, Integer tienVon, String ghiChu, String phuongThucThanhToan, List<ChiTietHoaDon> chiTietHD) {
+    public HoaDon(String maHD, String maNV, String maKH, String tenKH, String soDienThoaiKH, String ngayHD, String diaCHiNhanHang, String dienThoaiNhanHang, Integer phiVanChuyen, Integer phiLapDat, Integer chietKhau, Integer khuyenMai, Integer tongTienHang, Integer tongTienPhaiTra, Integer tienVon, String ghiChu, String phuongThucThanhToan, List<ChiTietHoaDon> chiTietHD) {
         MaHD = maHD;
         MaNV = maNV;
         MaKH = maKH;
+        TenKH = tenKH;
+        SoDienThoaiKH = soDienThoaiKH;
         NgayHD = ngayHD;
         DiaCHiNhanHang = diaCHiNhanHang;
         DienThoaiNhanHang = dienThoaiNhanHang;
         PhiVanChuyen = phiVanChuyen;
         PhiLapDat = phiLapDat;
         ChietKhau = chietKhau;
+        KhuyenMai = khuyenMai;
+        TongTienHang = tongTienHang;
         TongTienPhaiTra = tongTienPhaiTra;
         TienVon = tienVon;
         GhiChu = ghiChu;
         PhuongThucThanhToan = phuongThucThanhToan;
         ChiTietHD = chiTietHD;
+    }
+
+    public Integer getTongTienHang() {
+        return TongTienHang;
+    }
+
+    public void setTongTienHang(Integer tongTienHang) {
+        TongTienHang = tongTienHang;
+    }
+
+    public Integer getKhuyenMai() {
+        return KhuyenMai;
+    }
+
+    public void setKhuyenMai(Integer khuyenMai) {
+        KhuyenMai = khuyenMai;
     }
 
     public String getMaHD() {

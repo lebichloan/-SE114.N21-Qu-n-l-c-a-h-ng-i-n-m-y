@@ -3,17 +3,22 @@ package com.example.se114n21.ViewModels;
 import static androidx.constraintlayout.helper.widget.MotionEffect.TAG;
 
 import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,10 +45,14 @@ public class AddCustomerActivity extends AppCompatActivity {
     EditText edtname,edtsdt,edtaddress,edtemail,edtloaikh;
     Button addbutton;
     String id;
+    private ImageButton btnBack;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_customer);
+        getSupportActionBar().hide();
+
+
         initUI();
         addbutton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +65,25 @@ public class AddCustomerActivity extends AppCompatActivity {
             }
         });
     }
+
+    //    CLEAR FOCUS ON EDIT TEXT
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
+        }
+        return super.dispatchTouchEvent(event);
+    }
+
     private void Pushdata() {
         myref2.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -69,12 +97,12 @@ public class AddCustomerActivity extends AppCompatActivity {
                 String address = edtaddress.getText().toString();
                 String sdt = edtsdt.getText().toString();
                 String email = edtemail.getText().toString();
-                String loaikh = edtloaikh.getText().toString();
-                KhachHang kh = new KhachHang(id,name,address,sdt,email,loaikh);
+                KhachHang kh = new KhachHang(id,name,address,sdt,email, "null");
                 myRef.child(id).setValue(kh);
                 maxid = maxid + 1;
                 myref2.setValue(maxid);
                 showCustomDialogSucess("Thêm khách hàng mới thành công");
+                onBackPressed();
             }
 
             @Override
@@ -86,14 +114,9 @@ public class AddCustomerActivity extends AppCompatActivity {
 
     private boolean isValidForm(){
         if (isTenKHEmpty()){
-            showCustomDialogFail("Vui lòng nhập vào tên khách hàng");
-            edtname.setError("Please fill information before next");
+//            showCustomDialogFail("Vui lòng nhập vào tên khách hàng");
+            edtname.setError("Nội dung bắt buộc");
             edtname.requestFocus();
-            return false;
-        } else if (isLoaiKHEmpty()){
-            showCustomDialogFail("Vui lòng nhập vào loại khách hàng");
-            edtloaikh.setError("Please fill information before next");
-            edtloaikh.requestFocus();
             return false;
         }
         return true;
@@ -103,9 +126,6 @@ public class AddCustomerActivity extends AppCompatActivity {
         return edtname.getText().toString().isEmpty();
     }
 
-    private boolean isLoaiKHEmpty(){
-        return edtloaikh.getText().toString().isEmpty();
-    }
 
     private void showCustomDialogFail(String data){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -155,26 +175,19 @@ public class AddCustomerActivity extends AppCompatActivity {
     }
 
     private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Thêm khách hàng mới");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
         edtname = findViewById(R.id.edtname);
         edtsdt = findViewById(R.id.edtsdt);
         edtaddress = findViewById(R.id.edtaddress);
         edtemail = findViewById(R.id.edtemail);
-        edtloaikh = findViewById(R.id.edtloaikh);
         addbutton = findViewById(R.id.addcustomer);
-    }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
     }
 
 }

@@ -8,24 +8,31 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.Models.KhuyenMai;
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -38,431 +45,210 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class EditSale extends AppCompatActivity {
-
-    ImageView image_sale;
-    Uri uri;
-    EditText txtTenCT;
-    EditText txtMoTa;
-    EditText txtNgayBD;
-    EditText txtNgayKT;
-    SimpleDateFormat dateFormat;
-    EditText txtDonToiThieu;
-    EditText txtKhuyenMai;
-    EditText txtGiamToiDa;
-    Button butSaveSale;
-    KhuyenMai km;
-
+    private ImageButton btnBack;
+    private EditText ten, mota, batdau, ketthuc, dontoithieu, phantram, giamtoida;
+    private ProgressDialog progressDialog;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private KhuyenMai khuyenMai = new KhuyenMai();
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    private Calendar cal1 = Calendar.getInstance();
+    private Calendar cal2 = Calendar.getInstance();
+    private Button btnUpdate;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_sale);
+        getSupportActionBar().hide();
 
         initUI();
 
-        String maKM = null;
-        Intent intent = getIntent();
-        if (intent != null){
-            maKM = intent.getStringExtra("maKM");
-            Log.d("Edit sale maKM: ", maKM);
-            getData(maKM);
+        Intent i = getIntent();
+        String MaKM = i.getStringExtra("MaKM");
+
+        getData(MaKM);
+    }
+
+    //    CLEAR FOCUS ON EDIT TEXT
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (v instanceof EditText) {
+                Rect outRect = new Rect();
+                v.getGlobalVisibleRect(outRect);
+                if (!outRect.contains((int)event.getRawX(), (int)event.getRawY())) {
+                    v.clearFocus();
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            }
         }
-//        setDataSale(maKM);
-
-        butSaveSale.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                editSale(km);
-            }
-        });
-
-        txtNgayBD.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(txtNgayBD);
-            }
-        });
-
-        txtNgayKT.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDatePickerDialog(txtNgayKT);
-            }
-        });
+        return super.dispatchTouchEvent(event);
     }
 
-    private void editSale(KhuyenMai khuyenMai) {
-        String tenCT = txtTenCT.getText().toString().trim();
-        String mota = txtMoTa.getText().toString().trim();
-        String ngayBD = txtNgayBD.getText().toString();
-        String ngayKT = txtNgayKT.getText().toString();
-
-        int donToiThieu = 0;
-        try {
-            donToiThieu = Integer.parseInt(txtDonToiThieu.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        double giaTriKhuyenMai = 0;
-        try {
-            giaTriKhuyenMai = Double.parseDouble(txtKhuyenMai.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        int giamToiDa = 0;
-        try {
-            giamToiDa = Integer.parseInt(txtGiamToiDa.getText().toString());
-        } catch (NumberFormatException e) {}
-
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference reference = database.getReference("KhuyenMai");
-
-        km.setTenKM(tenCT);
-        km.setMoTa(mota);
-        km.setNgayBD(ngayBD);
-        km.setNgayKT(ngayKT);
-        km.setDonToiThieu(donToiThieu);
-        km.setKhuyenMai(giaTriKhuyenMai);
-        km.setGiamToiDa(giamToiDa);
-
-        reference.child(String.valueOf(km.getMaKM())).updateChildren(km.toMap(), new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                showCustomDialogSucess("Cập nhật thông tin chương trình thành công");
-                startActivity(new Intent(getApplicationContext(), QLKhuyenMai.class));
-            }
-        });
-
-    }
-
-    private void getData(String maKM){
-        DatabaseReference myRef = FirebaseDatabase.getInstance().getReference("KhuyenMai/" + maKM);
+    private void getData(String MaKM) {
+        progressDialog = ProgressDialog.show(EditSale.this,"Đang tải", "Vui lòng đợi...",false,false);
+        DatabaseReference myRef = database.getReference("KhuyenMai/" + MaKM);
 
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
-                km = khuyenMai;
+                khuyenMai = snapshot.getValue(KhuyenMai.class);
                 setData(khuyenMai);
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Log.d("Edit Sale", "Get data erorr");
-//                Toast.makeText(getApplicationContext(), "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-//        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
-//
-//        Query query = reference.orderByChild("MaKM").equalTo(maKM);
-//
-//        query.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()){
-//                    DataSnapshot dataSnapshot = snapshot.getChildren().iterator().next();
-//                    KhuyenMai khuyenMai = dataSnapshot.getValue(KhuyenMai.class);
-//                    if (khuyenMai != null){
-//                        Log.d("get data edit sale", khuyenMai.getTenKM());
-//                        setData(khuyenMai);
-//                    } else {
-////                    // No data found
-//                    }
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-////                // error
-//
-//            }
-//        });
-//
-
-//        query.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                if (snapshot.exists()){
-//                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
-//                        KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
-//                        setData(khuyenMai);
-//                    }
-//                } else {
-//                    // No data found
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                // error
-//            }
-//        });
-    }
-
-    private void setDataSale(String maKM) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference("KhuyenMai");
-        reference.child(maKM).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.exists()) {
-                    String tenCT = snapshot.child("TenKM").getValue(String.class);
-                    String moTa = snapshot.child("MoTa").getValue(String.class);
-                    String ngayBD = snapshot.child("NgayBD").getValue(String.class);
-                    String ngayKT = snapshot.child("NgayKT").getValue(String.class);
-                    Integer donToiThieu = snapshot.child("DonToiThieu").getValue(Integer.class);
-                    Double giaTriKhuyenMai = snapshot.child("KhuyenMai").getValue(Double.class);
-                    Integer giamToiDa = snapshot.child("GiamToiDa").getValue(Integer.class);
-
-                    txtTenCT.setText(tenCT);
-                    txtTenCT.setEnabled(false);
-
-                    txtMoTa.setText(moTa);
-                    txtNgayBD.setText(ngayBD);
-                    txtNgayKT.setText(ngayKT);
-                    txtDonToiThieu.setText(String.valueOf(donToiThieu));
-                    txtKhuyenMai.setText(String.valueOf(giaTriKhuyenMai));
-                    txtGiamToiDa.setText(String.valueOf(giamToiDa));
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+                progressDialog.dismiss();
+                Toast.makeText(EditSale.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
 
     private void setData(KhuyenMai khuyenMai) {
-        txtTenCT.setText(khuyenMai.getTenKM());
-        txtTenCT.setEnabled(false);
+        ten.setText(khuyenMai.getTenKM());
+        mota.setText(khuyenMai.getMoTa());
+        batdau.setText(khuyenMai.getNgayBD());
+        ketthuc.setText(khuyenMai.getNgayKT());
+        dontoithieu.setText(String.valueOf(khuyenMai.getDonToiThieu()));
+        phantram.setText(String.valueOf((int) khuyenMai.getKhuyenMai()));
+        giamtoida.setText(String.valueOf(khuyenMai.getGiamToiDa()));
 
-        txtMoTa.setText(khuyenMai.getMoTa());
-
-        txtNgayBD.setText(khuyenMai.getNgayBD());
-        txtNgayBD.setEnabled(false);
-        txtNgayKT.setText(khuyenMai.getNgayKT());
-        txtNgayKT.setEnabled(false);
-
-        txtDonToiThieu.setText(String.valueOf(khuyenMai.getDonToiThieu()));
-        txtKhuyenMai.setText(String.valueOf(khuyenMai.getDonToiThieu()));
-        txtGiamToiDa.setText(String.valueOf(khuyenMai.getGiamToiDa()));
-    }
-
-    private boolean isValidForm(){
-        if (isTenCTEmpty()) {
-            showCustomDialogFail("Vui lòng nhập vào tên chương trình");
-            txtTenCT.setError("Please fill information before next");
-            txtTenCT.requestFocus();
-            return false;
-        } else if (isMoTaEmpty()) {
-            showCustomDialogFail("Vui lòng nhập vào mô tả");
-            txtMoTa.setError("Please fill information before next");
-            txtMoTa.requestFocus();
-            return false;
-        } else if (isNgayBDEmpty()) {
-            showCustomDialogFail("Vui lòng chọn ngày bắt đầu");
-            txtNgayBD.setError("Please fill information before next");
-            txtNgayBD.requestFocus();
-            return false;
-        } else if (isNgayKTEmpty()) {
-            showCustomDialogFail("Vui lòng chọn ngày kết thúc");
-            txtNgayKT.setError("Please fill information before next");
-            txtNgayKT.requestFocus();
-            return false;
-        } else if (isNgayHopLe(txtNgayKT.getText().toString(), txtNgayBD.getText().toString())){
-            showCustomDialogFail("Vui lòng chọn ngày kết thúc sau ngày bắt đầu");
-            txtNgayKT.setError("Please fill information valid before next");
-            txtNgayKT.requestFocus();
-            return false;
-        } else if (isDonToiThieuEmpty()){
-            showCustomDialogFail("Vui lòng nhập vào giá trị đơn hàng được áp dụng tối thiểu");
-            txtDonToiThieu.setError("Please fill information before next");
-            txtDonToiThieu.requestFocus();
-            return false;
-        } else if (isKhuyenMaiEmpty()){
-            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi");
-            txtKhuyenMai.setError("Please fill information before next");
-            txtKhuyenMai.requestFocus();
-            return false;
-        } else if (isGiamToiDaEmpty()) {
-            showCustomDialogFail("Vui lòng nhập vào giá trị khuyến mãi tối đa");
-            txtGiamToiDa.setError("Please fill information before next");
-            txtGiamToiDa.requestFocus();
-            return false;
-        }
-        return true;
-    }
-
-    private boolean isTenCTEmpty(){
-        return txtTenCT.getText().toString().isEmpty();
-    }
-
-    private boolean isMoTaEmpty(){
-        return txtMoTa.getText().toString().isEmpty();
-    }
-
-    private boolean isNgayBDEmpty(){
-        return txtNgayBD.getText().toString().isEmpty();
-    }
-
-    private boolean isNgayKTEmpty(){
-        return txtNgayKT.getText().toString().isEmpty();
-    }
-
-    private boolean isNgayHopLe(String ngayBD, String ngayKT) {
         try {
-            dateFormat = new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault());
-            Date date1 = dateFormat.parse(ngayBD);
-            Date date2 = dateFormat.parse(ngayKT);
-
-            if (date1.compareTo(date2) < 0) {
-                return true;
-            } else {
-                return false;
-            }
+            cal1.setTime(simpleDateFormat.parse(khuyenMai.getNgayBD()));
         } catch (ParseException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-        return true;
-    }
 
-    private boolean isDonToiThieuEmpty(){
-        return txtDonToiThieu.getText().toString().isEmpty();
-    }
-
-    private boolean isKhuyenMaiEmpty(){
-        return txtKhuyenMai.getText().toString().isEmpty();
-    }
-
-    private boolean isGiamToiDaEmpty(){
-        return txtGiamToiDa.getText().toString().isEmpty();
-    }
-
-    private void showDatePickerDialog(final EditText editText) {
-        Calendar calendar = Calendar.getInstance();
-        int year = calendar.get(Calendar.YEAR);
-        int month = calendar.get(Calendar.MONTH);
-        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
-        DatePickerDialog datePickerDialog = new DatePickerDialog(EditSale.this,
-                new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        Calendar selectedCalendar = Calendar.getInstance();
-                        selectedCalendar.set(year, month, dayOfMonth);
-                        String selectedDate = dateFormat.format(selectedCalendar.getTime());
-                        editText.setText(selectedDate);
-                    }
-                }, year, month, dayOfMonth);
-        datePickerDialog.show();
-    }
-
-    private void showCustomDialogConfirm(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
+        try {
+            cal2.setTime(simpleDateFormat.parse(khuyenMai.getNgayKT()));
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
         }
-        dialog.show();
 
-    }
-
-    private void showCustomDialogFail(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_fail, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtAlert);
-        txtAlert.setText(data);
-        Button butOK = dialogViewFail.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtContent = dialogViewFail.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
+        progressDialog.dismiss();
     }
 
 
     private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Cập nhật chương trình");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+        btnBack = findViewById(R.id.btnBack_CapNhatKhuyenMai);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
-//        image_sale = findViewById(R.id.image_sale);
-        txtTenCT = findViewById(R.id.txtTenCT);
-        txtMoTa = findViewById(R.id.txtMoTa);
-        txtNgayBD = findViewById(R.id.txtNgayBD);
-        txtNgayKT = findViewById(R.id.txtNgayKT);
-        txtDonToiThieu = findViewById(R.id.txtDonToiThieu);
-        txtKhuyenMai = findViewById(R.id.txtKhuyenMai);
-        txtGiamToiDa = findViewById(R.id.txtGiamToiDa);
-        butSaveSale = findViewById(R.id.butSaveSale);
+        ten = findViewById(R.id.txtTenCT);
+        mota = findViewById(R.id.txtMoTa);
+        batdau = findViewById(R.id.txtNgayBD);
+        ketthuc = findViewById(R.id.txtNgayKT);
+        dontoithieu = findViewById(R.id.txtDonToiThieu);
+        phantram = findViewById(R.id.txtKhuyenMai);
+        giamtoida = findViewById(R.id.txtGiamToiDa);
+
+        batdau.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditSale.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        cal1.set(i,i1,i2);
+                        batdau.setText(simpleDateFormat.format(cal1.getTime()));
+                    }
+                }, cal1.get(Calendar.YEAR), cal1.get(Calendar.MONTH), cal1.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
+        ketthuc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditSale.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                        cal2.set(i,i1,i2);
+                        ketthuc.setText(simpleDateFormat.format(cal2.getTime()));
+                    }
+                }, cal2.get(Calendar.YEAR), cal2.get(Calendar.MONTH), cal2.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.show();
+            }
+        });
+
+        btnUpdate = findViewById(R.id.butSaveSale);
+        btnUpdate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateKM();
+            }
+        });
     }
 
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+    private void updateKM() {
+        if (checkForm() == true) {
+            if (batdau.getText().toString().trim().compareTo(ketthuc.getText().toString().trim()) <= 0) {
+                progressDialog = ProgressDialog.show(EditSale.this,"Đang tải", "Vui lòng đợi...",false,false);
+
+                Map<String, Object> map = new HashMap<>();
+
+                map.put("tenKM",ten.getText().toString().trim());
+                map.put("moTa",mota.getText().toString().trim());
+                map.put("ngayBD",batdau.getText().toString().trim());
+                map.put("ngayKT",ketthuc.getText().toString().trim());
+                map.put("donToiThieu", Integer.parseInt(dontoithieu.getText().toString().trim()));
+                map.put("giamToiDa", Integer.parseInt(giamtoida.getText().toString().trim()));
+                map.put("khuyenMai", Double.parseDouble(phantram.getText().toString().trim()));
+
+
+                DatabaseReference myRef = database.getReference("KhuyenMai/" + khuyenMai.getMaKM());
+
+                myRef.updateChildren(map, new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                        progressDialog.dismiss();
+                        Toast.makeText(EditSale.this, "Cập nhật thông tin khuyến mãi thành công!", Toast.LENGTH_SHORT).show();
+
+                        onBackPressed();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Thời gian bắt đầu không thể trễ hơn thời gian kết thúc chương trình!", Toast.LENGTH_SHORT).show();
+            }
         }
-        return super.onOptionsItemSelected(item);
     }
 
+    private boolean checkForm() {
+        boolean isValid = true;
+
+        if (ten.getText().toString().trim().equals("")) {
+            ten.setError("Nội dung bắt buộc");
+            ten.requestFocus();
+            isValid = false;
+        }
+
+        if (dontoithieu.getText().toString().trim().equals("")) {
+            dontoithieu.setError("Nội dung bắt buộc");
+            dontoithieu.requestFocus();
+            isValid = false;
+        }
+
+        if (phantram.getText().toString().trim().equals("")) {
+            phantram.setError("Nội dung bắt buộc");
+            phantram.requestFocus();
+            isValid = false;
+        }
+
+        if (giamtoida.getText().toString().trim().equals("")) {
+            giamtoida.setError("Nội dung bắt buộc");
+            giamtoida.requestFocus();
+            isValid = false;
+        }
+
+        return isValid;
+    }
 }

@@ -9,6 +9,39 @@
     android:orientation="vertical"
     tools:context=".ViewModels.AddProductActivity"
     >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <ImageButton
+                android:id="@+id/btnBack"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_back"
+                android:background="@null"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Thêm sản phẩm"
+                android:textSize="16sp"
+                android:textColor="@color/textColor"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:layout_marginRight="50dp"
+                >
+
+            </TextView>
+        </LinearLayout>
+        <com.google.android.material.divider.MaterialDivider
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+        </com.google.android.material.divider.MaterialDivider>
+    </LinearLayout>
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -108,15 +141,11 @@
                         app:endIconTint="@color/blue"
                         android:layout_marginTop="10dp"
                         app:errorEnabled="true"
-
                         >
-
                         <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_name"
+                            android:id="@+id/edit_nameProduct"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            >
-
+                            android:layout_height="wrap_content">
                         </com.google.android.material.textfield.TextInputEditText>
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -243,11 +272,6 @@
 
                         </com.google.android.material.textfield.TextInputEditText>
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/edit_nameProduct"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"></com.google.android.material.textfield.TextInputEditText>
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
 
@@ -415,58 +439,6 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:inputType="number"
-                            >
-
-                        </com.google.android.material.textfield.TextInputEditText>
-                    </com.google.android.material.textfield.TextInputLayout>
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
-
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                >
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:padding="15dp"
-                    >
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="start"
-                        android:text="Hoa hồng"
-                        android:textColor="@color/textColor"
-                        android:textSize="16sp"
-                        android:textStyle="bold">
-                    </TextView>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/layout_commission"
-                        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Hoa hồng"
-                        android:theme="@style/CustomOutlinedBox"
-                        app:endIconMode="clear_text"
-                        app:endIconTint="@color/blue"
-                        app:errorEnabled="true"
-                        app:suffixText="%"
-                        app:suffixTextColor="@color/blue"
-                        >
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/edit_commission"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:inputType="numberDecimal"
                             >
 
                         </com.google.android.material.textfield.TextInputEditText>

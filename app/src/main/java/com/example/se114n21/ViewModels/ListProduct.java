@@ -19,6 +19,8 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import com.example.se114n21.Adapter.ProductAdapter;
 import com.example.se114n21.Interface.ProductInterface;
@@ -43,17 +45,43 @@ public class ListProduct extends AppCompatActivity {
     private ActivityResultLauncher<Intent> launcher_add_product;
     private Button btnAddProduct;
     private SearchView searchView;
+    private ImageButton btnBack;
+    private String code = "";
+    private TextView Title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_product);
+        getSupportActionBar().hide();
 
         initUI();
         getListProduct();
+
+        Intent intent = getIntent();
+
+        if (intent.getStringExtra("code") != null) {
+            code = intent.getStringExtra("code");
+        }
+
+        if (code.equals("pick") && code != null) {
+            Title.setText("Chọn sản phẩm");
+            btnAddProduct.setVisibility(View.GONE);
+        }
+
     }
 
     private void initUI() {
+        Title = findViewById(R.id.Title);
+
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 //        SEARCH VIEW
         searchView = findViewById(R.id.search_view_product);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -70,11 +98,6 @@ public class ListProduct extends AppCompatActivity {
             }
         });
 
-//        ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Danh sách sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //        BUTTON ADD
         btnAddProduct = findViewById(R.id.btn_add_product);
@@ -113,9 +136,18 @@ public class ListProduct extends AppCompatActivity {
         mProductAdapter = new ProductAdapter(mListSanPham, this, new ProductInterface() {
             @Override
             public void onClick(SanPham sanPham) {
-                Intent intent = new Intent(ListProduct.this, DetailProduct.class);
-                intent.putExtra("ID", sanPham.getMaSP());
-                launcher.launch(intent);
+                if (code.equals("pick")) {
+                    Intent intent = new Intent(ListProduct.this, AddDonNhapHang.class);
+                    intent.putExtra("SP_ID",sanPham.getMaSP());
+                    intent.putExtra("SP_NAME",sanPham.getTenSP());
+                    intent.putExtra("SP_SL",sanPham.getSoLuong());
+                    setResult(RESULT_OK, intent);
+                    finish();
+                } else {
+                    Intent intent = new Intent(ListProduct.this, DetailProduct.class);
+                    intent.putExtra("ID", sanPham.getMaSP());
+                    launcher.launch(intent);
+                }
             }
         });
 

@@ -123,8 +123,8 @@ public class ListStaff extends AppCompatActivity {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(ListStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
-                showCustomDialogFail("Có lỗi xảy ra. Vui lòng thử lại sau");
+                progressDialog.dismiss();
+                Toast.makeText(ListStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }

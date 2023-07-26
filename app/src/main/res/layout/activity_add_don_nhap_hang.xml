@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ViewModels.AddDonNhapHang">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <ImageButton
+                    android:id="@+id/btnBack"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:src="@drawable/ic_back"
+                    android:background="@null"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="Tạo đơn nhập hàng"
+                    android:textSize="16sp"
+                    android:textColor="@color/textColor"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_marginRight="50dp"
+                    >
+
+                </TextView>
+            </LinearLayout>
+            <com.google.android.material.divider.MaterialDivider
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </com.google.android.material.divider.MaterialDivider>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#f5f5f5"
+            >
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginBottom="10dp"
+                    app:cardCornerRadius="15dp"
+                    >
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="12dp"
+                        android:orientation="vertical"
+                        >
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Sản phẩm"
+                            android:theme="@style/CustomOutlinedBox"
+                            app:endIconMode="clear_text"
+                            app:endIconTint="@color/blue"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@drawable/icon_sanpham"
+                            app:startIconTint="@color/textColor"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            >
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/sanpham"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="textMultiLine"
+                                android:focusable="false"
+                                android:clickable="true"
+                                >
+                            </com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Số lượng"
+                            android:theme="@style/CustomOutlinedBox"
+                            app:endIconMode="clear_text"
+                            app:endIconTint="@color/blue"
+                            app:errorEnabled="true"
+                            app:startIconDrawable="@drawable/baseline_linear_scale_24"
+                            app:startIconTint="@color/textColor"
+                            android:layout_marginRight="10dp"
+                            android:layout_marginLeft="10dp"
+                            >
+                            <com.google.android.material.textfield.TextInputEditText
+                                android:id="@+id/soluong"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:inputType="number"
+                                android:focusableInTouchMode="true"
+                                android:clickable="true"
+                                android:focusable="true"
+                                >
+                            </com.google.android.material.textfield.TextInputEditText>
+                        </com.google.android.material.textfield.TextInputLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+            </LinearLayout>
+        </ScrollView>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnAdd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Tạo đơn nhập"
+            android:textAllCaps="false"
+            android:textSize="16sp"
+            app:cornerRadius="50dp"
+            android:layout_margin="5dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            >
+
+        </com.google.android.material.button.MaterialButton>
+    </LinearLayout>
+</RelativeLayout>

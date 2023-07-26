@@ -1,16 +1,22 @@
 package com.example.se114n21.ViewModels;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,12 +28,17 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.KhuyenMaiAdapter;
+import com.example.se114n21.Adapter.ListStaffAdapter;
+import com.example.se114n21.Interface.KhuyenMaiInterface;
+import com.example.se114n21.Interface.StaffInterface;
 import com.example.se114n21.Models.HoaDon;
 import com.example.se114n21.Models.KhuyenMai;
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -40,239 +51,154 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QLKhuyenMai extends AppCompatActivity {
-
-    SearchView search_view;
-    RecyclerView recyclerViewKhuyenMai;
-    Button butAdd;
-    DatabaseReference khuyenMaiRef;
-    KhuyenMaiAdapter adapter;
-    List<KhuyenMai> khuyenMaiList;
+    private ImageButton btnBack;
+    private RecyclerView recyclerView;
+    private List<KhuyenMai> mListKhuyenMai;
+    private KhuyenMaiAdapter mKhuyenMaiAdapter;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private ProgressDialog progressDialog;
+    private Button btnAdd;
+    private ActivityResultLauncher<Intent> updateKhuyenMaiLauncher;
+    private SearchView searchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlkhuyen_mai);
+        getSupportActionBar().hide();
 
         initUI();
-        getData();
-        butAdd.setOnClickListener(new View.OnClickListener() {
+        getListKM();
+
+        updateKhuyenMaiLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                        }
+                    }
+                });
+    }
+
+    private void getListKM() {
+        progressDialog = ProgressDialog.show(QLKhuyenMai.this,"Đang tải", "Vui lòng đợi...",false,false);
+
+        DatabaseReference myRef = database.getReference("KhuyenMai");
+
+        myRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), AddSale.class));
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (mListKhuyenMai != null) {
+                    mListKhuyenMai.clear();
+                }
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    KhuyenMai khuyenMai = dataSnapshot.getValue(KhuyenMai.class);
+
+                    mListKhuyenMai.add(khuyenMai);
+                }
+
+                mKhuyenMaiAdapter.notifyDataSetChanged();
+
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(QLKhuyenMai.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
             }
         });
     }
-    private void filterlist(String newText) {
-        List<KhuyenMai> filteredList = new ArrayList<>();
-        for (KhuyenMai item : khuyenMaiList)
-        {
-            if ((item.getNgayBD().toLowerCase().contains(newText.toLowerCase()))||(item.getNgayKT().toLowerCase().contains(newText.toLowerCase()))||(item.getTenKM().toLowerCase().contains(newText.toLowerCase()))||(item.getMaKM().toString().toLowerCase().contains(newText.toLowerCase()))){
-                filteredList.add(item);
-            }
-        }
-        if (filteredList.isEmpty() == false)
-        {
-            adapter.setFilteredList(filteredList);
-        }
-    }
-    private void getData() {
-        khuyenMaiList = new ArrayList<>();
-        recyclerViewKhuyenMai.setLayoutManager(new LinearLayoutManager(this));
-        search_view.clearFocus();
 
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+    private void initUI() {
+        btnAdd = findViewById(R.id.but_add_sale);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(QLKhuyenMai.this, AddSale.class));
+            }
+        });
+
+
+        btnBack = findViewById(R.id.btnBack_QuanLyKhuyenMai);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+//        RCV
+        recyclerView = findViewById(R.id.rcv_QuanLyKhuyenMai);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(linearLayoutManager);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
+
+        mListKhuyenMai = new ArrayList<>();
+
+        mKhuyenMaiAdapter = new KhuyenMaiAdapter(mListKhuyenMai, new KhuyenMaiInterface() {
+            @Override
+            public void onClick(KhuyenMai khuyenMai, String code) {
+                if (code.equals("edit")) {
+                    Intent intent = new Intent(QLKhuyenMai.this, EditSale.class);
+                    intent.putExtra("MaKM", khuyenMai.getMaKM());
+                    updateKhuyenMaiLauncher.launch(intent);
+                } else {
+                    deleteKM(khuyenMai);
+                }
+            }
+        });
+
+        recyclerView.setAdapter(mKhuyenMaiAdapter);
+
+        searchView = findViewById(R.id.searchView_QuanLyKhuyenMai);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mKhuyenMaiAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterlist(newText);
+                mKhuyenMaiAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-//        adapter = new KhuyenMaiAdapter(this, khuyenMaiList);
-        adapter = new KhuyenMaiAdapter(khuyenMaiList, new KhuyenMaiAdapter.IclickListener() {
-            @Override
-            public void OnClickUpdateitem(KhuyenMai khuyenMai) {
-                Intent intent = new Intent(getApplicationContext(), EditSale.class);
-                intent.putExtra("maKM", khuyenMai.getMaKM());
-                startActivity(intent);
-            }
+    }
 
-            @Override
-            public void OnClickDeleteitem(KhuyenMai khuyenMai) {
-                showCustomDialogConfirm("Bạn muốn xóa chương trình khuyến mãi đã chọn ?", khuyenMai);
-            }
+    private void deleteKM(KhuyenMai khuyenMai) {
+        new AlertDialog.Builder(QLKhuyenMai.this)
+                .setTitle("Xóa")
+                .setMessage("Bạn có chắc chắn xóa khuyến mãi này không?")
+                .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        progressDialog = ProgressDialog.show(QLKhuyenMai.this,"Đang tải", "Vui lòng đợi...",false,false);
 
-        });
+                        String path = "KhuyenMai/" + khuyenMai.getMaKM();
 
-        recyclerViewKhuyenMai.setAdapter(adapter);
+                        DatabaseReference myRef = database.getReference(path);
 
-        khuyenMaiRef = FirebaseDatabase.getInstance().getReference("KhuyenMai");
-//        khuyenMaiRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                khuyenMaiList.clear();
-//
-//                for (DataSnapshot khuyenMaiSnapshot : snapshot.getChildren()){
-//                    KhuyenMai khuyenMai = khuyenMaiSnapshot.getValue(KhuyenMai.class);
-//                    khuyenMaiList.add(khuyenMai);
-//                }
-//
-//                adapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//                Toast.makeText(getApplicationContext(), "Error" + error.getMessage(), Toast.LENGTH_SHORT).show();
-//                Log.d("QLKhuyenMai", "Error: " + error.getMessage());            }
-//        });
-
-        khuyenMaiRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
-                if (khuyenMai != null){
-                    khuyenMaiList.add(khuyenMai);
-                    adapter.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
-                if (khuyenMai == null || khuyenMaiList == null || khuyenMaiList.isEmpty()){
-                    return;
-                }
-                for (int i=0; i<khuyenMaiList.size(); i++){
-                    if (khuyenMai.getMaKM() == khuyenMaiList.get(i).getMaKM()){
-                        khuyenMaiList.set(i, khuyenMai);
+                        myRef.removeValue(new DatabaseReference.CompletionListener() {
+                            @Override
+                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                if (error == null) {
+                                    Toast.makeText(QLKhuyenMai.this, "Xóa khuyến mãi thành công!", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(QLKhuyenMai.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                                }
+                                progressDialog.dismiss();
+                            }
+                        });
                     }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                KhuyenMai khuyenMai = snapshot.getValue(KhuyenMai.class);
-                if (khuyenMai == null || khuyenMaiList == null || khuyenMaiList.isEmpty()){
-                    return;
-                }
-                for (int i=0; i<khuyenMaiList.size(); i++){
-                    if (khuyenMai.getMaKM() == khuyenMaiList.get(i).getMaKM()){
-                        khuyenMaiList.remove(khuyenMaiList.get(i));
-                        break;
-                    }
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-
-    private void onClickDeleteData(KhuyenMai khuyenMai) {
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myref = database.getReference("KhuyenMai");
-
-        myref.child(String.valueOf(khuyenMai.getMaKM())).removeValue(new DatabaseReference.CompletionListener() {
-            @Override
-            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-//                Toast.makeText(getApplicationContext(), "Delete Successfull",Toast.LENGTH_SHORT).show();
-                showCustomDialogSucess("Xóa chương trình khuyến mãi thành công");
-            }
-        });
-    }
-
-    private void showCustomDialogConfirm(String data, KhuyenMai khuyenMai){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                onClickDeleteData(khuyenMai);
-            }
-        });
-
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
-    }
-    private void showCustomDialogSucess(String data){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
-
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtContent);
-        txtAlert.setText(data);
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-    }
-
-    private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Quản lý khuyến mãi");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
-        search_view = findViewById(R.id.search_view);
-        recyclerViewKhuyenMai = findViewById(R.id.recyclerViewKhuyenMai);
-        butAdd = findViewById(R.id.but_add_sale);
-
-//        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-//        recyclerViewKhuyenMai.setLayoutManager(linearLayoutManager);
-//
-//        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-//        recyclerViewKhuyenMai.addItemDecoration(dividerItemDecoration);
-
-    }
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
+                })
+                .setNegativeButton("Hủy", null)
+                .show();
     }
 }

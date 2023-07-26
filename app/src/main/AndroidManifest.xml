@@ -16,7 +16,7 @@
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
         android:hardwareAccelerated="true"
-        android:icon="@drawable/avata"
+        android:icon="@drawable/fivefrogs"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:requestLegacyExternalStorage="true"
@@ -25,10 +25,38 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
-            android:name=".ViewModels.QLHoaDon"
+            android:name=".ViewModels.BaoCaoKho"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BaoCaoLoiNhuan"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DoanhThuDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.BaoCaoDoanhThu"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.DonNhapHangDetail"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.AddDonNhapHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.ListDonNhapHang"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.UpdateCustomer"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SelectKhuyenMai"
+            android:exported="false" />
+        <activity
+            android:name=".ViewModels.SplashApp"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -103,7 +131,7 @@
             android:name=".ViewModels.DetailProduct"
             android:exported="false" />
         <activity
-            android:name=".ViewModels.SplashApp"
+            android:name=".ViewModels.QLHoaDon"
             android:exported="false" />
         <activity
             android:name=".ViewModels.HoaDonDetail"

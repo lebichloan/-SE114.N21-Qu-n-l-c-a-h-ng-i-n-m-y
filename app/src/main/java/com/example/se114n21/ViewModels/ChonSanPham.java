@@ -21,7 +21,11 @@ import android.view.WindowManager;
 import android.widget.Button;
 import androidx.appcompat.widget.SearchView;
 
+
+import android.widget.ImageButton;
+
 import android.widget.TextView;
+
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.SelectProductAdapter;
@@ -38,7 +42,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ChonSanPham extends AppCompatActivity {
-
+    private ImageButton btnBack;
     private Button btnClear, btnDone;
     private ProgressDialog progressDialog;
     private FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -53,17 +57,20 @@ public class ChonSanPham extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chon_san_pham);
+        getSupportActionBar().hide();
 
         initUI();
         getData();
     }
 
     private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Chọn sản phẩm");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
+        btnBack = findViewById(R.id.btnBack_ChonSanPham);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 //        SEARCH VIEW
         searchView = findViewById(R.id.search_view_select_product);
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

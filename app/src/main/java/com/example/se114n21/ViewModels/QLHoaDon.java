@@ -1,7 +1,10 @@
 package com.example.se114n21.ViewModels;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -9,31 +12,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.ClipData;
-import android.content.DialogInterface;
+import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.view.Gravity;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.se114n21.Adapter.AdapterHoaDon;
-import com.example.se114n21.Models.ChiTietHoaDon;
+import com.example.se114n21.Adapter.HoaDonAdapter;
+import com.example.se114n21.Adapter.ListStaffAdapter;
+import com.example.se114n21.Interface.HoaDonInterface;
+import com.example.se114n21.Interface.StaffInterface;
 import com.example.se114n21.Models.HoaDon;
-import com.example.se114n21.Models.KhuyenMai;
+import com.example.se114n21.Models.NhanVien;
 import com.example.se114n21.R;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -44,274 +38,131 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QLHoaDon extends AppCompatActivity {
-
-    Button addhoadon;
-    RecyclerView recyclerView;
-    AdapterHoaDon adapterHoaDon;
-    List<HoaDon> listhoadon;
-
-    List<HoaDon> searchlist;
-    SearchView searchView;
-    long test;
-    List<ChiTietHoaDon> listchitiet;
-
+    private ImageButton btnBack;
+    private ProgressDialog progressDialog;
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private Button btnAddHoaDon;
+    private SearchView searchView;
+//    RCV
+    private RecyclerView recyclerView;
+    private List<HoaDon> mListHoaDon;
+    private HoaDonAdapter mHoaDonAdapter;
+    private ActivityResultLauncher<Intent> CTHDLauncher;
+    private ActivityResultLauncher<Intent> ThemHoaDonLauncher;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlhoa_don);
+        getSupportActionBar().hide();
+
         initUI();
-        addhoadon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(QLHoaDon.this,ThemHoaDon.class);
-                startActivity(intent);
-            }
-        });
-        GetListHoaDonfromDatabase();
-    }
+        getListHoaDon();
 
-    private void showCustomDialogConfirm(String data, HoaDon hoaDon){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogView = inflater.inflate(R.layout.dialog_confirm, null);
-        builder.setView(dialogView);
-        Dialog dialog = builder.create();
-        TextView txtContent = dialogView.findViewById(R.id.txtContent);
-        txtContent.setText(data);
-        Button butOK = dialogView.findViewById(R.id.butOK);
-        butOK.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                DatabaseReference myref = database.getReference("listHoaDon");
-
-                myref.child(String.valueOf(hoaDon.getMaHD())).removeValue(new DatabaseReference.CompletionListener() {
+        CTHDLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
                     @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-//                        Toast.makeText(QLHoaDon.this, "Delete Successfull",Toast.LENGTH_SHORT).show();
-                        showCustomDialogSucess("Xóa hóa đơn thành công");
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                        }
                     }
                 });
 
-            }
-        });
-
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
-
+        ThemHoaDonLauncher = registerForActivityResult(
+                new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                        }
+                    }
+                });
     }
-    private void showCustomDialogSucess(String data){
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(this);
-        LayoutInflater inflater = getLayoutInflater();
-        View dialogViewFail = inflater.inflate(R.layout.dialog_sucess, null);
-        builder.setView(dialogViewFail);
-        Dialog dialog = builder.create();
 
-        TextView txtAlert = dialogViewFail.findViewById(R.id.txtContent);
-        txtAlert.setText(data);
+    private void getListHoaDon() {
+        progressDialog = ProgressDialog.show(QLHoaDon.this,"Đang tải", "Vui lòng đợi...",false,false);
 
-        Window dialogWindow = dialog.getWindow();
-        if (dialogWindow != null) {
-            WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
-            layoutParams.gravity = Gravity.TOP;
-            layoutParams.y = (int) getResources().getDimension(R.dimen.dialog_margin_top);
-            dialogWindow.setAttributes(layoutParams);
-        }
-        dialog.show();
+        DatabaseReference myRef = database.getReference("listHoaDon");
+
+        myRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (mListHoaDon != null) {
+                    mListHoaDon.clear();
+                }
+
+                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    HoaDon hoaDon = dataSnapshot.getValue(HoaDon.class);
+
+                    mListHoaDon.add(hoaDon);
+                }
+
+                mHoaDonAdapter.notifyDataSetChanged();
+
+                progressDialog.dismiss();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                progressDialog.dismiss();
+                Toast.makeText(QLHoaDon.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void initUI() {
-        addhoadon = findViewById(R.id.addHoadonbut);
+        btnBack = findViewById(R.id.btnBack_QuanLyHoaDon);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
+
+        btnAddHoaDon = findViewById(R.id.addHoadonbut);
+        btnAddHoaDon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(QLHoaDon.this, ThemHoaDon.class);
+                ThemHoaDonLauncher.launch(intent);
+            }
+        });
+
+//        RCV
         recyclerView = findViewById(R.id.recycleview_hoadon);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(linearLayoutManager);
+
+        RecyclerView.ItemDecoration itemDecoration = new DividerItemDecoration(this, DividerItemDecoration.VERTICAL);
+        recyclerView.addItemDecoration(itemDecoration);
+
+        mListHoaDon = new ArrayList<>();
+
+        mHoaDonAdapter= new HoaDonAdapter(mListHoaDon, new HoaDonInterface() {
+            @Override
+            public void onClick(HoaDon hoaDon) {
+                Intent intent = new Intent(QLHoaDon.this, HoaDonDetail.class);
+                intent.putExtra("MaHD", hoaDon.getMaHD());
+                CTHDLauncher.launch(intent);
+            }
+        }, "");
+
+        recyclerView.setAdapter(mHoaDonAdapter);
+
+//        SEARCH VIEW
         searchView = findViewById(R.id.search_hd);
-
-        androidx.appcompat.app.ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Quản lý hóa đơn");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
-
-        searchView.clearFocus();
-
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(this,DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
-
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mHoaDonAdapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filterlist(newText);
+                mHoaDonAdapter.getFilter().filter(newText);
                 return false;
             }
         });
-
-        listhoadon = new ArrayList<>();
-        adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
-            @Override
-            public void OnClickDeleteitem(HoaDon hd) {
-//                OnClickdeletedata(hd);
-                showCustomDialogConfirm("Bạn muốn xóa hóa đơn đã chọn ?", hd);
-            }
-            @Override
-            public void OnClickGetitemHoaDon(HoaDon hd) {
-                listchitiet = hd.getChiTietHD();
-                Intent intent = new Intent(QLHoaDon.this,HoaDonDetail.class);
-                String getsohd = hd.getMaHD();
-                String getngayhd = hd.getNgayHD();
-                String getmakh = hd.getMaKH();
-                String getmanv = hd.getMaNV();
-                String gettonggiatri = hd.getTongTienPhaiTra().toString();
-                String getchietkhau = hd.getChietKhau().toString();
-                String getphilapdat = hd.getPhiLapDat().toString();
-                String getsdt = hd.getDienThoaiNhanHang();
-                String getdiachi = hd.getDiaCHiNhanHang();
-                String getphivanchuyen = hd.getPhiVanChuyen().toString();
-                String getghichu = hd.getGhiChu();
-                String getphuongthuc = hd.getPhuongThucThanhToan();
-                Integer tongtien = hd.getTongTienPhaiTra() - hd.getChietKhau() - hd.getPhiVanChuyen() - hd.getPhiLapDat();
-                String gettongtien = String.valueOf(tongtien);
-                intent.putExtra("detailtongtienhang",gettongtien);
-                intent.putExtra("detailsohd", getsohd);
-                intent.putExtra("detailngayhd", getngayhd);
-                intent.putExtra("detailmakh", getmakh);
-                intent.putExtra("detailmanv", getmanv);
-                intent.putExtra("detailphuongthuc", getphuongthuc);
-                intent.putExtra("detailtonggiatri", gettonggiatri);
-                intent.putExtra("detailchietkhau", getchietkhau);
-                intent.putExtra("detailphilapdat", getphilapdat);
-                intent.putExtra("detailsdt", getsdt);
-                intent.putExtra("detaildiachi", getdiachi);
-                intent.putExtra("detailphivanchuyen", getphivanchuyen);
-                intent.putExtra("detailghichu", getghichu);
-                startActivity(intent);
-            }
-        });
-
-        recyclerView.setAdapter(adapterHoaDon);
     }
-
-    private void filterlist(String newText) {
-        List<HoaDon> filteredList = new ArrayList<>();
-        for (HoaDon item : listhoadon)
-        {
-            if ((item.getMaHD().toLowerCase().contains(newText.toLowerCase()))||(item.getMaKH().toLowerCase().contains(newText.toLowerCase()))||(item.getNgayHD().toLowerCase().contains(newText.toLowerCase()))||(item.getTongTienPhaiTra().toString().toLowerCase().contains(newText.toLowerCase()))){
-                filteredList.add(item);
-            }
-        }
-        if (filteredList.isEmpty() == false)
-        {
-            adapterHoaDon.setFilteredList(filteredList);
-        }
-    }
-
-    private void OnClickdeletedata(HoaDon hd) {
-        new AlertDialog.Builder(this).setTitle(getString(R.string.app_name))
-                .setMessage("Bạn muốn xoá khách hàng này ?")
-                .setPositiveButton("YES", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int i) {
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        DatabaseReference myref = database.getReference("listHoaDon");
-
-                        myref.child(String.valueOf(hd.getMaHD())).removeValue(new DatabaseReference.CompletionListener() {
-                            @Override
-                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                Toast.makeText(QLHoaDon.this, "Delete Successfull",Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                }).setNegativeButton("CANCEL",null ).show();
-    }
-
-    private void GetListHoaDonfromDatabase(){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference myRef = database.getReference("listHoaDon");
-        myRef.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                HoaDon hd = snapshot.getValue(HoaDon.class);
-                if (hd != null)
-                {
-                    listhoadon.add(hd);
-                    adapterHoaDon.notifyDataSetChanged();
-                }
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                HoaDon hd = snapshot.getValue(HoaDon.class);
-                if (hd == null || listhoadon == null || listhoadon.isEmpty())
-                {
-                    return;
-                }
-                for (int i =0; i < listhoadon.size();i++)
-                {
-                    if (hd.getMaHD() == listhoadon.get(i).getMaHD())
-                    {
-                        listhoadon.set(i, hd);
-                    }
-                }
-                adapterHoaDon.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                HoaDon hd = snapshot.getValue(HoaDon.class);
-                if (hd == null || listhoadon == null || listhoadon.isEmpty())
-                {
-                    return;
-                }
-                for (int i =0; i < listhoadon.size();i++)
-                {
-                    if (hd.getMaHD() == listhoadon.get(i).getMaHD())
-                    {
-                        listhoadon.remove(listhoadon.get(i));
-                        break;
-                    }
-                }
-                adapterHoaDon.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-    }
-
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case android.R.id.home:
-                finish();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-
 }

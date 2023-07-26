@@ -6,6 +6,7 @@ import java.util.List;
 public class SanPham {
     private String MaSP;
     private String MaLSP;
+    private String TenLSP;
     private List<String> LinkAnhSP;
     private String TenSP;
     private Integer GiaNhap;
@@ -31,7 +32,7 @@ public class SanPham {
         SoLuong = soLuong;
     }
 
-    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Integer giaNhap, Integer giaBan, String thuongHieu, Integer namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong, Integer soLuong) {
+    public SanPham(String maSP, String maLSP, List<String> linkAnhSP, String tenSP, Integer giaNhap, Integer giaBan, String thuongHieu, Integer namSX, List<ThuocTinh> DSThuocTinh, String mota, Double hoaHong, Integer soLuong, String tenLSP) {
         MaSP = maSP;
         MaLSP = maLSP;
         LinkAnhSP = linkAnhSP;
@@ -44,6 +45,15 @@ public class SanPham {
         Mota = mota;
         HoaHong = hoaHong;
         SoLuong = soLuong;
+        this.TenLSP = tenLSP;
+    }
+
+    public String getTenLSP() {
+        return TenLSP;
+    }
+
+    public void setTenLSP(String tenLSP) {
+        TenLSP = tenLSP;
     }
 
     public String getMaSP() {

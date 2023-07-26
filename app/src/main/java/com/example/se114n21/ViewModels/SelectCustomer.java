@@ -17,9 +17,8 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.Button;
+import android.widget.ImageButton;
+
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SelectCustomer extends AppCompatActivity {
+    private ImageButton btnBack;
     private List<KhachHang> mListKhachHang;
     private SelectCustomerAdapter mSelectCustomerAdapter;
     private RecyclerView rcv;
@@ -49,16 +49,21 @@ public class SelectCustomer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_select_customer);
+        getSupportActionBar().hide();
 
         initUI();
         setData();
     }
 
     private void initUI() {
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Chọn khách hàng");
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
+
+        btnBack = findViewById(R.id.btnBack_ThemKhachHang);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                onBackPressed();
+            }
+        });
 
 //        SEARCH VIEW
         searchView = findViewById(R.id.sv_select_customer);

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/masp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SP0001"
+                android:textColor="@color/blaltic_sea"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                >
+            </TextView>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/tienvon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="190000"
+                android:textColor="@color/blaltic_sea"
+                android:textStyle="bold"
+                android:textSize="14sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/tensp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxWidth="200dp"
+                android:text="Samsung Galaxy Tab A"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                >
+            </TextView>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SL: "
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/soluong"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="32"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="end">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Giá vốn: "
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/giavon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="20000"
+                android:textColor="@color/textColor"
+                android:textSize="14sp"
+                >
+            </TextView>
+        </LinearLayout>
+
+
+    </LinearLayout>
+</RelativeLayout>
