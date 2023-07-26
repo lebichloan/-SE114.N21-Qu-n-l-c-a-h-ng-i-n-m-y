@@ -555,7 +555,6 @@ public class AddProductActivity extends AppCompatActivity {
 
         rcvImg = findViewById(R.id.rcv_img);
 
-        rcvImg.setHasFixedSize(true);
         rcvImg.setItemViewCacheSize(5);
         rcvImg.setDrawingCacheEnabled(true);
         rcvImg.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);

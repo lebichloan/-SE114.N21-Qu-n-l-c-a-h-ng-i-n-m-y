@@ -38,6 +38,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -47,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ListProductType extends AppCompatActivity {
+    private ImageButton btnBack, btnAdd;
     private RecyclerView rcv_List_Product_Type;
     private ProductTypeAdapter mProductTypeAdapter;
     private List<LoaiSanPham> mListLoaiSanPham;
@@ -60,9 +62,8 @@ public class ListProductType extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_list_product_type);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().hide();
 
         initUI();
 
@@ -77,20 +78,47 @@ public class ListProductType extends AppCompatActivity {
     }
 
     private void initUI() {
+        //        SEARCH VIEW
+        searchView = findViewById(R.id.searchview);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mProductTypeAdapter.getFilter().filter(query);
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mProductTypeAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
+
+        btnBack = findViewById(R.id.btnBack);
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
+        btnAdd = findViewById(R.id.btnAdd);
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                openAddDialogAdd(Gravity.CENTER);
+            }
+        });
+
+
 
 //      DIALOG PROGRESS BAR
         progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("Vui long doi mot chut");
+        progressDialog.setMessage("Đang tải. . .");
 
-//      ACTION BAR
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setTitle("Danh mục sản phẩm");
-
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_back_white);
 
 //      RCV
         rcv_List_Product_Type = findViewById(R.id.rcv_list_product_type);
-        rcv_List_Product_Type.setHasFixedSize(true);
         rcv_List_Product_Type.setItemViewCacheSize(20);
         rcv_List_Product_Type.setDrawingCacheEnabled(true);
         rcv_List_Product_Type.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
@@ -130,9 +158,9 @@ public class ListProductType extends AppCompatActivity {
 
     private void deleteProductType(LoaiSanPham loaiSanPham) {
         new AlertDialog.Builder(ListProductType.this)
-            .setTitle("Xoa loai san pham?")
-            .setMessage("Ban co chac chan muon xoa loai san pham nay hay khong?")
-            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            .setTitle("Xóa loại sản phẩm?")
+            .setMessage("Bạn có chắc chắc muốn xóa loại sản phẩm này không?")
+            .setPositiveButton("Xóa", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     progressDialog.show();
@@ -343,42 +371,42 @@ public class ListProductType extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main_menu, menu);
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.main_menu, menu);
+//
+//        SearchManager searchManager = (SearchManager)   getSystemService(Context.SEARCH_SERVICE);
+//        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+//        searchView.setMaxWidth(Integer.MAX_VALUE);
+//
+//        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//            @Override
+//            public boolean onQueryTextSubmit(String query) {
+//                mProductTypeAdapter.getFilter().filter(query);
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onQueryTextChange(String newText) {
+//                mProductTypeAdapter.getFilter().filter(newText);
+//                return false;
+//            }
+//        });
+//
+//        return true;
+//    }
 
-        SearchManager searchManager = (SearchManager)   getSystemService(Context.SEARCH_SERVICE);
-        searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setMaxWidth(Integer.MAX_VALUE);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mProductTypeAdapter.getFilter().filter(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                mProductTypeAdapter.getFilter().filter(newText);
-                return false;
-            }
-        });
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId())
-        {
-            case R.id.action_add:
-                openAddDialogAdd(Gravity.CENTER);
-                break;
-        }
-        return super.onOptionsItemSelected(item);
-    }
+//    @Override
+//    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+//        switch (item.getItemId())
+//        {
+//            case R.id.action_add:
+//                openAddDialogAdd(Gravity.CENTER);
+//                break;
+//        }
+//        return super.onOptionsItemSelected(item);
+//    }
 
     private void openAddDialogAdd(int gravity) {
         final Dialog dialog = new Dialog(this);
@@ -453,18 +481,4 @@ public class ListProductType extends AppCompatActivity {
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        if (!searchView.isIconified()) {
-            searchView.setIconified(true);
-            return;
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return super.onSupportNavigateUp();
-    }
 }

@@ -256,7 +256,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
-                        android:hint="Loai san pham"
+                        android:hint="Loại sản phẩm"
                         android:theme="@style/CustomOutlinedBox"
                         app:endIconMode="clear_text"
                         app:endIconTint="@color/blue"

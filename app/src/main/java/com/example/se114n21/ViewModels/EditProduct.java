@@ -199,7 +199,6 @@ public class EditProduct extends AppCompatActivity {
 //        RCV
         recyclerView = findViewById(R.id.rcv_edit_product);
 
-        recyclerView.setHasFixedSize(true);
         recyclerView.setItemViewCacheSize(5);
         recyclerView.setDrawingCacheEnabled(true);
         recyclerView.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);

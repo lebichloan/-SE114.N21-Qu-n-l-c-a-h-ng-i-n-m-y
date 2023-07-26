@@ -119,7 +119,6 @@ public class ListProduct extends AppCompatActivity {
 
         rcvListProduct = findViewById(R.id.rcv_list_product);
 
-        rcvListProduct.setHasFixedSize(true);
         rcvListProduct.setItemViewCacheSize(10);
         rcvListProduct.setDrawingCacheEnabled(true);
         rcvListProduct.setDrawingCacheQuality(View.DRAWING_CACHE_QUALITY_HIGH);
