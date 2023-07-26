@@ -205,13 +205,13 @@ public class AddStaff extends AppCompatActivity {
             }
         });
 
-        Button butCancel = dialogView.findViewById(R.id.butCancel);
-        butCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
+//        Button butCancel = dialogView.findViewById(R.id.butCancel);
+//        butCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dialog.dismiss();
+//            }
+//        });
         Window dialogWindow = dialog.getWindow();
         if (dialogWindow != null) {
             WindowManager.LayoutParams layoutParams = dialogWindow.getAttributes();
