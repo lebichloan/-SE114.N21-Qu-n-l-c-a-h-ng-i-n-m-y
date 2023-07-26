@@ -56,12 +56,33 @@ public class QLHoaDon extends AppCompatActivity {
     SearchView searchView;
     ImageButton filter;
     long test;
+    String statuskhachle;
+    String statusdadk;
+    String statuschuyenkhoan;
+    String statustienmat;
+    String statusquetthe;
     List<ChiTietHoaDon> listchitiet;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_qlhoa_don);
         initUI();
+        statuskhachle = getIntent().getStringExtra("status_khachle");
+        statusdadk = getIntent().getStringExtra("status_dadk");
+        statuschuyenkhoan = getIntent().getStringExtra("status_chuyenkhoan");
+        statusquetthe = getIntent().getStringExtra("status_quetthe");
+        statustienmat = getIntent().getStringExtra("status_tienmat");
+        if (statuskhachle != null|| statusdadk != null || statuschuyenkhoan != null || statustienmat!=null||statusquetthe != null)
+        {
+            if (statuskhachle != null)
+            {
+                lochoadon(statuskhachle);
+                Toast.makeText(getApplicationContext(), statuskhachle, Toast.LENGTH_SHORT).show();
+            }
+        }
+        else{
+            GetListHoaDonfromDatabase();
+        }
         addhoadon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,7 +90,6 @@ public class QLHoaDon extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        GetListHoaDonfromDatabase();
     }
 
     private void showCustomDialogConfirm(String data, HoaDon hoaDon){
@@ -220,6 +240,109 @@ public class QLHoaDon extends AppCompatActivity {
         });
 
         recyclerView.setAdapter(adapterHoaDon);
+    }
+    private void lochoadon(String text)
+    {
+        listhoadon = new ArrayList<>();
+        adapterHoaDon = new AdapterHoaDon(listhoadon, new AdapterHoaDon.IclickListener() {
+            @Override
+            public void OnClickDeleteitem(HoaDon hd) {
+//                OnClickdeletedata(hd);
+                showCustomDialogConfirm("Bạn muốn xóa hóa đơn đã chọn ?", hd);
+            }
+            @Override
+            public void OnClickGetitemHoaDon(HoaDon hd) {
+                listchitiet = hd.getChiTietHD();
+                Intent intent = new Intent(QLHoaDon.this,HoaDonDetail.class);
+                String getsohd = hd.getMaHD();
+                String getngayhd = hd.getNgayHD();
+                String getmakh = hd.getMaKH();
+                String getmanv = hd.getMaNV();
+                String gettonggiatri = hd.getTongTienPhaiTra().toString();
+                String getchietkhau = hd.getChietKhau().toString();
+                String getphilapdat = hd.getPhiLapDat().toString();
+                String getsdt = hd.getDienThoaiNhanHang();
+                String getdiachi = hd.getDiaCHiNhanHang();
+                String getphivanchuyen = hd.getPhiVanChuyen().toString();
+                String getghichu = hd.getGhiChu();
+                String getphuongthuc = hd.getPhuongThucThanhToan();
+                Integer tongtien = hd.getTongTienPhaiTra() - hd.getChietKhau() - hd.getPhiVanChuyen() - hd.getPhiLapDat();
+                String gettongtien = String.valueOf(tongtien);
+                intent.putExtra("detailtongtienhang",gettongtien);
+                intent.putExtra("detailsohd", getsohd);
+                intent.putExtra("detailngayhd", getngayhd);
+                intent.putExtra("detailmakh", getmakh);
+                intent.putExtra("detailmanv", getmanv);
+                intent.putExtra("detailphuongthuc", getphuongthuc);
+                intent.putExtra("detailtonggiatri", gettonggiatri);
+                intent.putExtra("detailchietkhau", getchietkhau);
+                intent.putExtra("detailphilapdat", getphilapdat);
+                intent.putExtra("detailsdt", getsdt);
+                intent.putExtra("detaildiachi", getdiachi);
+                intent.putExtra("detailphivanchuyen", getphivanchuyen);
+                intent.putExtra("detailghichu", getghichu);
+                startActivity(intent);
+            }
+        });
+        recyclerView.setAdapter(adapterHoaDon);
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference myRef = database.getReference("listHoaDon");
+        myRef.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                HoaDon hd = snapshot.getValue(HoaDon.class);
+                if (hd != null && hd.getMaKH() == text)
+                {
+                    listhoadon.add(hd);
+                    adapterHoaDon.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                HoaDon hd = snapshot.getValue(HoaDon.class);
+                if (hd == null || listhoadon == null || listhoadon.isEmpty())
+                {
+                    return;
+                }
+                for (int i =0; i < listhoadon.size();i++)
+                {
+                    if (hd.getMaHD() == listhoadon.get(i).getMaHD())
+                    {
+                        listhoadon.set(i, hd);
+                    }
+                }
+                adapterHoaDon.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                HoaDon hd = snapshot.getValue(HoaDon.class);
+                if (hd == null || listhoadon == null || listhoadon.isEmpty())
+                {
+                    return;
+                }
+                for (int i =0; i < listhoadon.size();i++)
+                {
+                    if (hd.getMaHD() == listhoadon.get(i).getMaHD())
+                    {
+                        listhoadon.remove(listhoadon.get(i));
+                        break;
+                    }
+                }
+                adapterHoaDon.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void filterlist(String newText) {

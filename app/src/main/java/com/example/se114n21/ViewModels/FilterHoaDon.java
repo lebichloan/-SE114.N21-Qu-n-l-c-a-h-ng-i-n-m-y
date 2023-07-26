@@ -1,5 +1,6 @@
 package com.example.se114n21.ViewModels;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,11 @@ public class FilterHoaDon extends AppCompatActivity {
     CheckBox cb_quetthe;
     Button datlai;
     Button loc;
+    String getkhachle;
+    String getdadk;
+    String getchuyenkhoan;
+    String getquetthe;
+    String gettienmat;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,6 +37,36 @@ public class FilterHoaDon extends AppCompatActivity {
                 cb_chuyenkhoan.setChecked(false);
                 cb_quetthe.setChecked(false);
                 cb_tienmat.setChecked(false);
+            }
+        });
+        loc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(FilterHoaDon.this, QLHoaDon.class);
+                if (cb_khachle.isChecked()){
+                    getkhachle = cb_khachle.getText().toString();
+                }
+                if (cb_dadk.isChecked())
+                {
+                    getdadk = cb_khachle.getText().toString();
+                }
+                if (cb_chuyenkhoan.isChecked()){
+                    getchuyenkhoan = cb_chuyenkhoan.getText().toString();
+                }
+                if (cb_quetthe.isChecked())
+                {
+                    getquetthe = cb_quetthe.getText().toString();
+                }
+                if (cb_tienmat.isChecked())
+                {
+                    gettienmat = cb_tienmat.getText().toString();
+                }
+                intent.putExtra("status_khachle",getkhachle);
+                intent.putExtra("status_dadk",getdadk);
+                intent.putExtra("status_chuyenkhoan",getchuyenkhoan);
+                intent.putExtra("status_quetthe",getquetthe);
+                intent.putExtra("status_tienmat",gettienmat);
+                startActivity(intent);
             }
         });
     }
