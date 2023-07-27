@@ -288,7 +288,7 @@ public class CapNhatTaiKhoan extends AppCompatActivity {
                 Toast.makeText(CapNhatTaiKhoan.this, "Cập nhật thông tin tài khoản thành công!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(CapNhatTaiKhoan.this, AccountFragment.class);
                 setResult(RESULT_OK, intent);
-                finish();
+                onBackPressed();
             }
         });
     }

@@ -79,7 +79,7 @@ public class AddStaff extends AppCompatActivity {
         butAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createUser();
+                checkEmail();
             }
         });
     }
@@ -102,11 +102,55 @@ public class AddStaff extends AppCompatActivity {
         }
         return super.dispatchTouchEvent(event);
     }
-
     boolean save = false;
-    private void createUser() {
+    boolean isChange = false;
+    private void checkEmail() {
         if (checkForm() == true) {
-            progressDialog.show();
+            progressDialog = ProgressDialog.show(this,"Đang tải", "Vui lòng đợi...",false,false);
+
+            DatabaseReference myRef = database.getReference("Users");
+            myRef.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (isChange == false) {
+                        String email = txtEmail.getText().toString().trim();
+
+                        Integer dem = 0;
+                        boolean check = false;
+
+                        for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                            NhanVien nhanVien = dataSnapshot.getValue(NhanVien.class);
+
+                            dem++;
+
+                            if (nhanVien.getEmail().equals(email)) {
+                                Toast.makeText(AddStaff.this, "Email đã tồn tại trong hệ thống!", Toast.LENGTH_SHORT).show();
+                                progressDialog.dismiss();
+                                check = true;
+
+                                break;
+                            }
+                        }
+
+                        if (dem == snapshot.getChildrenCount() && check == false) {
+                            createUser();
+                            isChange = true;
+                        }
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    progressDialog.dismiss();
+                    Toast.makeText(AddStaff.this, "Có lỗi xảy ra!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+    }
+
+
+    private void createUser() {
+
 
             DatabaseReference myRef = database.getReference("maxNguoiDung");
             myRef.addValueEventListener(new ValueEventListener() {
@@ -145,7 +189,6 @@ public class AddStaff extends AppCompatActivity {
                     progressDialog.dismiss();
                 }
             });
-        }
     }
 
     boolean save2 = false;
@@ -187,7 +230,7 @@ public class AddStaff extends AppCompatActivity {
     }
 
     private void sendPassword(NhanVien nhanVien) {
-        JavaMailAPI javaMailAPI = new JavaMailAPI(this,
+        JavaMailAPI javaMailAPI = new JavaMailAPI(AddStaff.this,
                 nhanVien.getEmail(),
                 "Cấp lại mật khẩu -  Cửa Hàng Điện Máy",
                 "Mật khẩu mới của bạn là: " + nhanVien.getPassword());
@@ -226,7 +269,7 @@ public class AddStaff extends AppCompatActivity {
 
         Intent intent = new Intent(AddStaff.this, ListStaff.class);
         setResult(RESULT_OK, intent);
-        finish();
+        onBackPressed();
     }
 
     private void updateIDNhanVien(NhanVien nhanVien) {
