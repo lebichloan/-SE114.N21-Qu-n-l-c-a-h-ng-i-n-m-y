@@ -38,6 +38,7 @@
         android:text="so tien no"
         android:textSize="18sp"
         android:paddingTop="32dp"
-        android:layout_gravity="right"/>
+        android:layout_gravity="right"
+        android:textStyle="bold"/>
 
 </LinearLayout>

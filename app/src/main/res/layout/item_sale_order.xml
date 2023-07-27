@@ -10,7 +10,7 @@
 
         <TextView
             android:id="@+id/tvOrderId"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Oder ID"
@@ -19,7 +19,7 @@
 
         <TextView
             android:id="@+id/tvDateOrder"
-            android:layout_width="250dp"
+            android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="ngày ở đây"
@@ -34,9 +34,9 @@
         android:layout_weight="1"
         android:text="10000000 "
         android:textSize="16dp"
-        android:textStyle="bold"
         android:layout_gravity="right|center"
-        android:padding="16dp"/>
+        android:padding="16dp"
+        android:textStyle="bold"/>
 
 
 

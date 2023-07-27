@@ -44,7 +44,7 @@ public class FundAdapter extends RecyclerView.Adapter<FundAdapter.FundViewHolder
             return;
 
         holder.tvDate.setText(fund.getDate());
-        holder.tvTotal.setText(fund.getTotal() + "vnd");
+        holder.tvTotal.setText(fund.getTotal() + " vnd");
     }
 
     @Override

@@ -35,7 +35,7 @@ import java.util.List;
 
 public class sell_order extends Fragment {
 
-    TextView tvDate, tvDate1;
+    TextView tvDate, tvDate1, tvTotal;
     Button btnDate, btnDate1;
     RecyclerView rvOrder;
     List<Order> orderList;
@@ -70,6 +70,8 @@ public class sell_order extends Fragment {
         tvDate1 = view.findViewById(R.id.tvDate1);
         tvDate.setText(today);
         tvDate1.setText(today);
+
+        tvTotal = view.findViewById(R.id.tvTotal);
 
         btnDate = view.findViewById(R.id.btnDate);
         btnDate1 = view.findViewById(R.id.btnDate1);
@@ -145,12 +147,20 @@ public class sell_order extends Fragment {
                 if (orderList != null)
                     orderList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
-                    Order profit = dataSnapshot.getValue(Order.class);
-                    if (profit.getDate().compareTo(dateStart) >= 0 && profit.getDate().compareTo(dateEnd) <= 0)
-                        orderList.add(profit);
+                    Order order = dataSnapshot.getValue(Order.class);
+                    if (order.getDate().compareTo(dateStart) >= 0 && order.getDate().compareTo(dateEnd) <= 0)
+                    {
+                        orderList.add(order);
+                        total += order.getTotal();
+                    }
                 }
+                String t = "Tổng giá trị đơn hàng: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 

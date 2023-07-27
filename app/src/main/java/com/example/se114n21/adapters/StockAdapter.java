@@ -47,7 +47,7 @@ public class StockAdapter extends RecyclerView.Adapter<StockAdapter.StockViewHol
         holder.tvId.setText(stock.getId());
         holder.tvTotal.setText(stock.getTotal() + "");
         holder.tvAmount.setText("SL: " + stock.getAmount());
-        holder.tvCost.setText("Giá vốn: " + stock.getTotal());
+        holder.tvCost.setText("Giá vốn: " + stock.getCost());
 
     }
 

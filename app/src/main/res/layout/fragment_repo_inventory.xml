@@ -25,14 +25,5 @@
         android:layout_weight="1"
         android:padding="16dp" />
 
-    <TextView
-        android:id="@+id/tvTotal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Tổng doanh thu: $5000"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:padding="16dp"
-        android:textColor="#1976D2"/>
 
 </LinearLayout>

@@ -34,6 +34,7 @@ import java.util.List;
 
 public class profit_cus_debt extends Fragment {
 
+    TextView tvTotal;
     RecyclerView rvCusDebt;
     List<CusDebt> cusDebtList;
     CusDebtAdapter adapter;
@@ -55,6 +56,7 @@ public class profit_cus_debt extends Fragment {
 
     private void initUI(View view)
     {
+        tvTotal = view.findViewById(R.id.tvTotal);
         rvCusDebt = view.findViewById(R.id.rvCusDebt);
     }
 
@@ -92,11 +94,18 @@ public class profit_cus_debt extends Fragment {
                 if (cusDebtList != null)
                     cusDebtList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     CusDebt cusDebt = dataSnapshot.getValue(CusDebt.class);
-                        cusDebtList.add(cusDebt);
+                    cusDebtList.add(cusDebt);
+
+                    total += cusDebt.getTotal();
                 }
+                String t = "Tổng nợ khách hàng: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 

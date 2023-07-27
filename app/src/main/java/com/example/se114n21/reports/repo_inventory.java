@@ -55,7 +55,7 @@ public class repo_inventory extends Fragment {
 
     private void initUI(View view)
     {
-        rvInventory = view.findViewById(R.id.rvStock);
+        rvInventory = view.findViewById(R.id.rvInventory);
     }
 
     private void initEvent()

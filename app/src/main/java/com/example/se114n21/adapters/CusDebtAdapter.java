@@ -45,7 +45,7 @@ public class CusDebtAdapter extends RecyclerView.Adapter<CusDebtAdapter.CusDebtV
 
         holder.tvName.setText(cusDebt.getName());
         holder.tvId.setText(cusDebt.getId());
-        holder.tvTotal.setText(cusDebt.getTotal() + "vnd");
+        holder.tvTotal.setText(cusDebt.getTotal() + " vnd");
     }
 
     @Override

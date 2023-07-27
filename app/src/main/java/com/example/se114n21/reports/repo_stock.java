@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 
 import com.example.se114n21.R;
@@ -31,6 +32,7 @@ import java.util.List;
 
 public class repo_stock extends Fragment {
 
+    TextView tvTotal;
     RecyclerView rvStock;
     List<Stock> stockList;
     StockAdapter adapter;
@@ -51,6 +53,7 @@ public class repo_stock extends Fragment {
 
     private void initUI(View view)
     {
+        tvTotal = view.findViewById(R.id.tvTotal);
         rvStock = view.findViewById(R.id.rvStock);
     }
 
@@ -89,11 +92,18 @@ public class repo_stock extends Fragment {
                 if (stockList != null)
                     stockList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Stock stock = dataSnapshot.getValue(Stock.class);
                     stockList.add(stock);
+
+                    total += stock.getTotal();
                 }
+                String t = "Tổng giá trị tồn kho: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 

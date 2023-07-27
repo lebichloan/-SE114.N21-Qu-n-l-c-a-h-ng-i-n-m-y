@@ -84,7 +84,7 @@
         android:id="@+id/tvTotal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Tổng doanh thu: $5000"
+        android:text="Tổng doanh thu: "
         android:textSize="18sp"
         android:textStyle="bold"
         android:padding="16dp"

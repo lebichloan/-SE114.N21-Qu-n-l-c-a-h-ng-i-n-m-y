@@ -34,7 +34,7 @@ import java.util.List;
 
 public class sell_profit extends Fragment {
 
-    TextView tvDate, tvDate1;
+    TextView tvDate, tvDate1, tvTotal;
     Button btnDate, btnDate1;
     RecyclerView rvProfit;
     List<Profit> profitList;
@@ -69,6 +69,8 @@ public class sell_profit extends Fragment {
         tvDate1 = view.findViewById(R.id.tvDate1);
         tvDate.setText(today);
         tvDate1.setText(today);
+
+        tvTotal = view.findViewById(R.id.tvTotal);
 
         btnDate = view.findViewById(R.id.btnDate);
         btnDate1 = view.findViewById(R.id.btnDate1);
@@ -144,12 +146,20 @@ public class sell_profit extends Fragment {
                 if (profitList != null)
                     profitList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Profit profit = dataSnapshot.getValue(Profit.class);
                     if (profit.getDate().compareTo(dateStart) >= 0 && profit.getDate().compareTo(dateEnd) <= 0)
+                    {
                         profitList.add(profit);
+                        total += profit.getTotal();
+                    }
                 }
+                String t = "Tổng lợi nhuận: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 

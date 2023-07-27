@@ -33,7 +33,7 @@ import java.util.List;
 
 public class sell_sale extends Fragment {
 
-    TextView tvDate, tvDate1;
+    TextView tvDate, tvDate1, tvTotal;
     Button btnDate, btnDate1;
     RecyclerView rvSale;
     List<Sale> saleList;
@@ -68,6 +68,8 @@ public class sell_sale extends Fragment {
         tvDate1 = view.findViewById(R.id.tvDate1);
         tvDate.setText(today);
         tvDate1.setText(today);
+
+        tvTotal = view.findViewById(R.id.tvTotal);
 
         btnDate = view.findViewById(R.id.btnDate);
         btnDate1 = view.findViewById(R.id.btnDate1);
@@ -143,12 +145,21 @@ public class sell_sale extends Fragment {
                 if (saleList != null)
                     saleList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     Sale sale = dataSnapshot.getValue(Sale.class);
                     if (sale.getDate().compareTo(dateStart) >= 0 && sale.getDate().compareTo(dateEnd) <= 0)
+                    {
                         saleList.add(sale);
+                        total += sale.getTotal();
+                    }
                 }
+
+                String t = "Tổng doanh thu: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 

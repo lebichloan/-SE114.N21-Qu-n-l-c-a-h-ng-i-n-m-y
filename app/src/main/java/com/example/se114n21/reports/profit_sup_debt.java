@@ -33,6 +33,7 @@ import java.util.List;
 
 public class profit_sup_debt extends Fragment {
 
+    TextView tvTotal;
     RecyclerView rvSupDebt;
     List<CusDebt> cusDebtList;
     CusDebtAdapter adapter;
@@ -44,7 +45,7 @@ public class profit_sup_debt extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_profit_cus_debt, container, false);
+        View view = inflater.inflate(R.layout.fragment_profit_sup_debt, container, false);
 
         initUI(view);
         initEvent();
@@ -54,6 +55,7 @@ public class profit_sup_debt extends Fragment {
 
     private void initUI(View view)
     {
+        tvTotal = view.findViewById(R.id.tvTotal);
         rvSupDebt = view.findViewById(R.id.rvSupDebt);
     }
 
@@ -91,11 +93,18 @@ public class profit_sup_debt extends Fragment {
                 if (cusDebtList != null)
                     cusDebtList.clear();
 
+                int total = 0;
+
                 for (DataSnapshot dataSnapshot : snapshot.getChildren())
                 {
                     CusDebt cusDebt = dataSnapshot.getValue(CusDebt.class);
                     cusDebtList.add(cusDebt);
+
+                    total += cusDebt.getTotal();
                 }
+                String t = "Tổng nợ nguồn cung: " + total;
+                tvTotal.setText(t);
+
                 adapter.notifyDataSetChanged();
             }
 
