@@ -55,14 +55,23 @@ public class CheckLogin extends AppCompatActivity {
         myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                NhanVien nhanVien = snapshot.getValue(NhanVien.class);
+                if (snapshot.exists()) {
+                    NhanVien nhanVien = snapshot.getValue(NhanVien.class);
 
-                if (nhanVien.isTrangThai() == true) {
-                    if (nhanVien.getLoaiNhanVien().equals("Admin")) {
-                        startActivity(new Intent(CheckLogin.this, BottomNavigation.class));
-                        finish();
+                    if (nhanVien.isTrangThai() == true) {
+                        if (nhanVien.getLoaiNhanVien().equals("Admin")) {
+                            startActivity(new Intent(CheckLogin.this, BottomNavigation.class));
+                            finish();
+                        } else {
+                            startActivity(new Intent(CheckLogin.this, BottomNavigationNhanVien.class));
+                            finish();
+                        }
                     } else {
-                        startActivity(new Intent(CheckLogin.this, BottomNavigationNhanVien.class));
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.clear();
+                        editor.commit();
+
+                        startActivity(new Intent(CheckLogin.this, Login.class));
                         finish();
                     }
                 } else {
