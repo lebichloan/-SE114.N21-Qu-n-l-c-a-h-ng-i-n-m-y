@@ -187,6 +187,10 @@ public class ListProduct extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
+                    if (mListSanPham != null) {
+                        mListSanPham.clear();
+                    }
+
                     SanPham sanPham = dataSnapshot.getValue(SanPham.class);
 
                     mListSanPham.add(sanPham);
