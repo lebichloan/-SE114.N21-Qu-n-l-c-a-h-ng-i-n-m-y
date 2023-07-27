@@ -128,7 +128,7 @@ public class UpdateCustomer extends AppCompatActivity {
                 @Override
                 public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                     progressDialog.dismiss();
-                    Toast.makeText(UpdateCustomer.this, "Cập nhật thông tin khuyến mãi thành công!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(UpdateCustomer.this, "Cập nhật thông tin khách hàng thành công!", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(UpdateCustomer.this, CustomerDetail.class);
                     setResult(RESULT_OK, intent);
                     finish();

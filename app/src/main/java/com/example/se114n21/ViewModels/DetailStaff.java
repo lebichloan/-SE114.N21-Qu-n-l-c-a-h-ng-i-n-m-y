@@ -153,7 +153,7 @@ public class DetailStaff extends AppCompatActivity {
 
                                 Intent intent = new Intent(DetailStaff.this, ListStaff.class);
                                 setResult(RESULT_OK, intent);
-                                finish();
+                                onBackPressed();
                             }
                         });
                     }

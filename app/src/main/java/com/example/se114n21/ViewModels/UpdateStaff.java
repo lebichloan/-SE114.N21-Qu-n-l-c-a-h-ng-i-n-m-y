@@ -106,8 +106,8 @@ public class UpdateStaff extends AppCompatActivity {
     private void setData(NhanVien nhanVien) {
         Glide.with(this)
                 .load(nhanVien.getLinkAvt()) // image url
-                .placeholder(R.drawable.ic_launcher_background) // any placeholder to load at start
-                .error(R.mipmap.ic_launcher)  // any image in case of error
+                .placeholder(R.drawable.blank_img) // any placeholder to load at start
+                .error(R.drawable.blank_img)  // any image in case of error
                 .into(avt);
 
         if (nhanVien.getMaNV() != null) {
@@ -199,7 +199,7 @@ public class UpdateStaff extends AppCompatActivity {
 
                 Intent intent = new Intent(UpdateStaff.this, DetailStaff.class);
                 setResult(RESULT_OK, intent);
-                finish();
+                onBackPressed();
             }
         });
     }
