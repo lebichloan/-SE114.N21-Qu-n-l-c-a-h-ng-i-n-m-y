@@ -179,18 +179,16 @@ public class ListProduct extends AppCompatActivity {
 
     private void getListProduct() {
         progressDialog.show();
-        mListSanPham.clear();
 
         DatabaseReference myRef = database.getReference("listSanPham");
 
         myRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (mListSanPham != null) {
+                    mListSanPham.clear();
+                }
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    if (mListSanPham != null) {
-                        mListSanPham.clear();
-                    }
-
                     SanPham sanPham = dataSnapshot.getValue(SanPham.class);
 
                     mListSanPham.add(sanPham);
